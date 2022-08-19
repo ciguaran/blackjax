@@ -10,6 +10,7 @@ import blackjax.smc as smc
 import blackjax.vi as vi
 from blackjax.base import AdaptationAlgorithm, SamplingAlgorithm
 from blackjax.progress_bar import progress_bar_scan
+from blackjax.smc.kernel_applier import KernelApplier, apply_fixed_steps
 from blackjax.smc.parameter_tuning import no_tuning
 from blackjax.types import Array, PRNGKey, PyTree
 
@@ -58,7 +59,7 @@ class adaptive_tempered_smc:
         target_ess: float,
         root_solver: Callable = smc.solver.dichotomy,
         use_log_ess: bool = True,
-        mcmc_iter: int = 10,
+        kernel_applier: int = apply_fixed_steps(10),
         kernel_parameter_tuning: Callable = no_tuning,
     ) -> SamplingAlgorithm:
 
@@ -73,7 +74,7 @@ class adaptive_tempered_smc:
             target_ess,
             root_solver,
             use_log_ess,
-            mcmc_iter,
+            kernel_applier,
         )
 
         def init_fn(position: PyTree):
@@ -108,7 +109,7 @@ class tempered_smc:
         mcmc_algorithm: SamplingAlgorithm,
         mcmc_parameters: Dict,
         resampling_fn: Callable,
-        mcmc_iter: int = 10,
+        kernel_applier: KernelApplier = apply_fixed_steps(10),
         kernel_parameter_tunning: Callable = no_tuning,
     ) -> SamplingAlgorithm:
 
@@ -120,7 +121,7 @@ class tempered_smc:
             kernel_factory,
             mcmc_algorithm.init,
             resampling_fn,
-            mcmc_iter,
+            kernel_applier,
         )
 
         def init_fn(position: PyTree):

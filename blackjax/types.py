@@ -1,5 +1,4 @@
-from typing import Any, Iterable, Mapping, Union
-
+from typing import Any, Iterable, Mapping, Union, Protocol
 import jax._src.prng as prng
 import jax.numpy as jnp
 import numpy as np
@@ -15,3 +14,9 @@ PyTree = Union[Array, Iterable[Array], Mapping[Any, Array]]
 
 #: JAX PRNGKey
 PRNGKey = prng.PRNGKeyArray
+
+
+class StateWithPosition(Protocol):
+  @property
+  def position(self) -> PyTree:
+    raise NotImplementedError

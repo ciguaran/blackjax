@@ -14,6 +14,7 @@ import blackjax
 import blackjax.smc.base as base
 import blackjax.smc.resampling as resampling
 from blackjax.base import SamplingAlgorithm
+from blackjax.smc.kernel_applier import apply_fixed_steps
 from blackjax.smc.parameter_tuning import (
     no_tuning,
     normal_proposal_from_particles,
@@ -53,7 +54,10 @@ class SMCTest(chex.TestCase):
         specialized_log_weights_fn = lambda tree: log_weights_fn(tree, 1.0)
 
         kernel = base.kernel(
-            mcmc_factory, blackjax.mcmc.hmc.init, resampling.systematic, 1000
+            mcmc_factory,
+            blackjax.mcmc.hmc.init,
+            resampling.systematic,
+            kernel_applier_fixed_steps(1000),
         )
 
         # Don't use exactly the invariant distribution for the MCMC kernel
@@ -280,7 +284,10 @@ class IRMHProposalTunningTest(chex.TestCase):
         specialized_log_weights_fn = lambda tree: log_weights_fn(tree, 1.0)
 
         kernel = base.kernel(
-            mcmc_factory, blackjax.irmh.init, resampling.systematic, 50
+            mcmc_factory,
+            blackjax.irmh.init,
+            resampling.systematic,
+            kernel_applier_fixed_steps(50),
         )
 
         # Don't use exactly the invariant distribution for the MCMC kernel

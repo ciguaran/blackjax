@@ -1,6 +1,7 @@
 from typing import Callable, NamedTuple, Tuple
 
 import blackjax.smc as smc
+from blackjax.smc.kernel_applier import KernelApplier
 from blackjax.types import PRNGKey, PyTree
 
 __all__ = ["TemperedSMCState", "init", "kernel"]
@@ -29,7 +30,7 @@ def kernel(
     mcmc_kernel_factory: Callable,
     make_mcmc_state: Callable,
     resampling_fn: Callable,
-    num_mcmc_iterations: int,
+    kernel_applier: KernelApplier,
 ) -> Callable:
     """Build the base Tempered SMC kernel.
 
@@ -67,7 +68,7 @@ def kernel(
 
     """
     kernel = smc.base.kernel(
-        mcmc_kernel_factory, make_mcmc_state, resampling_fn, num_mcmc_iterations
+        mcmc_kernel_factory, make_mcmc_state, resampling_fn, kernel_applier
     )
 
     def one_step(

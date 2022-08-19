@@ -7,6 +7,7 @@ import blackjax.smc.base as base
 import blackjax.smc.ess as ess
 import blackjax.smc.solver as solver
 import blackjax.smc.tempered as tempered
+from blackjax.smc.kernel_applier import KernelApplier, apply_fixed_steps
 from blackjax.types import PRNGKey
 
 __all__ = ["kernel"]
@@ -21,7 +22,7 @@ def kernel(
     target_ess: float,
     root_solver: Callable = solver.dichotomy,
     use_log_ess: bool = True,
-    mcmc_iter: int = 10,
+    kernel_applier: KernelApplier = apply_fixed_steps(10),
 ) -> Callable:
     r"""Build a Tempered SMC step using an adaptive schedule.
 
@@ -47,7 +48,7 @@ def kernel(
     use_log_ess: bool, optional
         Use ESS in log space to solve for delta, default is `True`.
         This is usually more stable when using gradient based solvers.
-    mcmc_iter: int
+    kernel_applier: int
         Number of iterations in the MCMC chain.
 
     Returns
@@ -78,7 +79,7 @@ def kernel(
         mcmc_kernel_factory,
         make_mcmc_state,
         resampling_fn,
-        mcmc_iter,
+        kernel_applier,
     )
 
     def one_step(

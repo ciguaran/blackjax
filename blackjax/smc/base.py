@@ -3,8 +3,9 @@ from typing import Callable, NamedTuple, Tuple
 import jax
 import jax.numpy as jnp
 
+from blackjax.smc.kernel_applier import KernelApplier
 from blackjax.smc.particle_utils import number_of_particles
-from blackjax.types import PyTree
+from blackjax.types import PyTree, PRNGKey
 
 
 class SMCInfo(NamedTuple):
@@ -31,7 +32,7 @@ def kernel(
     mcmc_kernel_factory: Callable,
     mcmc_state_generator: Callable,
     resampling_fn: Callable,
-    num_mcmc_iterations: int,
+    kernel_applier: KernelApplier,
 ):
     """Build a generic SMC kernel.
 
@@ -101,19 +102,18 @@ def kernel(
         # First advance the particles using the MCMC kernel
         mcmc_kernel = mcmc_kernel_factory(logprob_fn, particles)
 
-        def mcmc_body_fn(curr_particles, curr_key):
+        def mcmc_body_fn(curr_particles: PyTree, curr_key: PRNGKey):
             keys = jax.random.split(curr_key, num_particles)
             new_particles, _ = jax.vmap(mcmc_kernel, in_axes=(0, 0))(
                 keys, curr_particles
             )
-            return new_particles, None
+            return new_particles
 
         mcmc_state = jax.vmap(mcmc_state_generator, in_axes=(0, None))(
             particles, logprob_fn
         )
-        keys = jax.random.split(scan_key, num_mcmc_iterations)
-        proposed_states, _ = jax.lax.scan(mcmc_body_fn, mcmc_state, keys)
-        proposed_particles = proposed_states.position
+
+        proposed_particles = kernel_applier(scan_key, mcmc_body_fn, mcmc_state)
 
         # Resample the particles depending on their respective weights
         log_weights = jax.vmap(log_weight_fn, in_axes=(0,))(proposed_particles)

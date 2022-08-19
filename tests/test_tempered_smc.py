@@ -14,6 +14,7 @@ import blackjax
 import blackjax.smc.resampling as resampling
 import blackjax.smc.solver as solver
 from blackjax import adaptive_tempered_smc, tempered_smc
+from blackjax.smc.kernel_applier import apply_fixed_steps
 from blackjax.smc.tempered import TemperedSMCState
 
 
@@ -81,7 +82,7 @@ class TemperedSMCTest(chex.TestCase):
                 target_ess,
                 solver.dichotomy,
                 use_log,
-                5,
+                kernel_applier_fixed_steps(5),
             )
             init_state = tempering.init(smc_state_init)
 
@@ -123,7 +124,6 @@ class TemperedSMCTest(chex.TestCase):
             blackjax.hmc,
             hmc_parameters,
             resampling.systematic,
-            10,
         )
         init_state = tempering.init(smc_state_init)
 
@@ -186,8 +186,7 @@ class NormalizingConstantTest(chex.TestCase):
             resampling.systematic,
             0.9,
             solver.dichotomy,
-            True,
-            10,
+            True
         )
         tempered_smc_state_init = tempering.init(x_init)
         n_iter, result, log_likelihood = self.variant(
