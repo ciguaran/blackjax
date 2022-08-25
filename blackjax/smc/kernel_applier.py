@@ -7,14 +7,14 @@ entonces se deja de iterar.
 from typing import Any, Callable, Tuple
 
 import jax
+from jax import numpy as jnp
+from blackjax.types import PRNGKey, PyTree, StateWithPosition
 
-from blackjax.types import PRNGKey, PyTree
-
-KernelApplier = Callable[[PRNGKey, Callable[[PyTree, PRNGKey], PyTree], Any], PyTree]
+KernelApplier = Callable[[PRNGKey, Callable[[PyTree, PRNGKey], StateWithPosition], Any], PyTree]
 
 
 def apply_fixed_steps(num_mcmc_iterations: int) -> KernelApplier:
-    def applier(key: PRNGKey, mcmc_body_fn: Callable[[PyTree, PRNGKey], PyTree], mcmc_state):
+    def applier(key: PRNGKey, mcmc_body_fn: Callable[[PyTree, PRNGKey], StateWithPosition], mcmc_state):
         """
         Applies the kernel (mutates particles) a fixed number of times
         Parameters
@@ -24,10 +24,21 @@ def apply_fixed_steps(num_mcmc_iterations: int) -> KernelApplier:
         mcmc_state
         -------
         """
-        def wrap_mcmc_body_fn(curr_particles: PyTree, curr_key: PRNGKey):
-            return mcmc_body_fn(curr_particles, curr_key), None
+        def wrap_mcmc_body_fn(mcmc_state,
+                              curr_key: PRNGKey):
+            jax.debug.print("new {s}", s=jnp.mean(mcmc_state.position))
+            jax.debug.print("new {s}", s=jnp.std(mcmc_state.position))
+
+            return mcmc_body_fn(mcmc_state, curr_key), None
         keys = jax.random.split(key, num_mcmc_iterations)
-        proposed_states, _ = jax.lax.scan(wrap_mcmc_body_fn, mcmc_state, keys)
+        proposed_states, _ = jax.lax.scan(wrap_mcmc_body_fn,
+                                          mcmc_state,
+                                          keys)
+
+
+        #keys =>  'a'
+
+        #scan:: (c -> a -> (c, b)) -> c -> [a] -> (c, [b])
 
         proposed_particles = proposed_states.position
         return proposed_particles

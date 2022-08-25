@@ -57,7 +57,7 @@ class SMCTest(chex.TestCase):
             mcmc_factory,
             blackjax.mcmc.hmc.init,
             resampling.systematic,
-            kernel_applier_fixed_steps(1000),
+            apply_fixed_steps(1000),
         )
 
         # Don't use exactly the invariant distribution for the MCMC kernel
@@ -287,7 +287,7 @@ class IRMHProposalTunningTest(chex.TestCase):
             mcmc_factory,
             blackjax.irmh.init,
             resampling.systematic,
-            kernel_applier_fixed_steps(50),
+            apply_fixed_steps(50),
         )
 
         # Don't use exactly the invariant distribution for the MCMC kernel
