@@ -11,7 +11,7 @@ import blackjax
 from blackjax.smc import resampling, base
 from blackjax.smc.kernel_applier import apply_fixed_steps, mutate_while_criteria_is_met
 from blackjax.smc.optimizations import apply_until_correlation_with_init_doesnt_change
-from blackjax.smc.optimizations.adaptive_kernel_mutations import partial_unsigned_pearson
+from blackjax.smc.optimizations.adaptive_kernel_mutations import partial_unsigned_pearson, dimensions_without_reduction
 from blackjax.smc.parameter_tuning import proposal_distribution_tuning, normal_proposal_from_particles
 from tests.test_smc import log_weights_fn, kernel_logprob_fn
 
@@ -150,8 +150,58 @@ class TestApplyUntilCorrelationWithInitDoesntChange(chex.TestCase):
 
 
 class TestPartialUnsignedPearson(unittest.TestCase):
-    def test_partial_unsigned_pearson(self):
+    def test_univariate(self):
         pup = partial_unsigned_pearson(jnp.array([1., 2., 3., 4]))
         np.testing.assert_allclose(pup(jnp.array([1., 2., 3., 4.])), jnp.array([1.0]))
         np.testing.assert_allclose(pup(jnp.array([-1., -2., -3., -4.])), jnp.array([1.0]))
-        np.testing.assert_allclose(pup(jnp.array([0., 0., 0., 0.])), jnp.array([1.0]))
+        np.testing.assert_allclose(pup(jnp.array([3, -4., 5., 2])), jnp.array([0.2]))
+
+    def test_multivariate(self):
+        pup = partial_unsigned_pearson(jnp.array([[1., 2.], [3., 4], [5., 6.]]))
+        np.testing.assert_allclose(pup(jnp.array([[10., 20.],
+                                                  [30., 40.],
+                                                  [50., 60.]])), jnp.array([1.0, 1.0]))
+        np.testing.assert_allclose(pup(jnp.array([[-10., -20.],
+                                                  [-30., -40.],
+                                                  [-50, -60]])), jnp.array([1.0, 1.0]))
+        np.testing.assert_allclose(pup(jnp.array([[10., 6.],
+                                                  [30., 2],
+                                                  [50., 4.]])), jnp.array([1.0, 0.5]))
+
+
+class TestDimensionsWithoutReduction(unittest.TestCase):
+    def test_dimensions_if_increase(self):
+        """
+        """
+        before = jnp.array([0.1, 0.5, 0.75])
+        after = jnp.array([0.12, 0.56, 0.8])
+        for threshold_percentage in [0.1, 0.2, 0.3, 0.5, 0.7, 0.8]:
+            assert not dimensions_without_reduction(before, after, alpha=0.01,
+                                                    threshold_percentage=threshold_percentage)
+
+    def test_dimensions_if_decrease(self):
+        before = jnp.array([0.12, 0.56, 0.8])
+        after = jnp.array([0.1, 0.5, 0.75])
+        for threshold_percentage in [0.1, 0.2, 0.3, 0.5, 0.7, 0.8]:
+            assert dimensions_without_reduction(before, after, alpha=0.01,
+                                                threshold_percentage=threshold_percentage)
+
+    def test_dimensions_if_decrease_is_below_alpha(self):
+        before = jnp.array([0.12, 0.56, 0.8])
+        after = jnp.array([0.119, 0.559, 0.799])
+        for threshold_percentage in [0.1, 0.2, 0.3, 0.5, 0.7, 0.8]:
+            assert not dimensions_without_reduction(before, after, alpha=0.01,
+                                                    threshold_percentage=threshold_percentage)
+
+    def test_dimensions_if_only_one_decreases(self):
+        """
+        Only one out of three dimensions decreases
+        """
+        before = jnp.array([0.12, 0.56, 0.8])
+        after = jnp.array([0.05, 0.58, 0.85])
+        for threshold_percentage in [0.4, 0.5, 0.7, 0.8]:
+            assert not dimensions_without_reduction(before, after, alpha=0.01,
+                                                    threshold_percentage=threshold_percentage)
+        for threshold_percentage in [0.1, 0.2, 0.3]:
+            assert dimensions_without_reduction(before, after, alpha=0.01,
+                                                threshold_percentage=threshold_percentage)

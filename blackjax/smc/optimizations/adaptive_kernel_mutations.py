@@ -42,7 +42,8 @@ def apply_until_correlation_with_init_doesnt_change(alpha, threshold_percentage)
         current_position: jnp.ndarray
         state: Any
         key: PRNGKey
-        steps: int  # for logging?
+        steps: int  # TODO SHOULD WE SOMEHOW LOG THIS?
+        # TODO MAYBE THIS CAN BE SIMPLIFIED
 
     def applier(key: PRNGKey,
                 mcmc_body_fn: Callable[[StateWithPosition, PRNGKey], StateWithPosition],
@@ -55,12 +56,11 @@ def apply_until_correlation_with_init_doesnt_change(alpha, threshold_percentage)
             iterating if the dimensions below alpha are less than
             threshold percentage
             """
-            jax.debug.print("new {s}", s=iteration_state.steps)
-            jax.debug.print("new {s}", s=jnp.mean(iteration_state.current_position))
-            jax.debug.print("new {s}", s=jnp.std(iteration_state.current_position))
-            return (iteration_state.steps == 0) | (
-                    jnp.mean(pup(iteration_state.prev_position) - pup(
-                        iteration_state.current_position) < alpha) < threshold_percentage)
+            return (iteration_state.steps == 0) | dimensions_without_reduction(pup,
+                                                                               iteration_state.prev_position,
+                                                                               iteration_state.current_position,
+                                                                               alpha,
+                                                                               threshold_percentage)
 
         def wrap_mcmc_body(iteration_state: IterationState) -> IterationState:
             prev, new, _state, _key, _steps = iteration_state
@@ -85,6 +85,16 @@ def apply_until_correlation_with_init_doesnt_change(alpha, threshold_percentage)
     return applier
 
 
+def dimensions_without_reduction(before, after, alpha, threshold_percentage):
+    """Given particles before and after, and pup encoding correlation wrt
+    initial particles, checks if it the step wasn't able to reduce correlation
+    wrt to initial particles. Since it needs to work on Rn, it checks
+    that the % of dimensions for which there was no reduction is higher
+    than threshold_percentage.
+    """
+    return jnp.mean((before - after) > alpha) > threshold_percentage
+
+
 def apply_until_product_of_correlations_doesnt_change():
     """Stops if product of step-by-step correlations doesn't
     doesn't change enough between two steps, for a percentage
@@ -96,7 +106,7 @@ def apply_until_product_of_correlations_doesnt_change():
     pass
 
     class IterationState(NamedTuple):
-        prev_position: jnp.ndarray
+        acc_corr: jnp.ndarray
         current_position: jnp.ndarray
         state: Any
         key: PRNGKey
@@ -119,9 +129,10 @@ def apply_until_product_of_correlations_doesnt_change():
             jax.debug.print("new {s}", s=iteration_state.steps)
             jax.debug.print("new {s}", s=jnp.mean(iteration_state.current_position))
             jax.debug.print("new {s}", s=jnp.std(iteration_state.current_position))
-            return (iteration_state.steps == 0) | (
-                jnp.mean(pup(iteration_state.prev_position) - pup(
-                    iteration_state.current_position < alpha) < threshold_percentage)
+            # return (iteration_state.steps == 0) | (
+            # jnp.mean(pup(iteration_state.prev_position) - pup(
+            #   iteration_state.current_position < alpha) < threshold_percentage)
+            return True
 
         def wrap_mcmc_body(iteration_state: IterationState) -> IterationState:
             prev, new, _state, _key, _steps = iteration_state
