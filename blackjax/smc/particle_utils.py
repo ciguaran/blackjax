@@ -15,6 +15,15 @@ from blackjax.types import PyTree
 def number_of_particles(particles: PyTree) -> int:
     return jax.tree_flatten(particles)[0][0].shape[0]
 
+def number_of_dimensions(particles: PyTree) -> int:
+    if isinstance(particles, list):
+        return sum(number_of_dimensions(p) for p in particles)
+    else:
+        if len(particles.shape) == 1:
+            return 1
+        else:
+            return particles.shape[1]
+
 
 def number_of_posterior_variables(particles: PyTree) -> int:
     if isinstance(particles, list):

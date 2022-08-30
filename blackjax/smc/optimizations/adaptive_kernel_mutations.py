@@ -4,6 +4,7 @@ import jax
 import jax.numpy as jnp
 
 from blackjax.smc.kernel_applier import KernelApplier
+from blackjax.smc.particle_utils import number_of_dimensions
 from blackjax.types import PRNGKey, StateWithPosition
 
 
@@ -30,7 +31,7 @@ def enough_dimensions_with_reduction(before, after, alpha: float, threshold_perc
     Since it needs to work on Rn, it checks that the % of dimensions for which there was enough reduction is higher
     than threshold_percentage.
     """
-    jax.debug.print("{before} {after} {diff}", before=before, after=after, diff=before-after)
+    jax.debug.print("{before} {after} {diff}", before=before, after=after, diff=before - after)
     return jnp.mean((before - after) > alpha) > threshold_percentage
 
 
@@ -87,67 +88,60 @@ def apply_until_correlation_with_init_doesnt_decrease(alpha,
                                                                   key=key,
                                                                   steps=0))
         proposed_particles = state.position
-        return proposed_particles, steps
+        return proposed_particles
 
     return applier
 
 
-def apply_until_product_of_correlations_doesnt_change():
+def two_moments_statistic(x):
+    """
+    Taken from  https://arxiv.org/pdf/1808.07730.pdf,
+    where `This statistic is chosen to reflect the
+    first two moments of the particles, but is otherwise arbitrary`
+    """
+    return jnp.add(x, jnp.power(x, 2))
+
+
+def apply_until_product_of_correlations_doesnt_decrease(alpha=0.01, threshold_percentage=0.9) -> KernelApplier:
     """Stops if product of step-by-step correlations doesn't
-    doesn't change enough between two steps, for a percentage
+    doesn't decrease enough between two steps, for a percentage
     of the dimensions of the particles.
 
     Implements Algorithm 3 of https://arxiv.org/pdf/1808.07730.pdf
     where it is suggested to be used when HMC is the SMC kernel.
     """
-    pass
 
     class IterationState(NamedTuple):
         acc_corr: jnp.ndarray
-        current_position: jnp.ndarray
         state: Any
         key: PRNGKey
-        steps: int  # for logging?
-
-    def statistic(x):
-        return jnp.add(x, jnp.power(x, 2))
+        steps: int
 
     def applier(key: PRNGKey,
                 mcmc_body_fn: Callable[[StateWithPosition, PRNGKey], StateWithPosition],
                 mcmc_state):
-        pup = partial_unsigned_pearson(mcmc_state.position)
-
         def wrap_continue(iteration_state: IterationState) -> bool:
-            """
-            We need to negate the stop criteria, thus we keep
-            iterating if the dimensions below alpha are less than
-            threshold percentage
-            """
-            jax.debug.print("new {s}", s=iteration_state.steps)
-            jax.debug.print("new {s}", s=jnp.mean(iteration_state.current_position))
-            jax.debug.print("new {s}", s=jnp.std(iteration_state.current_position))
-            # return (iteration_state.steps == 0) | (
-            # jnp.mean(pup(iteration_state.prev_position) - pup(
-            #   iteration_state.current_position < alpha) < threshold_percentage)
-            return True
+            return (iteration_state.steps == 0) | (jnp.mean(iteration_state.acc_corr > alpha) > threshold_percentage)
 
         def wrap_mcmc_body(iteration_state: IterationState) -> IterationState:
-            prev, new, _state, _key, _steps = iteration_state
+            acc_corr, _state, _key, _steps = iteration_state
             _key, subkey = jax.random.split(_key)
             new_state = mcmc_body_fn(_state, subkey)
-            return IterationState(prev_position=new,
-                                  current_position=new_state.position,
+            new_corr = partial_unsigned_pearson(two_moments_statistic(_state.position))(
+                two_moments_statistic(new_state.position))
+            jax.debug.print("new corr? {s}", s=new_corr)
+            acc_corr = jnp.multiply(new_corr, acc_corr)
+            return IterationState(acc_corr=acc_corr,
                                   state=new_state,
                                   key=_key,
                                   steps=_steps + 1)
 
-        _, _, state, _, steps = jax.lax.while_loop(wrap_continue,
-                                                   wrap_mcmc_body,
-                                                   IterationState(prev_position=mcmc_state.position,
-                                                                  current_position=mcmc_state.position,
-                                                                  state=mcmc_state,
-                                                                  key=key,
-                                                                  steps=0))
+        _, state, _, _ = jax.lax.while_loop(wrap_continue,
+                                            wrap_mcmc_body,
+                                            IterationState(acc_corr=jnp.ones(number_of_dimensions(mcmc_state.position)),
+                                                           state=mcmc_state,
+                                                           key=key,
+                                                           steps=0))
         proposed_particles = state.position
         return proposed_particles
 

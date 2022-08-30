@@ -22,7 +22,7 @@ from blackjax.smc.parameter_tuning import (
 )
 from blackjax.smc.particle_utils import (
     number_of_particles,
-    number_of_posterior_variables,
+    number_of_posterior_variables, number_of_dimensions,
 )
 from blackjax.types import PyTree
 from tests.smc_test_utils import MultivariableParticlesDistribution
@@ -341,6 +341,17 @@ class TestParticleUtils(parameterized.TestCase):
             number_of_posterior_variables(particles) == expected_n_posterior_variables
         )
 
+    @parameterized.parameters(
+        [
+            (MultivariableParticlesDistribution(2).get_particles(), 4),
+            (np.array([1.0, 2.0]), 1),
+            (np.array([[1.0, 2.0]]), 2),
+            (np.array([[1.0, 2.0],
+                       [3.0, 4.0]]), 2),
+        ]
+    )
+    def test_number_of_dimensions(self, particles, dimensions):
+        assert number_of_dimensions(particles) == dimensions
 
 if __name__ == "__main__":
     absltest.main()
