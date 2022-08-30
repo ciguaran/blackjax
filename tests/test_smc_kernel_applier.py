@@ -9,16 +9,17 @@ import numpy as np
 
 import blackjax
 from blackjax.smc import resampling, base
-from blackjax.smc.kernel_applier import apply_fixed_steps, mutate_while_criteria_is_met
-from blackjax.smc.optimizations import apply_until_correlation_with_init_doesnt_change
-from blackjax.smc.optimizations.adaptive_kernel_mutations import partial_unsigned_pearson, dimensions_without_reduction
+from blackjax.smc.kernel_applier import apply_fixed_steps, apply_while_criteria_is_met
+from blackjax.smc.optimizations import apply_until_correlation_with_init_doesnt_decrease
+from blackjax.smc.optimizations.adaptive_kernel_mutations import partial_unsigned_pearson, \
+    enough_dimensions_with_reduction
 from blackjax.smc.parameter_tuning import proposal_distribution_tuning, normal_proposal_from_particles
 from tests.test_smc import log_weights_fn, kernel_logprob_fn
 
 TestState = namedtuple('TestState', 'position')
 
 
-class TestMutateFixedSteps(chex.TestCase):
+class TestApplyFixedSteps(chex.TestCase):
 
     def setUp(self):
         super().setUp()
@@ -35,7 +36,7 @@ class TestMutateFixedSteps(chex.TestCase):
         assert apply_fixed_steps(2)(self.key, mcmc_kernel, TestState(0)) == 20
 
 
-class TestMutateWhileCriteriaIsMet(chex.TestCase):
+class TestApplyWhileCriteriaIsMet(chex.TestCase):
     def setUp(self):
         super().setUp()
         self.key = jax.random.PRNGKey(42)
@@ -47,12 +48,12 @@ class TestMutateWhileCriteriaIsMet(chex.TestCase):
         def continue_criteria(state):
             return state.position < 100
 
-        assert mutate_while_criteria_is_met(continue_criteria)(self.key,
-                                                               mcmc_kernel,
-                                                               TestState(0)) == 100
+        assert apply_while_criteria_is_met(continue_criteria)(self.key,
+                                                              mcmc_kernel,
+                                                              TestState(0)) == 100
 
 
-class IRMHStepNumber(chex.TestCase):
+class TestIRMHWithKernelAppliers(chex.TestCase):
     """
     An integration test to verify
     that the Independent RMH can be applied
@@ -65,7 +66,7 @@ class IRMHStepNumber(chex.TestCase):
 
     @chex.all_variants(with_pmap=False)
     def test_apply_until_corr_with_init_doesnt_change(self):
-        self._test_case(apply_until_correlation_with_init_doesnt_change(alpha=0.1, threshold_percentage=0.9))
+        self._test_case(apply_until_correlation_with_init_doesnt_decrease(alpha=0.1, threshold_percentage=0.9))
 
     def _test_case(self, kernel_applier):
         mcmc_factory = proposal_distribution_tuning(
@@ -112,41 +113,38 @@ class IRMHStepNumber(chex.TestCase):
                                    atol=1e-1)
 
 
-class TestApplyUntilCorrelationWithInitDoesntChange(chex.TestCase):
+class TestApplyUntilCorrelationWithInitDoesntChange(unittest.TestCase):
+    # TODO CAN'T STUB KERNEL HERE, need help on this one.
     def setUp(self):
         super().setUp()
         self.key = jax.random.PRNGKey(42)
-
     def test_apply(self):
-
         start_position = jnp.array([1., 2., 3., 4.])
-        positions = [jnp.array([1., 0., 0., 0.]),
-                     jnp.array([1., 2., 0., 0.]),
-                     jnp.array([1., 2., 3., 0.]),
-                     jnp.array([1., 2., 3., 4.])]
+        positions = (position for position in [ jnp.array([1., 2., 3., 0.]),
+                                               jnp.array([1., 2., 0., 0.]),
+                                                jnp.array([1., 0., 0., 0.])
+                                              ])
+        class StubKernel:
+            def __init__(self, positions):
+                self.positions = positions
+
+            def __call__(self, state, key):
+                return state
+                return TestState(next(positions))
 
         def build_kernel():
-            i = 0
+            return StubKernel(positions)
 
-            def mcmc_kernel(state, key):
 
-                position = state.position
-                if position == start_position:
-                    to_return = positions[0]
-                else:
-                    for index in range(0, len(positions)):
-                        if position == positions[index]:
-                            to_return = positions[index + 1]
 
-                return TestState(to_return)
 
-            return mcmc_kernel
 
-        particles, steps = apply_until_correlation_with_init_doesnt_change(0.1, 90)(self.key,
-                                                                                    build_kernel(),
-                                                                                    TestState(start_position))
-        assert particles is not None
-        assert steps > 1
+
+        particles, steps = apply_until_correlation_with_init_doesnt_decrease(0.1, 0.9)(self.key,
+                                                                               build_kernel(),
+                                                                               TestState(start_position))
+        assert steps == 2
+        np.testing.assert_allclose(particles, jnp.array([1., 0., 0., 0.]))
 
 
 class TestPartialUnsignedPearson(unittest.TestCase):
@@ -169,39 +167,39 @@ class TestPartialUnsignedPearson(unittest.TestCase):
                                                   [50., 4.]])), jnp.array([1.0, 0.5]))
 
 
-class TestDimensionsWithoutReduction(unittest.TestCase):
-    def test_dimensions_if_increase(self):
+class TestEnoughDimensionsWithReduction(unittest.TestCase):
+    def test_increase(self):
         """
         """
         before = jnp.array([0.1, 0.5, 0.75])
         after = jnp.array([0.12, 0.56, 0.8])
         for threshold_percentage in [0.1, 0.2, 0.3, 0.5, 0.7, 0.8]:
-            assert not dimensions_without_reduction(before, after, alpha=0.01,
-                                                    threshold_percentage=threshold_percentage)
+            assert not enough_dimensions_with_reduction(before, after, alpha=0.01,
+                                                        threshold_percentage=threshold_percentage)
 
-    def test_dimensions_if_decrease(self):
+    def test_decrease(self):
         before = jnp.array([0.12, 0.56, 0.8])
         after = jnp.array([0.1, 0.5, 0.75])
         for threshold_percentage in [0.1, 0.2, 0.3, 0.5, 0.7, 0.8]:
-            assert dimensions_without_reduction(before, after, alpha=0.01,
-                                                threshold_percentage=threshold_percentage)
+            assert enough_dimensions_with_reduction(before, after, alpha=0.01,
+                                                    threshold_percentage=threshold_percentage)
 
-    def test_dimensions_if_decrease_is_below_alpha(self):
+    def test_decrease_is_below_alpha(self):
         before = jnp.array([0.12, 0.56, 0.8])
         after = jnp.array([0.119, 0.559, 0.799])
         for threshold_percentage in [0.1, 0.2, 0.3, 0.5, 0.7, 0.8]:
-            assert not dimensions_without_reduction(before, after, alpha=0.01,
-                                                    threshold_percentage=threshold_percentage)
+            assert not enough_dimensions_with_reduction(before, after, alpha=0.01,
+                                                        threshold_percentage=threshold_percentage)
 
-    def test_dimensions_if_only_one_decreases(self):
+    def test_only_one_dimension_decreases(self):
         """
         Only one out of three dimensions decreases
         """
         before = jnp.array([0.12, 0.56, 0.8])
         after = jnp.array([0.05, 0.58, 0.85])
         for threshold_percentage in [0.4, 0.5, 0.7, 0.8]:
-            assert not dimensions_without_reduction(before, after, alpha=0.01,
-                                                    threshold_percentage=threshold_percentage)
+            assert not enough_dimensions_with_reduction(before, after, alpha=0.01,
+                                                        threshold_percentage=threshold_percentage)
         for threshold_percentage in [0.1, 0.2, 0.3]:
-            assert dimensions_without_reduction(before, after, alpha=0.01,
-                                                threshold_percentage=threshold_percentage)
+            assert enough_dimensions_with_reduction(before, after, alpha=0.01,
+                                                    threshold_percentage=threshold_percentage)

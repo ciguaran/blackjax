@@ -25,14 +25,24 @@ def partial_unsigned_pearson(fixed):
     return get
 
 
-def apply_until_correlation_with_init_doesnt_change(alpha, threshold_percentage) -> KernelApplier:
+def enough_dimensions_with_reduction(before, after, alpha: float, threshold_percentage: float) -> bool:
+    """Given particles before and after, checks if reduction is above alpha.
+    Since it needs to work on Rn, it checks that the % of dimensions for which there was enough reduction is higher
+    than threshold_percentage.
+    """
+    jax.debug.print("{before} {after} {diff}", before=before, after=after, diff=before-after)
+    return jnp.mean((before - after) > alpha) > threshold_percentage
+
+
+def apply_until_correlation_with_init_doesnt_decrease(alpha,
+                                                      threshold_percentage,
+                                                      decrease_is_enough_to_continue=enough_dimensions_with_reduction) -> KernelApplier:
     """Stops if the correlation wrt the initial particles
-    doesn't change enough between two steps, for a percentage
-    of the dimensions of the particles.
+    doesn't decrease enough between two steps.
 
     Parameters
     ----------
-    alpha : correlation difference considered small between two consecutive steps wrt initial particles
+    alpha : minimum correlation decrease between two consecutive steps wrt initial particles
     threshold_percentage: minimum percentage of dimensions for which, if the correlation is below alpha,
     iterations should stop. In general should be high. (Close to 1)
     """
@@ -51,21 +61,18 @@ def apply_until_correlation_with_init_doesnt_change(alpha, threshold_percentage)
         pup = partial_unsigned_pearson(mcmc_state.position)
 
         def wrap_continue(iteration_state: IterationState) -> bool:
-            """
-            We need to negate the stop criteria, thus we keep
-            iterating if the dimensions below alpha are less than
-            threshold percentage
-            """
-            return (iteration_state.steps == 0) | dimensions_without_reduction(pup,
-                                                                               iteration_state.prev_position,
-                                                                               iteration_state.current_position,
-                                                                               alpha,
-                                                                               threshold_percentage)
+            return (iteration_state.steps == 0) | decrease_is_enough_to_continue(pup(iteration_state.prev_position),
+                                                                                 pup(iteration_state.current_position),
+                                                                                 alpha,
+                                                                                 threshold_percentage)
 
         def wrap_mcmc_body(iteration_state: IterationState) -> IterationState:
             prev, new, _state, _key, _steps = iteration_state
             _key, subkey = jax.random.split(_key)
             new_state = mcmc_body_fn(_state, subkey)
+            jax.debug.print("steps {steps}", steps=_steps)
+            jax.debug.print("new {steps}", steps=new_state.position)
+
             return IterationState(prev_position=new,
                                   current_position=new_state.position,
                                   state=new_state,
@@ -80,19 +87,9 @@ def apply_until_correlation_with_init_doesnt_change(alpha, threshold_percentage)
                                                                   key=key,
                                                                   steps=0))
         proposed_particles = state.position
-        return proposed_particles
+        return proposed_particles, steps
 
     return applier
-
-
-def dimensions_without_reduction(before, after, alpha, threshold_percentage):
-    """Given particles before and after, and pup encoding correlation wrt
-    initial particles, checks if it the step wasn't able to reduce correlation
-    wrt to initial particles. Since it needs to work on Rn, it checks
-    that the % of dimensions for which there was no reduction is higher
-    than threshold_percentage.
-    """
-    return jnp.mean((before - after) > alpha) > threshold_percentage
 
 
 def apply_until_product_of_correlations_doesnt_change():

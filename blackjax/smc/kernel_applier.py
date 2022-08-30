@@ -46,7 +46,7 @@ def apply_fixed_steps(num_mcmc_iterations: int) -> KernelApplier:
     return applier
 
 
-def mutate_while_criteria_is_met(continue_criteria) -> KernelApplier:
+def apply_while_criteria_is_met(continue_criteria) -> KernelApplier:
     """
     Decorates a kernel, applying it succesively until
     the stop criteria on particles is met.
