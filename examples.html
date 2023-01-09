@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Examples &#8212; Blackjax</title>
+    <title>Examples</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -21,10 +21,10 @@
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
-    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
     
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
@@ -33,16 +33,12 @@
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script>let toggleHintShow = 'Click to show';</script>
-    <script>let toggleHintHide = 'Click to hide';</script>
-    <script>let toggleOpenOnPrint = 'true';</script>
-    <script src="_static/togglebutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="_static/design-tabs.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="A quick introduction to Blackjax" href="examples/Introduction.html" />
-    <link rel="prev" title="Welcome to Blackjax" href="index.html" />
+    <link rel="next" title="A Quick Introduction to Blackjax" href="examples/Introduction.html" />
+    <link rel="prev" title="Use a logdensity function that is not compatible with JAX’s primitives" href="examples/howto_other_frameworks.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -86,8 +82,6 @@
       <img src="_static/blackjax.png" class="logo" alt="logo">
       
       
-      <h1 class="site-logo" id="site-title">Blackjax</h1>
-      
     </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
   <i class="icon fas fa-search"></i>
@@ -96,7 +90,61 @@
     <div class="bd-toc-item active">
         <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Blackjax by example
+  PPL INTEGRATION
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_use_aesara.html">
+   Aesara
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_use_numpyro.html">
+   Numpyro
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_use_oryx.html">
+   Oryx
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_use_pymc.html">
+   PyMC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_use_tfp.html">
+   Tensorflow-Probability
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  HOW TO
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_sample_multiple_chains.html">
+   Sample with multiple chains?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_custom_gradients.html">
+   Use custom gradients?
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="examples/howto_other_frameworks.html">
+   Use non-JAX log-prob functions?
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  LEARN BY EXAMPLE
  </span>
 </p>
 <ul class="current nav bd-sidenav">
@@ -112,7 +160,7 @@
   <ul>
    <li class="toctree-l2">
     <a class="reference internal" href="examples/Introduction.html">
-     A quick introduction to Blackjax
+     A Quick Introduction to Blackjax
     </a>
    </li>
    <li class="toctree-l2">
@@ -121,23 +169,18 @@
     </a>
    </li>
    <li class="toctree-l2">
+    <a class="reference internal" href="examples/LogisticRegressionWithLatentGaussianSampler.html">
+     Bayesian Logistic Regression With Latent Gaussian Sampler
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/SparseLogisticRegression.html">
+     Sparse logistic regression
+    </a>
+   </li>
+   <li class="toctree-l2">
     <a class="reference internal" href="examples/TemperedSMC.html">
-     Use Tempered SMC to improve exploration of MCMC methods.
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="examples/use_with_numpyro.html">
-     Use BlackJAX with Numpyro
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="examples/use_with_tfp.html">
-     Use BlackJAX with TFP
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="examples/HierarchicalBNN.html">
-     Hierarchical Bayesian neural networks
+     Use Tempered SMC to Improve Exploration of MCMC Methods.
     </a>
    </li>
    <li class="toctree-l2">
@@ -147,7 +190,42 @@
    </li>
    <li class="toctree-l2">
     <a class="reference internal" href="examples/GP_EllipticalSliceSampler.html">
-     Gaussian regression with the Elliptical Slice sampler
+     Gaussian Regression with the Elliptical Slice Sampler
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/GP_Marginal.html">
+     Bayesian Regression With Latent Gaussian Sampler
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/change_of_variable_hmc.html">
+     Change of Variable in HMC
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/Pathfinder.html">
+     Pathfinder
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/RegimeSwitchingModel.html">
+     Regime switching Hidden Markov model
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/HierarchicalBNN.html">
+     Hierarchical Bayesian Neural Networks
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/SGMCMC.html">
+     MNIST Digit Recognition With a 3-Layer Perceptron
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="examples/contour_sgld.html">
+     Contour stochastic gradient Langevin dynamics
     </a>
    </li>
   </ul>
@@ -155,13 +233,28 @@
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  API Documentation
+  API
  </span>
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="sampling.html">
-   Sampling
+  <a class="reference internal" href="mcmc.html">
+   MCMC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="sgmcmc.html">
+   Stochastic gradient MCMC
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="smc.html">
+   Sequential Monte Carlo
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="vi.html">
+   Variational Inference
   </a>
  </li>
  <li class="toctree-l1">
@@ -278,97 +371,22 @@ title="Source repository"
   <section id="examples">
 <h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">#</a></h1>
 <div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="examples/Introduction.html">A quick introduction to Blackjax</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/Introduction.html#the-problem">The problem</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/Introduction.html#hmc">HMC</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/Introduction.html#sampler-parameters">Sampler parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/Introduction.html#set-the-initial-state">Set the initial state</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/Introduction.html#build-the-kernel-and-inference-loop">Build the kernel and inference loop</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/Introduction.html#inference">Inference</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="examples/Introduction.html#nuts">NUTS</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/Introduction.html#use-stan-s-window-adaptation">Use Stan’s window adaptation</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="examples/Introduction.html#sample-multiple-chains">Sample multiple chains</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/LogisticRegression.html">Bayesian Logistic Regression</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/LogisticRegression.html#the-data">The data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/LogisticRegression.html#the-model">The model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/LogisticRegression.html#posterior-sampling">Posterior sampling</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/LogisticRegression.html#predictive-distribution">Predictive distribution</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/TemperedSMC.html">Use Tempered SMC to improve exploration of MCMC methods.</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/TemperedSMC.html#imports">Imports</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/TemperedSMC.html#sampling-from-a-bimodal-potential">Sampling from a bimodal potential</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/TemperedSMC.html#experimental-setup">Experimental setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/TemperedSMC.html#sample-with-hmc">Sample with HMC</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/TemperedSMC.html#sample-with-nuts">Sample with NUTS</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="examples/TemperedSMC.html#tempered-smc-with-hmc-kernel">Tempered SMC with HMC kernel</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/TemperedSMC.html#sampling-from-the-rastrigin-potential">Sampling from the Rastrigin potential</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/TemperedSMC.html#id1">Experimental setup</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/TemperedSMC.html#hmc-sampler">HMC sampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/TemperedSMC.html#nuts-sampler">NUTS sampler</a></li>
-<li class="toctree-l3"><a class="reference internal" href="examples/TemperedSMC.html#id2">Tempered SMC with HMC kernel</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/use_with_numpyro.html">Use BlackJAX with Numpyro</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/use_with_numpyro.html#data">Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/use_with_numpyro.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/use_with_numpyro.html#compare-sampling-time-with-numpyro">Compare sampling time with Numpyro</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/use_with_tfp.html">Use BlackJAX with TFP</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/use_with_tfp.html#data">Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/use_with_tfp.html#model">Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/use_with_tfp.html#compare-sampling-time-with-tfp">Compare sampling time with TFP</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/HierarchicalBNN.html">Hierarchical Bayesian neural networks</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/HierarchicalBNN.html#setup">Setup</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/HierarchicalBNN.html#data">Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/HierarchicalBNN.html#utility-functions-for-training-and-testing">Utility functions for training and testing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/HierarchicalBNN.html#hyperparameters">Hyperparameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/HierarchicalBNN.html#fit-separate-mlps-one-per-task">Fit separate MLPs, one per task</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/HierarchicalBNN.html#results">Results</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="examples/HierarchicalBNN.html#hierarchical-model">Hierarchical Model</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/HierarchicalBNN.html#id1">Results</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html">Periodic Orbital MCMC</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#useful-functions">Useful functions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#banana-density">Banana density</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#initial-state-and-sampler-parameters">Initial state and sampler parameters</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#velocity-verlet">Velocity Verlet</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#mclachlan">McLachlan</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#yoshida">Yoshida</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#ellipsis">Ellipsis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#ellipsis-iaf">Ellipsis + IAF</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html#some-utility-functions">Some utility functions</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="examples/GP_EllipticalSliceSampler.html">Gaussian regression with the Elliptical Slice sampler</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="examples/GP_EllipticalSliceSampler.html#sampling">Sampling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="examples/GP_EllipticalSliceSampler.html#diagnostics">Diagnostics</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Introduction.html">A Quick Introduction to Blackjax</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LogisticRegression.html">Bayesian Logistic Regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/LogisticRegressionWithLatentGaussianSampler.html">Bayesian Logistic Regression With Latent Gaussian Sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/SparseLogisticRegression.html">Sparse logistic regression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/TemperedSMC.html">Use Tempered SMC to Improve Exploration of MCMC Methods.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/PeriodicOrbitalMCMC.html">Periodic Orbital MCMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/GP_EllipticalSliceSampler.html">Gaussian Regression with the Elliptical Slice Sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/GP_Marginal.html">Bayesian Regression With Latent Gaussian Sampler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/change_of_variable_hmc.html">Change of Variable in HMC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/Pathfinder.html">Pathfinder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/RegimeSwitchingModel.html">Regime switching Hidden Markov model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/HierarchicalBNN.html">Hierarchical Bayesian Neural Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/SGMCMC.html">MNIST Digit Recognition With a 3-Layer Perceptron</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/contour_sgld.html">Contour stochastic gradient Langevin dynamics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/contour_sgld.html#use-the-stochastic-gradient-langevin-dynamics-algorithm">Use the stochastic gradient Langevin dynamics algorithm</a></li>
 </ul>
 </div>
 </section>
@@ -381,17 +399,17 @@ title="Source repository"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="index.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="examples/howto_other_frameworks.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Welcome to Blackjax</p>
+            <p class="prev-next-title">Use a logdensity function that is not compatible with JAX’s primitives</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="examples/Introduction.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">A quick introduction to Blackjax</p>
+        <p class="prev-next-title">A Quick Introduction to Blackjax</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
@@ -404,7 +422,7 @@ title="Source repository"
   
     By The Blackjax developers<br/>
   
-      &copy; Copyright 2022, The Blackjax developers.<br/>
+      &copy; Copyright 2023, The Blackjax developers.<br/>
 </p>
         </footer>
     </div>
