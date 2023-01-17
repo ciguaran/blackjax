@@ -174,11 +174,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="SparseLogisticRegression.html">
-     Sparse logistic regression
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="TemperedSMC.html">
      Use Tempered SMC to Improve Exploration of MCMC Methods.
     </a>
@@ -211,21 +206,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="RegimeSwitchingModel.html">
      Regime switching Hidden Markov model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="HierarchicalBNN.html">
-     Hierarchical Bayesian Neural Networks
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="SGMCMC.html">
-     MNIST Digit Recognition With a 3-Layer Perceptron
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="contour_sgld.html">
-     Contour stochastic gradient Langevin dynamics
     </a>
    </li>
   </ul>
@@ -544,7 +524,7 @@ title="Source repository"
 </section>
 <section id="set-the-initial-state">
 <h3>Set the Initial State<a class="headerlink" href="#set-the-initial-state" title="Permalink to this headline">#</a></h3>
-<p>The initial state of the HMC algorithm requires not only an initial position, but also the potential energy and gradient of the potential energy at this position. BlackJAX provides a <code class="docutils literal notranslate"><span class="pre">new_state</span></code> function to initialize the state from an initial position.</p>
+<p>The initial state of the HMC algorithm requires not only an initial position, but also the potential energy and gradient of the potential energy at this position (for example, in the context of Bayesian modeling, the output of the log posterior function evaluated at the initial position). BlackJAX provides a <code class="docutils literal notranslate"><span class="pre">new_state</span></code> function to initialize the state from an initial position.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">initial_position</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;loc&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span> <span class="s2">&quot;log_scale&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
@@ -557,7 +537,7 @@ title="Source repository"
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HMCState(position={&#39;loc&#39;: 1.0, &#39;log_scale&#39;: 1.0}, potential_energy=DeviceArray(34920.633, dtype=float32), potential_energy_grad={&#39;loc&#39;: DeviceArray(-1132.0453, dtype=float32, weak_type=True), &#39;log_scale&#39;: DeviceArray(-65003.39, dtype=float32, weak_type=True)})
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HMCState(position={&#39;loc&#39;: 1.0, &#39;log_scale&#39;: 1.0}, logdensity=DeviceArray(-34535.887, dtype=float32), logdensity_grad={&#39;loc&#39;: DeviceArray(1388.4886, dtype=float32, weak_type=True), &#39;log_scale&#39;: DeviceArray(64233.89, dtype=float32, weak_type=True)})
 </pre></div>
 </div>
 </div>
@@ -605,8 +585,8 @@ title="Source repository"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.47 s, sys: 12.3 ms, total: 1.48 s
-Wall time: 1.48 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.47 s, sys: 8.58 ms, total: 1.47 s
+Wall time: 1.47 s
 </pre></div>
 </div>
 </div>
@@ -634,7 +614,7 @@ Wall time: 1.48 s
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;scale&#39;)
 </pre></div>
 </div>
-<img alt="../_images/418f0ae5587b27259950bbdeae6c1a527ff74a4d134f2e3b6f954734dec8eaa1.png" src="../_images/418f0ae5587b27259950bbdeae6c1a527ff74a4d134f2e3b6f954734dec8eaa1.png" />
+<img alt="../_images/0eb810cacb66dd2db6c2fca81e0daca2bb03b0cddac63379303820181d6f141b.png" src="../_images/0eb810cacb66dd2db6c2fca81e0daca2bb03b0cddac63379303820181d6f141b.png" />
 </div>
 </div>
 </section>
@@ -661,7 +641,7 @@ Wall time: 1.48 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HMCState(position={&#39;loc&#39;: 1.0, &#39;log_scale&#39;: 1.0}, potential_energy=DeviceArray(34920.633, dtype=float32), potential_energy_grad={&#39;loc&#39;: DeviceArray(-1132.0453, dtype=float32, weak_type=True), &#39;log_scale&#39;: DeviceArray(-65003.39, dtype=float32, weak_type=True)})
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HMCState(position={&#39;loc&#39;: 1.0, &#39;log_scale&#39;: 1.0}, logdensity=DeviceArray(-34535.887, dtype=float32), logdensity_grad={&#39;loc&#39;: DeviceArray(1388.4886, dtype=float32, weak_type=True), &#39;log_scale&#39;: DeviceArray(64233.89, dtype=float32, weak_type=True)})
 </pre></div>
 </div>
 </div>
@@ -678,8 +658,8 @@ Wall time: 1.48 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 6.36 s, sys: 27.6 ms, total: 6.38 s
-Wall time: 6.38 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 6.41 s, sys: 20.3 ms, total: 6.43 s
+Wall time: 6.43 s
 </pre></div>
 </div>
 </div>
@@ -707,7 +687,7 @@ Wall time: 6.38 s
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;scale&#39;)
 </pre></div>
 </div>
-<img alt="../_images/e355cddd26d7640d979ba55864554fd8a8d3a70267d9de1380f043ac5ff0a49b.png" src="../_images/e355cddd26d7640d979ba55864554fd8a8d3a70267d9de1380f043ac5ff0a49b.png" />
+<img alt="../_images/31c27b6c751233b72cd5471a85dcbfa554fddc63013e265ee98bc020cc480c38.png" src="../_images/31c27b6c751233b72cd5471a85dcbfa554fddc63013e265ee98bc020cc480c38.png" />
 </div>
 </div>
 <section id="use-stan-s-window-adaptation">
@@ -719,13 +699,13 @@ Wall time: 6.38 s
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
 <span class="n">warmup</span> <span class="o">=</span> <span class="n">blackjax</span><span class="o">.</span><span class="n">window_adaptation</span><span class="p">(</span><span class="n">blackjax</span><span class="o">.</span><span class="n">nuts</span><span class="p">,</span> <span class="n">logdensity</span><span class="p">)</span>
-<span class="n">state</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">initial_position</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">parameters</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">initial_position</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.31 s, sys: 7.91 ms, total: 2.32 s
-Wall time: 2.32 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.33 s, sys: 12.1 ms, total: 2.35 s
+Wall time: 2.34 s
 </pre></div>
 </div>
 </div>
@@ -735,6 +715,7 @@ Wall time: 2.32 s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">blackjax</span><span class="o">.</span><span class="n">nuts</span><span class="p">(</span><span class="n">logdensity_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">parameters</span><span class="p">)</span>
 <span class="n">states</span> <span class="o">=</span> <span class="n">inference_loop</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="mi">1_000</span><span class="p">)</span>
 
 <span class="n">loc_samples</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">position</span><span class="p">[</span><span class="s2">&quot;loc&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">block_until_ready</span><span class="p">()</span>
@@ -743,8 +724,25 @@ Wall time: 2.32 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 1.77 s, sys: 15.9 ms, total: 1.79 s
-Wall time: 1.78 s
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">File</span> <span class="o">&lt;</span><span class="n">timed</span> <span class="n">exec</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">2</span>
+
+<span class="nn">Cell In[7], line 8,</span> in <span class="ni">inference_loop</span><span class="nt">(rng_key, kernel, initial_state, num_samples)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">state</span><span class="p">,</span> <span class="n">state</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="n">keys</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">_</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">lax</span><span class="o">.</span><span class="n">scan</span><span class="p">(</span><span class="n">one_step</span><span class="p">,</span> <span class="n">initial_state</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="k">return</span> <span class="n">states</span>
+
+    <span class="p">[</span><span class="o">...</span> <span class="n">skipping</span> <span class="n">hidden</span> <span class="mi">16</span> <span class="n">frame</span><span class="p">]</span>
+
+<span class="nn">Cell In[7], line 4,</span> in <span class="ni">inference_loop.&lt;locals&gt;.one_step</span><span class="nt">(state, rng_key)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="k">def</span> <span class="nf">one_step</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">rng_key</span><span class="p">):</span>
+<span class="ne">----&gt; </span><span class="mi">4</span>     <span class="n">state</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">kernel</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="k">return</span> <span class="n">state</span><span class="p">,</span> <span class="n">state</span>
+
+<span class="ne">TypeError</span>: &#39;MCMCSamplingAlgorithm&#39; object is not callable
 </pre></div>
 </div>
 </div>
@@ -772,7 +770,7 @@ Wall time: 1.78 s
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0, 0.5, &#39;scale&#39;)
 </pre></div>
 </div>
-<img alt="../_images/9c2d53565e75a660a0c0097f058f698a58aca73040747a8fa6a6246b23b9afd6.png" src="../_images/9c2d53565e75a660a0c0097f058f698a58aca73040747a8fa6a6246b23b9afd6.png" />
+<img alt="../_images/31c27b6c751233b72cd5471a85dcbfa554fddc63013e265ee98bc020cc480c38.png" src="../_images/31c27b6c751233b72cd5471a85dcbfa554fddc63013e265ee98bc020cc480c38.png" />
 </div>
 </div>
 </section>

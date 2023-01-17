@@ -38,7 +38,7 @@
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Hierarchical Bayesian Neural Networks" href="HierarchicalBNN.html" />
+    <link rel="next" title="MCMC" href="../mcmc.html" />
     <link rel="prev" title="Pathfinder" href="Pathfinder.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -175,11 +175,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="SparseLogisticRegression.html">
-     Sparse logistic regression
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="TemperedSMC.html">
      Use Tempered SMC to Improve Exploration of MCMC Methods.
     </a>
@@ -212,21 +207,6 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Regime switching Hidden Markov model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="HierarchicalBNN.html">
-     Hierarchical Bayesian Neural Networks
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="SGMCMC.html">
-     MNIST Digit Recognition With a 3-Layer Perceptron
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="contour_sgld.html">
-     Contour stochastic gradient Langevin dynamics
     </a>
    </li>
   </ul>
@@ -543,8 +523,9 @@ title="Source repository"
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">tic1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <span class="n">k_warm</span><span class="p">,</span> <span class="n">k_sample</span> <span class="o">=</span> <span class="n">jrnd</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">ksam</span><span class="p">)</span>
-<span class="n">warmup</span> <span class="o">=</span> <span class="n">blackjax</span><span class="o">.</span><span class="n">meads</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">logdensity_fn</span><span class="p">,</span> <span class="n">n_chain</span><span class="p">)</span>
-<span class="n">init_state</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">k_warm</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">init_params</span><span class="p">,</span> <span class="n">n_warm</span><span class="p">)</span>
+<span class="n">warmup</span> <span class="o">=</span> <span class="n">blackjax</span><span class="o">.</span><span class="n">meads_adaptation</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">logdensity_fn</span><span class="p">,</span> <span class="n">n_chain</span><span class="p">)</span>
+<span class="p">(</span><span class="n">init_state</span><span class="p">,</span> <span class="n">parameters</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">k_warm</span><span class="p">,</span> <span class="n">dist</span><span class="o">.</span><span class="n">init_params</span><span class="p">,</span> <span class="n">n_warm</span><span class="p">)</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">blackjax</span><span class="o">.</span><span class="n">ghmc</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">logdensity_fn</span><span class="p">,</span> <span class="o">**</span><span class="n">parameters</span><span class="p">)</span><span class="o">.</span><span class="n">step</span>
 
 <span class="k">def</span> <span class="nf">one_chain</span><span class="p">(</span><span class="n">k_sam</span><span class="p">,</span> <span class="n">init_state</span><span class="p">):</span>
     <span class="n">state</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">inference_loop</span><span class="p">(</span><span class="n">k_sam</span><span class="p">,</span> <span class="n">init_state</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">n_iter</span><span class="p">)</span>
@@ -558,7 +539,7 @@ title="Source repository"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Runtime for MEADS 0 days 00:00:24.724090
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Runtime for MEADS 0 days 00:00:24.754966
 </pre></div>
 </div>
 </div>
@@ -571,15 +552,15 @@ title="Source repository"
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                mean       std    median      5.0%     95.0%     n_eff     r_hat
-  alpha[0]      0.06      0.08      0.06     -0.08      0.20   3934.53      1.02
-  alpha[1]      0.01      0.10      0.01     -0.16      0.17   3637.09      1.03
-      p[0]      2.70      0.40      2.68      2.04      3.33   2774.78      1.05
-      p[1]      1.84      0.87      1.77      0.43      3.22   3775.66      1.03
-       rho     -0.02      0.10     -0.01     -0.18      0.16   2238.82      1.06
-  sigma[0]      1.04      0.05      1.04      0.97      1.12    424.24      1.13
-  sigma[1]      2.14      0.27      2.14      1.85      2.45    129.25      1.47
-      xi_0      0.52      1.02      0.48     -1.21      2.07   3230.65      1.04
-       y_0     -0.00      0.99     -0.00     -1.59      1.64   4021.07      1.02
+  alpha[0]      0.06      0.08      0.06     -0.08      0.20   4644.33      1.02
+  alpha[1]      0.01      0.10      0.01     -0.15      0.18   4217.56      1.02
+      p[0]      2.70      0.40      2.68      2.05      3.34   2973.82      1.04
+      p[1]      1.84      0.87      1.75      0.40      3.18   4663.50      1.02
+       rho     -0.02      0.10     -0.01     -0.19      0.15   3218.77      1.03
+  sigma[0]      1.04      0.05      1.04      0.97      1.12   4522.11      1.03
+  sigma[1]      2.16      0.18      2.14      1.86      2.44   3324.29      1.03
+      xi_0      0.51      1.01      0.47     -1.13      2.13   4010.16      1.03
+       y_0      0.00      1.00      0.00     -1.61      1.67   4347.35      1.02
 </pre></div>
 </div>
 </div>
@@ -620,7 +601,7 @@ title="Source repository"
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/571adbea5ebe65a30ad8c5219464f2cc17de7242cec3d95472c5524689301782.png" src="../_images/571adbea5ebe65a30ad8c5219464f2cc17de7242cec3d95472c5524689301782.png" />
+<img alt="../_images/6141a88fca004187f185b89b0c586c0b1060af49f24f6f94a4a97063a8b76b0f.png" src="../_images/6141a88fca004187f185b89b0c586c0b1060af49f24f6f94a4a97063a8b76b0f.png" />
 </div>
 </div>
 </section>
@@ -640,10 +621,10 @@ title="Source repository"
             <p class="prev-next-title">Pathfinder</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="HierarchicalBNN.html" title="next page">
+    <a class='right-next' id="next-link" href="../mcmc.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Hierarchical Bayesian Neural Networks</p>
+        <p class="prev-next-title">MCMC</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

@@ -175,11 +175,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="SparseLogisticRegression.html">
-     Sparse logistic regression
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="TemperedSMC.html">
      Use Tempered SMC to Improve Exploration of MCMC Methods.
     </a>
@@ -212,21 +207,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="RegimeSwitchingModel.html">
      Regime switching Hidden Markov model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="HierarchicalBNN.html">
-     Hierarchical Bayesian Neural Networks
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="SGMCMC.html">
-     MNIST Digit Recognition With a 3-Layer Perceptron
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="contour_sgld.html">
-     Contour stochastic gradient Langevin dynamics
     </a>
    </li>
   </ul>
@@ -770,7 +750,7 @@ title="Source repository"
 
 <span class="nd">@jax</span><span class="o">.</span><span class="n">vmap</span>
 <span class="k">def</span> <span class="nf">call_warmup</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-    <span class="n">initial_states</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tuned_params</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span>
 
 <span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">call_warmup</span><span class="p">)(</span><span class="n">keys</span><span class="p">,</span> <span class="n">init_params</span><span class="p">)</span>
@@ -778,8 +758,8 @@ title="Source repository"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9.58 s, sys: 37.5 ms, total: 9.62 s
-Wall time: 9.62 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9.65 s, sys: 44.4 ms, total: 9.69 s
+Wall time: 9.67 s
 </pre></div>
 </div>
 </div>
@@ -819,8 +799,8 @@ Wall time: 9.62 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 8.92 s, sys: 48.3 ms, total: 8.97 s
-Wall time: 8.96 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 8.82 s, sys: 20.1 ms, total: 8.84 s
+Wall time: 8.83 s
 </pre></div>
 </div>
 </div>
@@ -1898,7 +1878,7 @@ Wall time: 8.96 s
 
 <span class="nd">@jax</span><span class="o">.</span><span class="n">vmap</span>
 <span class="k">def</span> <span class="nf">call_warmup</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-    <span class="n">initial_states</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tuned_params</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span>
 
 <span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span> <span class="o">=</span> <span class="n">call_warmup</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">init_params</span><span class="p">)</span>
@@ -1906,7 +1886,7 @@ Wall time: 8.96 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 13.4 s, sys: 16.2 ms, total: 13.5 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 13.5 s, sys: 40.1 ms, total: 13.5 s
 Wall time: 13.5 s
 </pre></div>
 </div>
@@ -1923,8 +1903,8 @@ Wall time: 13.5 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 8.98 s, sys: 28 ms, total: 9.01 s
-Wall time: 9 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 8.94 s, sys: 40 ms, total: 8.98 s
+Wall time: 8.97 s
 </pre></div>
 </div>
 </div>
@@ -2953,7 +2933,7 @@ Wall time: 9 s
 
 <span class="nd">@jax</span><span class="o">.</span><span class="n">vmap</span>
 <span class="k">def</span> <span class="nf">call_warmup</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">):</span>
-    <span class="n">initial_states</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">tuned_params</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+    <span class="p">(</span><span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span><span class="p">),</span> <span class="n">_</span> <span class="o">=</span> <span class="n">warmup</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span>
 
 <span class="n">initial_states</span><span class="p">,</span> <span class="n">tuned_params</span> <span class="o">=</span> <span class="n">call_warmup</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">init_params</span><span class="p">)</span>
@@ -2961,8 +2941,8 @@ Wall time: 9 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 16.7 s, sys: 64 ms, total: 16.7 s
-Wall time: 16.7 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 16.9 s, sys: 72 ms, total: 16.9 s
+Wall time: 16.9 s
 </pre></div>
 </div>
 </div>
@@ -2978,8 +2958,8 @@ Wall time: 16.7 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9.75 s, sys: 20.1 ms, total: 9.77 s
-Wall time: 9.76 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9.95 s, sys: 48 ms, total: 10 s
+Wall time: 9.99 s
 </pre></div>
 </div>
 </div>

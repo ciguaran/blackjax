@@ -174,11 +174,6 @@
     </a>
    </li>
    <li class="toctree-l2">
-    <a class="reference internal" href="SparseLogisticRegression.html">
-     Sparse logistic regression
-    </a>
-   </li>
-   <li class="toctree-l2">
     <a class="reference internal" href="TemperedSMC.html">
      Use Tempered SMC to Improve Exploration of MCMC Methods.
     </a>
@@ -211,21 +206,6 @@
    <li class="toctree-l2">
     <a class="reference internal" href="RegimeSwitchingModel.html">
      Regime switching Hidden Markov model
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="HierarchicalBNN.html">
-     Hierarchical Bayesian Neural Networks
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="SGMCMC.html">
-     MNIST Digit Recognition With a 3-Layer Perceptron
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="contour_sgld.html">
-     Contour stochastic gradient Langevin dynamics
     </a>
    </li>
   </ul>
@@ -621,7 +601,7 @@ JAX raised an exception while differentiating!
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HMCState(position=DeviceArray(-0.24151024, dtype=float32, weak_type=True), potential_energy=DeviceArray(2.9157653, dtype=float32), potential_energy_grad=DeviceArray(-0.14576946, dtype=float32))
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HMCState(position=DeviceArray(-0.24151024, dtype=float32, weak_type=True), logdensity=DeviceArray(-2.9157653, dtype=float32), logdensity_grad=DeviceArray(0.14576946, dtype=float32))
 </pre></div>
 </div>
 </div>
@@ -636,8 +616,8 @@ JAX raised an exception while differentiating!
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.95 s, sys: 17 µs, total: 2.95 s
-Wall time: 2.95 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 2.98 s, sys: 34 µs, total: 2.98 s
+Wall time: 2.98 s
 </pre></div>
 </div>
 </div>
@@ -652,8 +632,8 @@ Wall time: 2.95 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 12.6 s, sys: 88 ms, total: 12.7 s
-Wall time: 12.7 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 13 s, sys: 140 ms, total: 13.2 s
+Wall time: 13.2 s
 </pre></div>
 </div>
 </div>
