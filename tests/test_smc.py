@@ -74,7 +74,7 @@ class SMCTest(chex.TestCase):
 
         num_mcmc_steps = 10
         num_particles = 1000
-        num_resampled = num_particles // num_mcmc_steps
+        num_resample = num_particles // num_mcmc_steps
 
         hmc = blackjax.hmc(
             logdensity_fn,
@@ -112,7 +112,7 @@ class SMCTest(chex.TestCase):
             waste_free_update_fn,
             jax.vmap(logdensity_fn),
             resampling.systematic,
-            num_resampled,
+            num_resample,
         )
 
         mean, std = _weighted_avg_and_std(new_state.particles, state.weights)

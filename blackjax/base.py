@@ -14,7 +14,7 @@ from typing import Callable, NamedTuple, Tuple
 
 from typing_extensions import Protocol
 
-from .types import PRNGKey, PyTree
+from blackjax.types import PRNGKey, PyTree
 
 Position = PyTree
 State = NamedTuple

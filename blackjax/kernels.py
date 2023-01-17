@@ -43,6 +43,7 @@ __all__ = [
     "pathfinder",
     "pathfinder_adaptation",
     "mgrad_gaussian",
+    "smc_inner_kernel_tuning",
 ]
 
 
@@ -101,7 +102,7 @@ class adaptive_tempered_smc:
 
 
 class tempered_smc:
-    """Implements the (basic) user interface for the Adaptive Tempered SMC kernel.
+    """Implements the (basic) user interface for the Tempered SMC kernel.
 
 
     Returns
@@ -145,6 +146,78 @@ class tempered_smc:
             )
 
         return MCMCSamplingAlgorithm(init_fn, step_fn)  # type: ignore[arg-type]
+
+
+class smc_inner_kernel_tuning:
+    """In the context of an SMC sampler (whose step_fn returning state
+    has a .particles attribute), there's an inner MCMC that is used
+    to perturbate/update each of the particles. This adaptation tunes some
+      parameter of that MCMC, based on particles.
+      The parameter type must be a valid JAX type.
+
+    Parameters
+    ----------
+    logprior_fn
+        A function that computes the log density of the prior distribution
+    loglikelihood_fn
+        A function that returns the probability at a given position.
+    mcmc_kernel
+        A function that given a parameter is able to construct a MCMC step method,
+        which will then be used within SMC to mutate particles.
+    mcmc_init_fn
+        A function that returns an initial step for the MCMC algorithm used within SMC.
+    mcmc_parameter_factory
+        A function that given some particles returns a parameter that can be used in mcmc_kernel.
+    initial_parameter_value
+        Parameter to be used within mcmc_kernel for the first SMC step, before having mutated
+        the initial particles.
+    extra_parameters:
+        Parameters for smc_algorithm
+
+       Returns
+       -------
+       A ``MCMCSamplingAlgorithm``.
+
+    """
+
+    init = staticmethod(smc.optimizations.inner_kernel_tuning.init)
+    kernel = staticmethod(smc.optimizations.inner_kernel_tuning.kernel)
+
+    def __new__(  # type: ignore[misc]
+        cls,
+        smc_algorithm: Union[adaptive_tempered_smc, tempered_smc],
+        logprior_fn: Callable,
+        loglikelihood_fn: Callable,
+        mcmc_kernel: Callable,
+        mcmc_init_fn: Callable,
+        mcmc_parameters: Dict,
+        resampling_fn: Callable,
+        mcmc_parameter_factory,
+        initial_parameter_value,
+        num_mcmc_steps: int = 10,
+        **extra_parameters,
+    ) -> MCMCSamplingAlgorithm:
+
+        step = cls.kernel(
+            smc_algorithm,
+            logprior_fn,
+            loglikelihood_fn,
+            mcmc_kernel,
+            mcmc_init_fn,
+            mcmc_parameters,
+            resampling_fn,
+            mcmc_parameter_factory,
+            num_mcmc_steps,
+            **extra_parameters,
+        )
+
+        def init_fn(position: PyTree):
+            return cls.init(smc_algorithm.init, position, initial_parameter_value)
+
+        def step_fn(rng_key: PRNGKey, state, **extra_step_parameters):
+            return step(rng_key, state, **extra_step_parameters)
+
+        return MCMCSamplingAlgorithm(init_fn, step_fn)
 
 
 # -----------------------------------------------------------------------------
