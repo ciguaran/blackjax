@@ -38,7 +38,7 @@
     <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Pathfinder" href="Pathfinder.html" />
+    <link rel="next" title="Regime switching Hidden Markov model" href="RegimeSwitchingModel.html" />
     <link rel="prev" title="Bayesian Regression With Latent Gaussian Sampler" href="GP_Marginal.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -202,11 +202,6 @@
    <li class="toctree-l2 current active">
     <a class="current reference internal" href="#">
      Change of Variable in HMC
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="Pathfinder.html">
-     Pathfinder
     </a>
    </li>
    <li class="toctree-l2">
@@ -628,7 +623,7 @@ title="Source repository"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
 </pre></div>
 </div>
 </div>
@@ -737,7 +732,7 @@ title="Source repository"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray(-1123.4977, dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array(-1123.4977, dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -763,8 +758,8 @@ title="Source repository"
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 10.2 s, sys: 44.3 ms, total: 10.2 s
-Wall time: 10.2 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 10 s, sys: 63.4 ms, total: 10.1 s
+Wall time: 10.1 s
 </pre></div>
 </div>
 </div>
@@ -804,8 +799,8 @@ Wall time: 10.2 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9.18 s, sys: 60.2 ms, total: 9.24 s
-Wall time: 9.23 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 7.87 s, sys: 36 ms, total: 7.9 s
+Wall time: 7.9 s
 </pre></div>
 </div>
 </div>
@@ -1866,7 +1861,7 @@ Wall time: 9.23 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeviceArray(-1022.78735, dtype=float32)
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array(-1022.78735, dtype=float32)
 </pre></div>
 </div>
 </div>
@@ -1891,8 +1886,8 @@ Wall time: 9.23 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 14.2 s, sys: 55.9 ms, total: 14.2 s
-Wall time: 14.2 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 11.8 s, sys: 23.9 ms, total: 11.9 s
+Wall time: 11.9 s
 </pre></div>
 </div>
 </div>
@@ -1908,8 +1903,8 @@ Wall time: 14.2 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 9.45 s, sys: 44 ms, total: 9.49 s
-Wall time: 9.48 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 7.83 s, sys: 32 ms, total: 7.87 s
+Wall time: 7.86 s
 </pre></div>
 </div>
 </div>
@@ -2946,8 +2941,8 @@ Wall time: 9.48 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 17.7 s, sys: 104 ms, total: 17.8 s
-Wall time: 17.8 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 15.4 s, sys: 52.1 ms, total: 15.5 s
+Wall time: 15.5 s
 </pre></div>
 </div>
 </div>
@@ -2963,8 +2958,8 @@ Wall time: 17.8 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 10.4 s, sys: 64 ms, total: 10.5 s
-Wall time: 10.5 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 8.93 s, sys: 60 ms, total: 8.99 s
+Wall time: 8.97 s
 </pre></div>
 </div>
 </div>
@@ -3933,10 +3928,10 @@ Wall time: 10.5 s
             <p class="prev-next-title">Bayesian Regression With Latent Gaussian Sampler</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="Pathfinder.html" title="next page">
+    <a class='right-next' id="next-link" href="RegimeSwitchingModel.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Pathfinder</p>
+        <p class="prev-next-title">Regime switching Hidden Markov model</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
