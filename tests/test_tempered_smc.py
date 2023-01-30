@@ -41,7 +41,7 @@ class TemperedSMCTest(chex.TestCase):
         super().setUp()
         self.key = jax.random.PRNGKey(42)
 
-    def logprob_fn(self, log_scale, coefs, preds, x):
+    def logdensity_fn(self, log_scale, coefs, preds, x):
         """Linear regression"""
         scale = jnp.exp(log_scale)
         y = jnp.dot(x, coefs)
@@ -61,7 +61,7 @@ class TemperedSMCTest(chex.TestCase):
                 stats.expon.logpdf(jnp.exp(x[0]), 0, 1) + x[0] + stats.norm.logpdf(x[1])
             )
 
-        loglikelihood_fn = lambda x: self.logprob_fn(*x, **observations)
+        loglikelihood_fn = lambda x: self.logdensity_fn(*x, **observations)
 
         log_scale_init = np.log(np.random.exponential(1, num_particles))
         coeffs_init = 3 + 2 * np.random.randn(num_particles)
@@ -117,7 +117,7 @@ class TemperedSMCTest(chex.TestCase):
         logprior_fn = lambda x: stats.norm.logpdf(x["log_scale"]) + stats.norm.logpdf(
             x["coefs"]
         )
-        loglikelihood_fn = lambda x: self.logprob_fn(**x, **observations)
+        loglikelihood_fn = lambda x: self.logdensity_fn(**x, **observations)
 
         log_scale_init = np.random.randn(num_particles)
         coeffs_init = np.random.randn(num_particles)
@@ -157,7 +157,7 @@ class TemperedSMCTest(chex.TestCase):
         np.testing.assert_allclose(np.mean(result.particles["coefs"]), 3.0, rtol=1e-1)
 
 
-def normal_logprob_fn(x, chol_cov):
+def normal_logdensity_fn(x, chol_cov):
     """minus log-density of a centered multivariate normal distribution"""
     dim = chol_cov.shape[0]
     y = jax.scipy.linalg.solve_triangular(chol_cov, x, lower=True)
@@ -186,7 +186,7 @@ class NormalizingConstantTest(chex.TestCase):
         logprior_fn = lambda x: stats.multivariate_normal.logpdf(
             x, jnp.zeros((num_dim,)), jnp.eye(num_dim)
         )
-        loglikelihood_fn = lambda x: normal_logprob_fn(x, chol_cov)
+        loglikelihood_fn = lambda x: normal_logdensity_fn(x, chol_cov)
 
         rng_key, init_key = jax.random.split(rng_key, 2)
         x_init = jax.random.normal(init_key, shape=(num_particles, num_dim))

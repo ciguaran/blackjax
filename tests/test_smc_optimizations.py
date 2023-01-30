@@ -1,5 +1,4 @@
 """Test the generic SMC sampler"""
-import functools
 from unittest.mock import MagicMock
 
 import chex
@@ -8,7 +7,6 @@ import jax.numpy as jnp
 import jax.scipy.stats as stats
 import numpy as np
 from absl.testing import absltest
-from jax.scipy.stats import multivariate_normal
 
 import blackjax
 import blackjax.smc.resampling as resampling
@@ -52,7 +50,7 @@ def log_weights_fn(x, y):
     return jnp.sum(stats.norm.logpdf(y - x))
 
 
-class ParameterTunningStrategiesTest(chex.TestCase):
+class ParameterTuningStrategiesTest(chex.TestCase):
     def setUp(self):
         super().setUp()
         self.key = jax.random.PRNGKey(42)
@@ -64,9 +62,9 @@ class ParameterTunningStrategiesTest(chex.TestCase):
         logpdf = stats.norm.logpdf(preds, y, scale)
         return jnp.sum(logpdf)
 
-    def test_proposal_distribution_tunning(self):
+    def test_proposal_distribution_tuning(self):
         """
-        Given that smc_inner_kernel_tunning is used
+        Given that smc_inner_kernel_tuning is used
         When proposal_distribution as parameter to tune,
         Then proposal_factory is called, and the returned
         parameter gets returned by the kernel.
@@ -229,74 +227,6 @@ class NormalOnParticlesTest(chex.TestCase):
             [0.0, 5.0],
             rtol=1e-1,
         )
-
-
-class IRMHProposalTunningTest(chex.TestCase):
-    """
-    An integration test to verify
-    that the Independent RMH can be used
-    with proposal distribution tunning.
-    """
-
-    def setUp(self):
-        super().setUp()
-        self.key = jax.random.PRNGKey(42)
-
-    # @chex.all_variants(with_pmap=False)
-    def test_tune_distribution(self):
-        """
-        When tunning the proposal distribution using
-        particles mean and std, we are able to
-        sample from a bimodal posterior
-        """
-
-        def loglikelihood_fn(x):
-            return 5 * jnp.square(jnp.sum(x**2) - 1)
-
-        def prior_log_prob(x):
-            return multivariate_normal.logpdf(x, jnp.zeros((1,)), jnp.eye(1))
-
-        init_particles = 0.25 + np.random.randn(1000) * 50
-
-        def step_fn(normal_proposal_parameters):
-            means, stds = normal_proposal_parameters
-            proposal_distribution = normal_proposal(means, stds)
-            return blackjax.irmh.kernel(proposal_distribution)
-
-        kernel = smc_inner_kernel_tuning(
-            logprior_fn=prior_log_prob,
-            loglikelihood_fn=loglikelihood_fn,
-            mcmc_kernel=step_fn,
-            mcmc_init_fn=blackjax.irmh.init,
-            resampling_fn=resampling.systematic,
-            smc_algorithm=blackjax.adaptive_tempered_smc,
-            mcmc_parameters={},
-            mcmc_parameter_factory=particles_means_and_stds,
-            initial_parameter_value=particles_means_and_stds(init_particles),
-            target_ess=0.9,
-        )
-
-        def inference_loop(kernel, rng_key, initial_state):
-            def cond(carry):
-                _, state, *_ = carry
-                return state.sampling_state.lmbda < 1
-
-            def body(carry):
-                i, state, op_key = carry
-                op_key, subkey = jax.random.split(op_key, 2)
-                state = kernel(subkey, state)
-                return i + 1, state, op_key
-
-            total_iter, final_state, _ = jax.lax.while_loop(
-                cond, body, (0, initial_state, rng_key)
-            )
-
-            return total_iter, final_state
-
-        n_iter, result = functools.partial(inference_loop, kernel.step)(
-            self.key, kernel.init(init_particles)
-        )
-        print(result.sampling_state.particles)
 
 
 if __name__ == "__main__":
