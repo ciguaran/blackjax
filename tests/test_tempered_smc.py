@@ -19,7 +19,7 @@ from blackjax.smc.tempered import TemperedSMCState
 def inference_loop(kernel, rng_key, initial_state):
     def cond(carry):
         _, state, *_ = carry
-        return state.sampling_state.lmbda < 1
+        return state.lmbda < 1
 
     def body(carry):
         i, state, op_key, curr_loglikelihood = carry
