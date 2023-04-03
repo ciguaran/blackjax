@@ -111,18 +111,6 @@ def reorder_trajectories(
     )
 
 
-def merge_trajectories(left_trajectory: Trajectory, right_trajectory: Trajectory):
-    momentum_sum = jax.tree_util.tree_map(
-        jnp.add, left_trajectory.momentum_sum, right_trajectory.momentum_sum
-    )
-    return Trajectory(
-        left_trajectory.leftmost_state,
-        right_trajectory.rightmost_state,
-        momentum_sum,
-        left_trajectory.num_states + right_trajectory.num_states,
-    )
-
-
 # -------------------------------------------------------------------
 #                             Integration
 #
@@ -434,7 +422,7 @@ def dynamic_recursive_integration(
                 left_trajectory, right_trajectory = reorder_trajectories(
                     direction, trajectory, new_trajectory
                 )
-                trajectory = merge_trajectories(left_trajectory, right_trajectory)
+                trajectory = left_trajectory + right_trajectory
 
                 if ~is_turning:
                     is_turning = uturn_check_fn(
@@ -620,7 +608,7 @@ def dynamic_multiplicative_expansion(
                 direction, trajectory, new_trajectory
             )
 
-            merged_trajectory = merge_trajectories(left_trajectory, right_trajectory)
+            merged_trajectory = left_trajectory + right_trajectory
 
             is_turning = uturn_check_fn(
                 merged_trajectory.leftmost_state.momentum,
