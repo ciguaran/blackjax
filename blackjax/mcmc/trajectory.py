@@ -59,6 +59,7 @@ def zero_trajectory(state):
         0,
     )
 
+
 def one_trajectory(state):
     return Trajectory(
         state,
@@ -66,6 +67,7 @@ def one_trajectory(state):
         state.momentum,
         1,
     )
+
 
 class Trajectory(NamedTuple):
     leftmost_state: IntegratorState
@@ -82,12 +84,16 @@ class Trajectory(NamedTuple):
         )
 
     def inverse(self):
-        return Trajectory(self.rightmost_state, self.leftmost_state, self.momentum_sum, self.num_states)
+        return Trajectory(
+            self.rightmost_state,
+            self.leftmost_state,
+            self.momentum_sum,
+            self.num_states,
+        )
 
     def __add__(self, other):
         momentum_sum = jax.tree_util.tree_map(
             jnp.add, self.momentum_sum, other.momentum_sum
-
         )
         return Trajectory(
             self.leftmost_state,
