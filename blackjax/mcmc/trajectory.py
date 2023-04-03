@@ -73,12 +73,16 @@ class Trajectory(NamedTuple):
     momentum_sum: PyTree
     num_states: int
 
-    def __mul__(self, scalar):
-        return Trajectory(self.rightmost_state,
-                          self.leftmost_state,
-                          self.momentum_sum,
-                          self.num_states
-                          )
+    def __mul__(self, direction):
+        return jax.lax.cond(
+            direction > 0,
+            lambda _: self,
+            lambda _: self.inverse(),
+            operand=None,
+        )
+
+    def inverse(self):
+        return Trajectory(self.rightmost_state, self.leftmost_state, self.momentum_sum, self.num_states)
 
     def __add__(self, other):
         momentum_sum = jax.tree_util.tree_map(
@@ -240,7 +244,7 @@ def dynamic_progressive_integration(
             (new_trajectory, sampled_proposal) = jax.lax.cond(
                 step == 0,
                 lambda _: (
-                    Trajectory(new_state, new_state, new_state.momentum, 1),
+                    one_trajectory(new_state),
                     new_proposal,
                 ),
                 lambda _: (
@@ -283,17 +287,7 @@ def dynamic_progressive_integration(
         step, proposal, trajectory, termination_state = integration_state
 
         # In the while_loop we always extend on the right most direction.
-        new_trajectory = jax.lax.cond(
-            direction > 0,
-            lambda _: trajectory,
-            lambda _: Trajectory(
-                trajectory.rightmost_state,
-                trajectory.leftmost_state,
-                trajectory.momentum_sum,
-                trajectory.num_states,
-            ),
-            operand=None,
-        )
+        new_trajectory = trajectory * direction
 
         return (
             proposal,
@@ -374,7 +368,7 @@ def dynamic_recursive_integration(
             # Base case - take one leapfrog step in the direction v.
             next_state = integrator(initial_state, direction * step_size)
             new_proposal, is_diverging = generate_proposal(initial_energy, next_state)
-            trajectory = Trajectory(next_state, next_state, next_state.momentum, 1)
+            trajectory = one_trajectory(next_state)
             return (
                 rng_key,
                 new_proposal,

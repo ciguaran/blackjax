@@ -217,12 +217,7 @@ def iterative_nuts_proposal(
         initial_proposal = proposal.Proposal(
             initial_state, initial_energy, 0.0, -np.inf
         )
-        initial_trajectory = trajectory.Trajectory(
-            initial_state,
-            initial_state,
-            initial_state.momentum,
-            0,
-        )
+        initial_trajectory = trajectory.zero_trajectory(initial_state)
         initial_expansion_state = trajectory.DynamicExpansionState(
             0, initial_proposal, initial_trajectory, initial_termination_state
         )
