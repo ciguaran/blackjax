@@ -51,21 +51,52 @@ from blackjax.mcmc.proposal import (
 from blackjax.types import PRNGKey, PyTree
 
 
+def zero_trajectory(state):
+    return Trajectory(
+        state,
+        state,
+        state.momentum,
+        0,
+    )
+
+def one_trajectory(state):
+    return Trajectory(
+        state,
+        state,
+        state.momentum,
+        1,
+    )
+
 class Trajectory(NamedTuple):
     leftmost_state: IntegratorState
     rightmost_state: IntegratorState
     momentum_sum: PyTree
     num_states: int
 
+    def __mul__(self, scalar):
+        return Trajectory(self.rightmost_state,
+                          self.leftmost_state,
+                          self.momentum_sum,
+                          self.num_states
+                          )
+
+    def __add__(self, other):
+        momentum_sum = jax.tree_util.tree_map(
+            jnp.add, self.momentum_sum, other.momentum_sum
+
+        )
+        return Trajectory(
+            self.leftmost_state,
+            other.rightmost_state,
+            momentum_sum,
+            self.num_states + other.num_states,
+        )
+
+
 
 def append_to_trajectory(trajectory: Trajectory, state: IntegratorState) -> Trajectory:
     """Append a state to the (right of the) trajectory to form a new trajectory."""
-    momentum_sum = jax.tree_util.tree_map(
-        jnp.add, trajectory.momentum_sum, state.momentum
-    )
-    return Trajectory(
-        trajectory.leftmost_state, state, momentum_sum, trajectory.num_states + 1
-    )
+    return trajectory + one_trajectory(state)
 
 
 def reorder_trajectories(
@@ -254,9 +285,7 @@ def dynamic_progressive_integration(
             return (rng_key, new_integration_state, (is_diverging, has_terminated))
 
         proposal_placeholder, _ = generate_proposal(initial_energy, initial_state)
-        trajectory_placeholder = Trajectory(
-            initial_state, initial_state, initial_state.momentum, 0
-        )
+        trajectory_placeholder = zero_trajectory(initial_state)
         integration_state_placeholder = DynamicIntegrationState(
             0,
             proposal_placeholder,
