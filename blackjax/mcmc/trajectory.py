@@ -93,12 +93,6 @@ class Trajectory(NamedTuple):
         )
 
 
-
-def append_to_trajectory(trajectory: Trajectory, state: IntegratorState) -> Trajectory:
-    """Append a state to the (right of the) trajectory to form a new trajectory."""
-    return trajectory + one_trajectory(state)
-
-
 def reorder_trajectories(
     direction: int, trajectory: Trajectory, new_trajectory: Trajectory
 ) -> Tuple[Trajectory, Trajectory]:
@@ -262,7 +256,7 @@ def dynamic_progressive_integration(
                     new_proposal,
                 ),
                 lambda _: (
-                    append_to_trajectory(trajectory, new_state),
+                    trajectory + one_trajectory(new_state),
                     sample_proposal(proposal_key, proposal, new_proposal),
                 ),
                 operand=None,
