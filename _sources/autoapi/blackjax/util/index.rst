@@ -23,6 +23,7 @@ Functions
    blackjax.util.linear_map
    blackjax.util.generate_gaussian_noise
    blackjax.util.pytree_size
+   blackjax.util.index_pytree
 
 
 
@@ -50,7 +51,7 @@ Functions
    :rtype: The result vector of the matrix multiplication.
 
 
-.. py:function:: generate_gaussian_noise(rng_key: blackjax.types.PRNGKey, position: blackjax.types.PyTree, mu: Union[float, blackjax.types.Array] = 0.0, sigma: Union[float, blackjax.types.Array] = 1.0) -> blackjax.types.PyTree
+.. py:function:: generate_gaussian_noise(rng_key: blackjax.types.PRNGKey, position: blackjax.types.ArrayLikeTree, mu: Union[float, blackjax.types.Array] = 0.0, sigma: Union[float, blackjax.types.Array] = 1.0) -> blackjax.types.ArrayTree
 
    Generate N(mu, sigma) noise with output structure that match a given PyTree.
 
@@ -62,8 +63,28 @@ Functions
    :rtype: Gaussian noise following N(mu, sigma) that match the structure of position.
 
 
-.. py:function:: pytree_size(pytree: blackjax.types.PyTree) -> int
+.. py:function:: pytree_size(pytree: blackjax.types.ArrayLikeTree) -> int
 
    Return the dimension of the flatten PyTree.
+
+
+.. py:function:: index_pytree(input_pytree: blackjax.types.ArrayLikeTree) -> blackjax.types.ArrayTree
+
+   Builds a PyTree with elements indicating its corresponding index on a flat array.
+
+   Various algorithms in BlackJAX take as input a 1 or 2 dimensional array which somehow
+   affects the sampling or approximation of a PyTree. For instance, in HMC a 1 or 2
+   dimensional inverse mass matrix is used when simulating Hamilonian dynamics on
+   PyTree position and momentum variables. It is usually unclear how the elements of the
+   array interact with the PyTree. This function demonstrates how all algorithms map an
+   array to a PyTree of equivalent dimension.
+
+   The function returns the index of a 1 dimensional array corresponding to each element of
+   the PyTree. This way the user can tell which element in the PyTree corresponds to which
+   column (and row) of a 1 dimensional (or 2 dimensional) array.
+
+   :param input_pytree: Example PyTree.
+
+   :rtype: PyTree mapping each individual element of an arange array to elements in the PyTree.
 
 

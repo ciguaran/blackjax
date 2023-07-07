@@ -159,10 +159,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -193,6 +192,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../smc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -207,14 +207,12 @@
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../pathfinder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../bib.html">Bibliography</a></li>
 </ul>
 
@@ -344,6 +342,12 @@ document.write(`
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.step"><code class="docutils literal notranslate"><span class="pre">step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.sample"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi"><code class="docutils literal notranslate"><span class="pre">meanfield_vi</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi.init"><code class="docutils literal notranslate"><span class="pre">meanfield_vi.init</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi.step"><code class="docutils literal notranslate"><span class="pre">meanfield_vi.step</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi.sample"><code class="docutils literal notranslate"><span class="pre">meanfield_vi.sample</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.generate_meanfield_logdensity"><code class="docutils literal notranslate"><span class="pre">generate_meanfield_logdensity()</span></code></a></li>
 </ul>
 </li>
@@ -374,6 +378,9 @@ document.write(`
 <tr class="row-even"><td><p><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIInfo" title="blackjax.vi.meanfield_vi.MFVIInfo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MFVIInfo</span></code></a></p></td>
 <td><p></p></td>
 </tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.vi.meanfield_vi.meanfield_vi" title="blackjax.vi.meanfield_vi.meanfield_vi"><code class="xref py py-obj docutils literal notranslate"><span class="pre">meanfield_vi</span></code></a></p></td>
+<td><p>High-level implementation of Mean-Field Variational Inference.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -381,7 +388,7 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.vi.meanfield_vi.step" title="blackjax.vi.meanfield_vi.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(→ Tuple[MFVIState, MFVIInfo])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.vi.meanfield_vi.step" title="blackjax.vi.meanfield_vi.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(→ tuple[MFVIState, MFVIInfo])</p></td>
 <td><p>Approximate the target density using the mean-field approximation.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#blackjax.vi.meanfield_vi.sample" title="blackjax.vi.meanfield_vi.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>(rng_key, state[, num_samples])</p></td>
@@ -397,12 +404,12 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MFVIState</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#MFVIState"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.MFVIState" title="Permalink to this definition">#</a></dt>
 <dd><dl class="py attribute">
 <dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.MFVIState.mu">
-<span class="sig-name descname"><span class="pre">mu</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.PyTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#MFVIState.mu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.MFVIState.mu" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">mu</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.ArrayTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#MFVIState.mu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.MFVIState.mu" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.MFVIState.rho">
-<span class="sig-name descname"><span class="pre">rho</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.PyTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#MFVIState.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.MFVIState.rho" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">rho</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.ArrayTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#MFVIState.rho"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.MFVIState.rho" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -424,7 +431,7 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.step">
-<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIState" title="blackjax.vi.meanfield_vi.MFVIState"><span class="pre">MFVIState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdensity_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">optax.GradientTransformation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stl_estimator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIState" title="blackjax.vi.meanfield_vi.MFVIState"><span class="pre">MFVIState</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIInfo" title="blackjax.vi.meanfield_vi.MFVIInfo"><span class="pre">MFVIInfo</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.step" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIState" title="blackjax.vi.meanfield_vi.MFVIState"><span class="pre">MFVIState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdensity_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">optax.GradientTransformation</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stl_estimator</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIState" title="blackjax.vi.meanfield_vi.MFVIState"><span class="pre">MFVIState</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIInfo" title="blackjax.vi.meanfield_vi.MFVIInfo"><span class="pre">MFVIInfo</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.step" title="Permalink to this definition">#</a></dt>
 <dd><p>Approximate the target density using the mean-field approximation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -448,6 +455,40 @@ from the gradient. It is suggested by <span id="id2">[<a class="reference intern
 <dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.sample">
 <span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#blackjax.vi.meanfield_vi.MFVIState" title="blackjax.vi.meanfield_vi.MFVIState"><span class="pre">MFVIState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.sample" title="Permalink to this definition">#</a></dt>
 <dd><p>Sample from the mean-field approximation.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.meanfield_vi">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">meanfield_vi</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#meanfield_vi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.meanfield_vi" title="Permalink to this definition">#</a></dt>
+<dd><p>High-level implementation of Mean-Field Variational Inference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logdensity_fn</strong> – A function that represents the log-density function associated with
+the distribution we want to sample from.</p></li>
+<li><p><strong>optimizer</strong> – Optax optimizer to use to optimize the ELBO.</p></li>
+<li><p><strong>num_samples</strong> – Number of samples to take at each step to optimize the ELBO.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">VIAlgorithm</span></code>.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.meanfield_vi.init">
+<span class="sig-name descname"><span class="pre">init</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#meanfield_vi.init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.meanfield_vi.init" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.meanfield_vi.step">
+<span class="sig-name descname"><span class="pre">step</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#meanfield_vi.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.meanfield_vi.step" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blackjax.vi.meanfield_vi.meanfield_vi.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/meanfield_vi.html#meanfield_vi.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.meanfield_vi.meanfield_vi.sample" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py function">
@@ -522,6 +563,12 @@ from the gradient. It is suggested by <span id="id2">[<a class="reference intern
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.step"><code class="docutils literal notranslate"><span class="pre">step()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.sample"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi"><code class="docutils literal notranslate"><span class="pre">meanfield_vi</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi.init"><code class="docutils literal notranslate"><span class="pre">meanfield_vi.init</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi.step"><code class="docutils literal notranslate"><span class="pre">meanfield_vi.step</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.meanfield_vi.sample"><code class="docutils literal notranslate"><span class="pre">meanfield_vi.sample</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.meanfield_vi.generate_meanfield_logdensity"><code class="docutils literal notranslate"><span class="pre">generate_meanfield_logdensity()</span></code></a></li>
 </ul>
 </li>

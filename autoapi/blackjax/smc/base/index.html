@@ -160,10 +160,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -194,6 +193,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
@@ -208,14 +208,12 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../vi/meanfield_vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../vi/pathfinder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vi/svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../bib.html">Bibliography</a></li>
 </ul>
 
@@ -385,7 +383,7 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.smc.base.init" title="blackjax.smc.base.init"><code class="xref py py-obj docutils literal notranslate"><span class="pre">init</span></code></a>(particles)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.smc.base.step" title="blackjax.smc.base.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(→ Tuple[SMCState, SMCInfo])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.smc.base.step" title="blackjax.smc.base.step"><code class="xref py py-obj docutils literal notranslate"><span class="pre">step</span></code></a>(→ tuple[SMCState, SMCInfo])</p></td>
 <td><p>General SMC sampling step.</p></td>
 </tr>
 </tbody>
@@ -396,12 +394,12 @@ document.write(`
 <dd><p>State of the SMC sampler</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blackjax.smc.base.SMCState.particles">
-<span class="sig-name descname"><span class="pre">particles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.PyTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#SMCState.particles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.SMCState.particles" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">particles</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.ArrayTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#SMCState.particles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.SMCState.particles" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blackjax.smc.base.SMCState.weights">
-<span class="sig-name descname"><span class="pre">weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://jax.readthedocs.io/en/latest/_autosummary/jax.Array.html#jax.Array" title="(in JAX)"><span class="pre">jax.Array</span></a></em><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#SMCState.weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.SMCState.weights" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">weights</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.Array</span></em><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#SMCState.weights"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.SMCState.weights" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -413,7 +411,7 @@ document.write(`
 <dl class="simple">
 <dt>proposals: PyTree</dt><dd><p>The particles that were proposed by the MCMC pass.</p>
 </dd>
-<dt>ancestors: jnp.ndarray</dt><dd><p>The index of the particles proposed by the MCMC pass that were selected
+<dt>ancestors: Array</dt><dd><p>The index of the particles proposed by the MCMC pass that were selected
 by the resampling step.</p>
 </dd>
 <dt>log_likelihood_increment: float</dt><dd><p>The log-likelihood increment due to the current step of the SMC algorithm.</p>
@@ -421,7 +419,7 @@ by the resampling step.</p>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blackjax.smc.base.SMCInfo.ancestors">
-<span class="sig-name descname"><span class="pre">ancestors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">jax.numpy.ndarray</span></em><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#SMCInfo.ancestors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.SMCInfo.ancestors" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">ancestors</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.Array</span></em><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#SMCInfo.ancestors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.SMCInfo.ancestors" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -438,12 +436,12 @@ by the resampling step.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.smc.base.init">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PyTree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.init" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">particles</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.ArrayLikeTree</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.init" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.smc.base.step">
-<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#blackjax.smc.base.SMCState" title="blackjax.smc.base.SMCState"><span class="pre">SMCState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weigh_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_resampled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.smc.base.SMCState" title="blackjax.smc.base.SMCState"><span class="pre">SMCState</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#blackjax.smc.base.SMCInfo" title="blackjax.smc.base.SMCInfo"><span class="pre">SMCInfo</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.step" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#blackjax.smc.base.SMCState" title="blackjax.smc.base.SMCState"><span class="pre">SMCState</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">update_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weigh_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resample_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_resampled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.smc.base.SMCState" title="blackjax.smc.base.SMCState"><span class="pre">SMCState</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#blackjax.smc.base.SMCInfo" title="blackjax.smc.base.SMCInfo"><span class="pre">SMCInfo</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/smc/base.html#step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.smc.base.step" title="Permalink to this definition">#</a></dt>
 <dd><p>General SMC sampling step.</p>
 <p><cite>update_fn</cite> here corresponds to the Markov kernel <span class="math notranslate nohighlight">\(M_{t+1}\)</span>, and <cite>weigh_fn</cite>
 corresponds to the potential function <span class="math notranslate nohighlight">\(G_t\)</span>. We first use <cite>update_fn</cite> to

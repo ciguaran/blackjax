@@ -159,10 +159,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../autoapi/blackjax/kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../autoapi/blackjax/diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../autoapi/blackjax/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../autoapi/blackjax/adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -193,6 +192,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../autoapi/blackjax/smc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -207,14 +207,12 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../autoapi/blackjax/vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/vi/meanfield_vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/vi/pathfinder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autoapi/blackjax/vi/svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../autoapi/blackjax/diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../autoapi/blackjax/kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../bib.html">Bibliography</a></li>
 </ul>
 
@@ -381,38 +379,30 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">tensorflow_probability.substrates</span> <span class="kn">import</span> <span class="n">jax</span> <span class="k">as</span> <span class="n">tfp</span>
 <span class="n">tfd</span> <span class="o">=</span> <span class="n">tfp</span><span class="o">.</span><span class="n">distributions</span>
+<span class="n">jdc</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">JointDistributionCoroutineAutoBatched</span>
 
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 
+<span class="nd">@jdc</span>
+<span class="k">def</span> <span class="nf">model</span><span class="p">():</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;avg_effect&quot;</span><span class="p">)</span>
+    <span class="n">log_tau</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mf">5.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;avg_stddev&quot;</span><span class="p">)</span>
+    <span class="n">theta_prime</span> <span class="o">=</span> <span class="k">yield</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Sample</span><span class="p">(</span><span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                                   <span class="n">num_schools</span><span class="p">,</span>
+                                   <span class="n">name</span><span class="o">=</span><span class="s2">&quot;school_effects_standard&quot;</span><span class="p">)</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_tau</span><span class="p">)</span> <span class="o">*</span> <span class="n">theta_prime</span>
+    <span class="k">yield</span> <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">treatment_stddevs</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;treatment_effects&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>We need to translate the model into a log-probability density function that will be used by Blackjax to perform inference.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Condition on the observed</span>
+<span class="n">pinned_model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">experimental_pin</span><span class="p">(</span><span class="n">treatment_effects</span><span class="o">=</span><span class="n">treatment_effects</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">tfd</span><span class="o">.</span><span class="n">JointDistributionSequential</span><span class="p">(</span>
-    <span class="p">[</span>
-        <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;avg_effect&quot;</span><span class="p">),</span>  <span class="c1"># `mu` above</span>
-        <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;avg_stddev&quot;</span><span class="p">),</span>  <span class="c1"># `log(tau)` above</span>
-        <span class="n">tfd</span><span class="o">.</span><span class="n">Independent</span><span class="p">(</span>
-            <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
-                <span class="n">loc</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_schools</span><span class="p">),</span>
-                <span class="n">scale</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">num_schools</span><span class="p">),</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;school_effects_standard&quot;</span><span class="p">,</span>
-            <span class="p">),</span>  <span class="c1"># `theta_prime`</span>
-            <span class="n">reinterpreted_batch_ndims</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="p">),</span>
-        <span class="k">lambda</span> <span class="n">school_effects_standard</span><span class="p">,</span> <span class="n">avg_stddev</span><span class="p">,</span> <span class="n">avg_effect</span><span class="p">:</span> <span class="p">(</span>
-            <span class="n">tfd</span><span class="o">.</span><span class="n">Independent</span><span class="p">(</span>
-                <span class="n">tfd</span><span class="o">.</span><span class="n">Normal</span><span class="p">(</span>
-                    <span class="n">loc</span><span class="o">=</span><span class="p">(</span>
-                        <span class="n">avg_effect</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
-                        <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">avg_stddev</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">jnp</span><span class="o">.</span><span class="n">newaxis</span><span class="p">])</span>
-                        <span class="o">*</span> <span class="n">school_effects_standard</span>
-                    <span class="p">),</span>  <span class="c1"># `theta` above</span>
-                    <span class="n">scale</span><span class="o">=</span><span class="n">treatment_stddevs</span><span class="p">,</span>
-                <span class="p">),</span>
-                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;treatment_effects&quot;</span><span class="p">,</span>  <span class="c1"># `y` above</span>
-                <span class="n">reinterpreted_batch_ndims</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-            <span class="p">)</span>
-        <span class="p">),</span>
-    <span class="p">]</span>
-<span class="p">)</span>
+<span class="n">logdensity_fn</span> <span class="o">=</span> <span class="n">pinned_model</span><span class="o">.</span><span class="n">unnormalized_log_prob</span>
 </pre></div>
 </div>
 </div>
@@ -422,22 +412,6 @@ document.write(`
 </div>
 </div>
 </div>
-<p>We need to translate the model into a log-probability density function that will be used by Blackjax to perform inference.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">target_logdensity_fn</span><span class="p">(</span><span class="n">avg_effect</span><span class="p">,</span> <span class="n">avg_stddev</span><span class="p">,</span> <span class="n">school_effects_standard</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Unnormalized target density as a function of states.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">log_prob</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">avg_effect</span><span class="p">,</span> <span class="n">avg_stddev</span><span class="p">,</span> <span class="n">school_effects_standard</span><span class="p">,</span> <span class="n">treatment_effects</span><span class="p">)</span>
-    <span class="p">)</span>
-
-
-<span class="n">logdensity_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">target_logdensity_fn</span><span class="p">(</span><span class="o">**</span><span class="n">x</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<p>We can now initialize the</p>
 <p>Let us first run the window adaptation to find a good value for the step size and for the inverse mass matrix. As in the original example we will run the HMC integrator 3 times at each step.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -493,7 +467,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([10.000816 , 12.275808 ,  5.402026 , ..., -4.6742063,  2.9311733,
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([10.000816 , 12.275808 ,  5.402025 , ..., -4.6742063,  2.9311733,
         4.6128426], dtype=float32)
 </pre></div>
 </div>
@@ -558,7 +532,7 @@ document.write(`
 </div>
 </details>
 <div class="cell_output docutils container">
-<img alt="../_images/fd4b22b4ae48cd60e972a9295b6821a8a9d22ac3cd51e75484ab2c905b2f9c35.png" src="../_images/fd4b22b4ae48cd60e972a9295b6821a8a9d22ac3cd51e75484ab2c905b2f9c35.png" />
+<img alt="../_images/9f4a708e0a09fe4e705c3eb39f9d615c1abe5fce3916405221183793734a1998.png" src="../_images/9f4a708e0a09fe4e705c3eb39f9d615c1abe5fce3916405221183793734a1998.png" />
 </div>
 </div>
 </section>

@@ -156,10 +156,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/blackjax/kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../autoapi/blackjax/diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/blackjax/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -190,6 +189,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/blackjax/smc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -204,14 +204,12 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/blackjax/vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/vi/meanfield_vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/vi/pathfinder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/vi/svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../../autoapi/blackjax/diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../../autoapi/blackjax/kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../bib.html">Bibliography</a></li>
 </ul>
 
@@ -342,7 +340,7 @@ document.write(`
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span>
 
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
 
@@ -383,7 +381,7 @@ document.write(`
 
 <div class="viewcode-block" id="dual_averaging"><a class="viewcode-back" href="../../../autoapi/blackjax/optimizers/dual_averaging/index.html#blackjax.optimizers.dual_averaging.dual_averaging">[docs]</a><span class="k">def</span> <span class="nf">dual_averaging</span><span class="p">(</span>
     <span class="n">t0</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">gamma</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">kappa</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.75</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the state that minimizes an objective function using a primal-dual</span>
 <span class="sd">    subgradient method.</span>
 

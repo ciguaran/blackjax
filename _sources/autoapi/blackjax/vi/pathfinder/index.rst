@@ -13,6 +13,7 @@ Classes
 .. autoapisummary::
 
    blackjax.vi.pathfinder.PathfinderState
+   blackjax.vi.pathfinder.pathfinder
 
 
 
@@ -27,6 +28,7 @@ Functions
 
 
 .. py:class:: PathfinderState
+
 
 
 
@@ -55,12 +57,12 @@ Functions
       
 
    .. py:attribute:: position
-      :type: blackjax.types.PyTree
+      :type: blackjax.types.ArrayTree
 
       
 
    .. py:attribute:: grad_position
-      :type: blackjax.types.PyTree
+      :type: blackjax.types.ArrayTree
 
       
 
@@ -80,7 +82,7 @@ Functions
       
 
 
-.. py:function:: approximate(rng_key: blackjax.types.PRNGKey, logdensity_fn: Callable, initial_position: blackjax.types.PyTree, num_samples: int = 200, *, maxiter=30, maxcor=10, maxls=1000, gtol=1e-08, ftol=1e-05) -> Tuple[PathfinderState, PathfinderInfo]
+.. py:function:: approximate(rng_key: blackjax.types.PRNGKey, logdensity_fn: Callable, initial_position: blackjax.types.ArrayLikeTree, num_samples: int = 200, *, maxiter=30, maxcor=10, maxls=1000, gtol=1e-08, ftol=1e-05) -> tuple[PathfinderState, PathfinderInfo]
 
    Pathfinder variational inference algorithm.
 
@@ -109,7 +111,7 @@ Functions
              * *contains all the states traversed.*
 
 
-.. py:function:: sample(rng_key: blackjax.types.PRNGKey, state: PathfinderState, num_samples: Union[int, Tuple[], Tuple[int]] = ()) -> blackjax.types.PyTree
+.. py:function:: sample(rng_key: blackjax.types.PRNGKey, state: PathfinderState, num_samples: Union[int, tuple[], tuple[int]] = ()) -> blackjax.types.ArrayTree
 
    Draw from the Pathfinder approximation of the target distribution.
 
@@ -118,5 +120,33 @@ Functions
    :param num_samples: Number of samples to draw
 
    :rtype: Samples drawn from the approximate Pathfinder distribution
+
+
+.. py:class:: pathfinder
+
+
+   Implements the (basic) user interface for the pathfinder kernel.
+
+   Pathfinder locates normal approximations to the target density along a
+   quasi-Newton optimization path, with local covariance estimated using
+   the inverse Hessian estimates produced by the L-BFGS optimizer.
+   Pathfinder returns draws from the approximation with the lowest estimated
+   Kullback-Leibler (KL) divergence to the true posterior.
+
+   Note: all the heavy processing in performed in the init function, step
+   function is just a drawing a sample from a normal distribution
+
+   :param logdensity_fn: A function that represents the log-density of the model we want
+                         to sample from.
+
+   :rtype: A ``VISamplingAlgorithm``.
+
+   .. py:attribute:: approximate
+
+      
+
+   .. py:attribute:: sample
+
+      
 
 

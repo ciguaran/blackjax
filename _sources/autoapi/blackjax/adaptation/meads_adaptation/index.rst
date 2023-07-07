@@ -22,11 +22,13 @@ Functions
 .. autoapisummary::
 
    blackjax.adaptation.meads_adaptation.base
+   blackjax.adaptation.meads_adaptation.meads_adaptation
    blackjax.adaptation.meads_adaptation.maximum_eigenvalue
 
 
 
 .. py:class:: MEADSAdaptationState
+
 
 
 
@@ -55,7 +57,7 @@ Functions
       
 
    .. py:attribute:: position_sigma
-      :type: blackjax.types.PyTree
+      :type: blackjax.types.ArrayTree
 
       
 
@@ -90,7 +92,38 @@ Functions
              * *update* -- Function that moves the warmup one step.
 
 
-.. py:function:: maximum_eigenvalue(matrix: blackjax.types.PyTree)
+.. py:function:: meads_adaptation(logdensity_fn: Callable, num_chains: int) -> blackjax.base.AdaptationAlgorithm
+
+   Adapt the parameters of the Generalized HMC algorithm.
+
+   The Generalized HMC algorithm depends on three parameters, each controlling
+   one element of its behaviour: step size controls the integrator's dynamics,
+   alpha controls the persistency of the momentum variable, and delta controls
+   the deterministic transformation of the slice variable used to perform the
+   non-reversible Metropolis-Hastings accept/reject step.
+
+   The step size parameter is chosen to ensure the stability of the velocity
+   verlet integrator, the alpha parameter to make the influence of the current
+   state on future states of the momentum variable to decay exponentially, and
+   the delta parameter to maximize the acceptance of proposal but with good
+   mixing properties for the slice variable. These characteristics are targeted
+   by controlling heuristics based on the maximum eigenvalues of the correlation
+   and gradient matrices of the cross-chain samples, under simpifyng assumptions.
+
+   Good tuning is fundamental for the non-reversible Generalized HMC sampling
+   algorithm to explore the target space efficienty and output uncorrelated, or
+   as uncorrelated as possible, samples from the target space. Furthermore, the
+   single integrator step of the algorithm lends itself for fast sampling
+   on parallel computer architectures.
+
+   :param logdensity_fn: The log density probability density function from which we wish to sample.
+   :param num_chains: Number of chains used for cross-chain warm-up training.
+
+   :returns: * *A function that returns the last cross-chain state, a sampling kernel with the*
+             * *tuned parameter values, and all the warm-up states for diagnostics.*
+
+
+.. py:function:: maximum_eigenvalue(matrix: blackjax.types.ArrayLikeTree) -> blackjax.types.Array
 
    Estimate the largest eigenvalues of a matrix.
 

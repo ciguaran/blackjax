@@ -160,10 +160,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -194,6 +193,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../smc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -208,14 +208,12 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../vi/meanfield_vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../vi/pathfinder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vi/svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../bib.html">Bibliography</a></li>
 </ul>
 
@@ -366,14 +364,14 @@ dynamic is independent of the position and only depends on the momentum
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.mcmc.metrics.gaussian_euclidean" title="blackjax.mcmc.metrics.gaussian_euclidean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian_euclidean</span></code></a>(→ Tuple[Callable, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.mcmc.metrics.gaussian_euclidean" title="blackjax.mcmc.metrics.gaussian_euclidean"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gaussian_euclidean</span></code></a>(→ tuple[Callable, ...)</p></td>
 <td><p>Hamiltonian dynamic on euclidean manifold with normally-distributed momentum <span id="id3">[<a class="reference internal" href="../../../../bib.html#id33" title="Michael Betancourt. A general metric for riemannian manifold hamiltonian monte carlo. In Geometric Science of Information: First International Conference, GSI 2013, Paris, France, August 28-30, 2013. Proceedings, 327–334. Springer, 2013.">Bet13</a>]</span>.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.mcmc.metrics.gaussian_euclidean">
-<span class="sig-name descname"><span class="pre">gaussian_euclidean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inverse_mass_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">EuclideanKineticEnergy</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/metrics.html#gaussian_euclidean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.metrics.gaussian_euclidean" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">gaussian_euclidean</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inverse_mass_matrix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.Array</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">EuclideanKineticEnergy</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/metrics.html#gaussian_euclidean"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.metrics.gaussian_euclidean" title="Permalink to this definition">#</a></dt>
 <dd><p>Hamiltonian dynamic on euclidean manifold with normally-distributed momentum <span id="id4">[<a class="reference internal" href="../../../../bib.html#id33" title="Michael Betancourt. A general metric for riemannian manifold hamiltonian monte carlo. In Geometric Science of Information: First International Conference, GSI 2013, Paris, France, August 28-30, 2013. Proceedings, 327–334. Springer, 2013.">Bet13</a>]</span>.</p>
 <p>The gaussian euclidean metric is a euclidean metric further characterized
 by setting the conditional probability density <span class="math notranslate nohighlight">\(\pi(momentum|position)\)</span>

@@ -22,11 +22,12 @@ Functions
 .. autoapisummary::
 
    blackjax.smc.tempered.init
-   blackjax.smc.tempered.kernel
+   blackjax.smc.tempered.build_kernel
 
 
 
 .. py:class:: TemperedSMCState
+
 
 
 
@@ -39,12 +40,12 @@ Functions
 
 
    .. py:attribute:: particles
-      :type: blackjax.types.PyTree
+      :type: blackjax.types.ArrayTree
 
       
 
    .. py:attribute:: weights
-      :type: jax.Array
+      :type: blackjax.types.Array
 
       
 
@@ -54,10 +55,10 @@ Functions
       
 
 
-.. py:function:: init(particles: blackjax.types.PyTree)
+.. py:function:: init(particles: blackjax.types.ArrayLikeTree)
 
 
-.. py:function:: kernel(logprior_fn: Callable, loglikelihood_fn: Callable, mcmc_step_fn: Callable, mcmc_init_fn: Callable, resampling_fn: Callable) -> Callable
+.. py:function:: build_kernel(logprior_fn: Callable, loglikelihood_fn: Callable, mcmc_step_fn: Callable, mcmc_init_fn: Callable, resampling_fn: Callable) -> Callable
 
    Build the base Tempered SMC kernel.
 

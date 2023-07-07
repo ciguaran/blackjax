@@ -160,10 +160,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -194,6 +193,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../smc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -208,14 +208,12 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../vi/meanfield_vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../vi/pathfinder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../vi/svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../bib.html">Bibliography</a></li>
 </ul>
 
@@ -382,7 +380,7 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.mcmc.proposal.proposal_generator" title="blackjax.mcmc.proposal.proposal_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proposal_generator</span></code></a>(→ Tuple[Callable, Callable])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.mcmc.proposal.proposal_generator" title="blackjax.mcmc.proposal.proposal_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proposal_generator</span></code></a>(→ tuple[Callable, Callable])</p></td>
 <td><p><dl class="field-list simple">
 <dt class="field-odd">param energy<span class="colon">:</span></dt>
 <dd class="field-odd"><p>A function that computes the energy associated to a given state</p>
@@ -390,10 +388,10 @@ document.write(`
 </dl>
 </p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.mcmc.proposal.proposal_from_energy_diff" title="blackjax.mcmc.proposal.proposal_from_energy_diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proposal_from_energy_diff</span></code></a>(→ Tuple[Proposal, bool])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.mcmc.proposal.proposal_from_energy_diff" title="blackjax.mcmc.proposal.proposal_from_energy_diff"><code class="xref py py-obj docutils literal notranslate"><span class="pre">proposal_from_energy_diff</span></code></a>(→ tuple[Proposal, bool])</p></td>
 <td><p>Computes a new proposal from the energy difference between two states.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.mcmc.proposal.asymmetric_proposal_generator" title="blackjax.mcmc.proposal.asymmetric_proposal_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asymmetric_proposal_generator</span></code></a>(→ Tuple[Callable, Callable])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.mcmc.proposal.asymmetric_proposal_generator" title="blackjax.mcmc.proposal.asymmetric_proposal_generator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">asymmetric_proposal_generator</span></code></a>(→ tuple[Callable, Callable])</p></td>
 <td><p>A proposal generator that takes into account the transition between</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#blackjax.mcmc.proposal.static_binomial_sampling" title="blackjax.mcmc.proposal.static_binomial_sampling"><code class="xref py py-obj docutils literal notranslate"><span class="pre">static_binomial_sampling</span></code></a>(rng_key, proposal, new_proposal)</p></td>
@@ -464,7 +462,7 @@ densities of each state <span class="math notranslate nohighlight">\(e^{-H(z)}\)
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.mcmc.proposal.proposal_generator">
-<span class="sig-name descname"><span class="pre">proposal_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divergence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/proposal.html#proposal_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.proposal.proposal_generator" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">proposal_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divergence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/proposal.html#proposal_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.proposal.proposal_generator" title="Permalink to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -484,42 +482,43 @@ densities of each state <span class="math notranslate nohighlight">\(e^{-H(z)}\)
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.mcmc.proposal.proposal_from_energy_diff">
-<span class="sig-name descname"><span class="pre">proposal_from_energy_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">divergence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TrajectoryState</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.mcmc.proposal.Proposal" title="blackjax.mcmc.proposal.Proposal"><span class="pre">Proposal</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/proposal.html#proposal_from_energy_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.proposal.proposal_from_energy_diff" title="Permalink to this definition">#</a></dt>
-<dd><p>Computes a new proposal from the energy difference between two states.
-It also verifies whether this difference is a divergence, if the
-energy diff is above divergence_threshold.
-:param initial_energy: the energy from the initial state
-:param new_energy: the energy at the proposed state
-:param divergence_threshold: max value allowed for the difference in energies not to be considered a divergence
-:param state: the proposed state</p>
+<span class="sig-name descname"><span class="pre">proposal_from_energy_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">initial_energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">divergence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TrajectoryState</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.mcmc.proposal.Proposal" title="blackjax.mcmc.proposal.Proposal"><span class="pre">Proposal</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/proposal.html#proposal_from_energy_diff"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.proposal.proposal_from_energy_diff" title="Permalink to this definition">#</a></dt>
+<dd><p>Computes a new proposal from the energy difference between two states.</p>
+<p>It also verifies whether this difference is a divergence, if the
+energy diff is above divergence_threshold.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A proposal and a flag for divergence</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>initial_energy</strong> – the energy from the initial state</p></li>
+<li><p><strong>new_energy</strong> – the energy at the proposed state</p></li>
+<li><p><strong>divergence_threshold</strong> – max value allowed for the difference in energies not to be considered a divergence</p></li>
+<li><p><strong>state</strong> – the proposed state</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>A proposal and a flag for divergence</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.mcmc.proposal.asymmetric_proposal_generator">
-<span class="sig-name descname"><span class="pre">asymmetric_proposal_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition_energy_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divergence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">proposal_from_energy_diff</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/proposal.html#asymmetric_proposal_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.proposal.asymmetric_proposal_generator" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">asymmetric_proposal_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transition_energy_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">divergence_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">proposal_factory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">proposal_from_energy_diff</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/mcmc/proposal.html#asymmetric_proposal_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.mcmc.proposal.asymmetric_proposal_generator" title="Permalink to this definition">#</a></dt>
 <dd><p>A proposal generator that takes into account the transition between
-two states to compute a new proposal. In particular, both states are
-used to compute the energies to consider in weighting the proposal,
+two states to compute a new proposal.</p>
+<p>In particular, both states are used to compute the energies to consider in weighting the proposal,
 to account for asymmetries.</p>
-<blockquote>
-<div></div></blockquote>
-<dl class="simple">
-<dt>transition_energy_fn</dt><dd><p>A function that computes the energy of a transition from an initial state
-to a new state, given some optional keyword arguments.</p>
-</dd>
-<dt>divergence_threshold</dt><dd><p>The maximum value allowed for the difference in energies not to be considered a divergence.</p>
-</dd>
-<dt>proposal_factory</dt><dd><p>A function that builds a proposal from the transition energies.</p>
-</dd>
-</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><ul class="simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>transition_energy_fn</strong> – A function that computes the energy of a transition from an initial state
+to a new state, given some optional keyword arguments.</p></li>
+<li><p><strong>divergence_threshold</strong> – The maximum value allowed for the difference in energies not to be considered a divergence.</p></li>
+<li><p><strong>proposal_factory</strong> – A function that builds a proposal from the transition energies.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
 <li><p><em>Two functions, one to generate an initial proposal when no step has been taken,</em></p></li>
 <li><p><em>another to generate proposals after each step.</em></p></li>
 </ul>

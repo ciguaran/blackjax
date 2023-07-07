@@ -157,10 +157,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -191,6 +190,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../smc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -205,14 +205,12 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../vi/meanfield_vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../vi/pathfinder/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../vi/svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../bib.html">Bibliography</a></li>
 </ul>
 
@@ -332,6 +330,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.linear_map"><code class="docutils literal notranslate"><span class="pre">linear_map()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.generate_gaussian_noise"><code class="docutils literal notranslate"><span class="pre">generate_gaussian_noise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.pytree_size"><code class="docutils literal notranslate"><span class="pre">pytree_size()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.index_pytree"><code class="docutils literal notranslate"><span class="pre">index_pytree()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -359,11 +358,14 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.util.linear_map" title="blackjax.util.linear_map"><code class="xref py py-obj docutils literal notranslate"><span class="pre">linear_map</span></code></a>(diag_or_dense_a, b, *[, precision])</p></td>
 <td><p>Perform a linear map of the form y = Ax.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.util.generate_gaussian_noise" title="blackjax.util.generate_gaussian_noise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_gaussian_noise</span></code></a>(→ blackjax.types.PyTree)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.util.generate_gaussian_noise" title="blackjax.util.generate_gaussian_noise"><code class="xref py py-obj docutils literal notranslate"><span class="pre">generate_gaussian_noise</span></code></a>(→ blackjax.types.ArrayTree)</p></td>
 <td><p>Generate N(mu, sigma) noise with output structure that match a given PyTree.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.util.pytree_size" title="blackjax.util.pytree_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pytree_size</span></code></a>(→ int)</p></td>
 <td><p>Return the dimension of the flatten PyTree.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.util.index_pytree" title="blackjax.util.index_pytree"><code class="xref py py-obj docutils literal notranslate"><span class="pre">index_pytree</span></code></a>(→ blackjax.types.ArrayTree)</p></td>
+<td><p>Builds a PyTree with elements indicating its corresponding index on a flat array.</p></td>
 </tr>
 </tbody>
 </table>
@@ -397,7 +399,7 @@ more details.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.util.generate_gaussian_noise">
-<span class="sig-name descname"><span class="pre">generate_gaussian_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PyTree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">blackjax.types.Array</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">blackjax.types.Array</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">blackjax.types.PyTree</span></span></span><a class="reference internal" href="../../../_modules/blackjax/util.html#generate_gaussian_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.util.generate_gaussian_noise" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">generate_gaussian_noise</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.ArrayLikeTree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mu</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">blackjax.types.Array</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">blackjax.types.Array</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">blackjax.types.ArrayTree</span></span></span><a class="reference internal" href="../../../_modules/blackjax/util.html#generate_gaussian_noise"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.util.generate_gaussian_noise" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate N(mu, sigma) noise with output structure that match a given PyTree.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -416,8 +418,31 @@ more details.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.util.pytree_size">
-<span class="sig-name descname"><span class="pre">pytree_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pytree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PyTree</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../_modules/blackjax/util.html#pytree_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.util.pytree_size" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">pytree_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pytree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.ArrayLikeTree</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span></span><a class="reference internal" href="../../../_modules/blackjax/util.html#pytree_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.util.pytree_size" title="Permalink to this definition">#</a></dt>
 <dd><p>Return the dimension of the flatten PyTree.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="blackjax.util.index_pytree">
+<span class="sig-name descname"><span class="pre">index_pytree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_pytree</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.ArrayLikeTree</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">blackjax.types.ArrayTree</span></span></span><a class="reference internal" href="../../../_modules/blackjax/util.html#index_pytree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.util.index_pytree" title="Permalink to this definition">#</a></dt>
+<dd><p>Builds a PyTree with elements indicating its corresponding index on a flat array.</p>
+<p>Various algorithms in BlackJAX take as input a 1 or 2 dimensional array which somehow
+affects the sampling or approximation of a PyTree. For instance, in HMC a 1 or 2
+dimensional inverse mass matrix is used when simulating Hamilonian dynamics on
+PyTree position and momentum variables. It is usually unclear how the elements of the
+array interact with the PyTree. This function demonstrates how all algorithms map an
+array to a PyTree of equivalent dimension.</p>
+<p>The function returns the index of a 1 dimensional array corresponding to each element of
+the PyTree. This way the user can tell which element in the PyTree corresponds to which
+column (and row) of a 1 dimensional (or 2 dimensional) array.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_pytree</strong> – Example PyTree.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>PyTree mapping each individual element of an arange array to elements in the PyTree.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -459,6 +484,7 @@ more details.</p></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.linear_map"><code class="docutils literal notranslate"><span class="pre">linear_map()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.generate_gaussian_noise"><code class="docutils literal notranslate"><span class="pre">generate_gaussian_noise()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.pytree_size"><code class="docutils literal notranslate"><span class="pre">pytree_size()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.util.index_pytree"><code class="docutils literal notranslate"><span class="pre">index_pytree()</span></code></a></li>
 </ul>
 </li>
 </ul>

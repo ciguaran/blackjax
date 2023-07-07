@@ -51,7 +51,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'autoapi/blackjax/vi/pathfinder/index';</script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
-    <link rel="next" title="Bibliography" href="../../../../bib.html" />
+    <link rel="next" title="blackjax.vi.svgd" href="../svgd/index.html" />
     <link rel="prev" title="blackjax.vi.meanfield_vi" href="../meanfield_vi/index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -159,10 +159,9 @@
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">API</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../../kernels/index.html">Sampling algorithms</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../diagnostics/index.html">Diagnostics</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../../index.html">API Reference</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -193,6 +192,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/gradients/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.gradients</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sghmc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sghmc</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgld/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgld</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sgmcmc/sgnht/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.sgmcmc.sgnht</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../smc/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.smc</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
@@ -207,14 +207,12 @@
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="../index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi</span></code></a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="../meanfield_vi/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.meanfield_vi</span></code></a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.pathfinder</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../svgd/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../../diagnostics/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.diagnostics</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="../../kernels/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.kernels</span></code></a></li>
 </ul>
 </li>
-</ul>
-<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../../../../bib.html">Bibliography</a></li>
 </ul>
 
@@ -343,6 +341,11 @@ document.write(`
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.approximate"><code class="docutils literal notranslate"><span class="pre">approximate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.sample"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.pathfinder"><code class="docutils literal notranslate"><span class="pre">pathfinder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.pathfinder.approximate"><code class="docutils literal notranslate"><span class="pre">pathfinder.approximate</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.pathfinder.sample"><code class="docutils literal notranslate"><span class="pre">pathfinder.sample</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -369,6 +372,9 @@ document.write(`
 <tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.vi.pathfinder.PathfinderState" title="blackjax.vi.pathfinder.PathfinderState"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PathfinderState</span></code></a></p></td>
 <td><p>State of the Pathfinder algorithm.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.vi.pathfinder.pathfinder" title="blackjax.vi.pathfinder.pathfinder"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pathfinder</span></code></a></p></td>
+<td><p>Implements the (basic) user interface for the pathfinder kernel.</p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -376,10 +382,10 @@ document.write(`
 <h3>Functions<a class="headerlink" href="#functions" title="Permalink to this heading">#</a></h3>
 <table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.vi.pathfinder.approximate" title="blackjax.vi.pathfinder.approximate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">approximate</span></code></a>(→ Tuple[PathfinderState, PathfinderInfo])</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#blackjax.vi.pathfinder.approximate" title="blackjax.vi.pathfinder.approximate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">approximate</span></code></a>(→ tuple[PathfinderState, PathfinderInfo])</p></td>
 <td><p>Pathfinder variational inference algorithm.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.vi.pathfinder.sample" title="blackjax.vi.pathfinder.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>() → blackjax.types.PyTree)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#blackjax.vi.pathfinder.sample" title="blackjax.vi.pathfinder.sample"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sample</span></code></a>() → blackjax.types.ArrayTree)</p></td>
 <td><p>Draw from the Pathfinder approximation of the target distribution.</p></td>
 </tr>
 </tbody>
@@ -411,12 +417,12 @@ target density.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blackjax.vi.pathfinder.PathfinderState.position">
-<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.PyTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#PathfinderState.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.PathfinderState.position" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.ArrayTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#PathfinderState.position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.PathfinderState.position" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="blackjax.vi.pathfinder.PathfinderState.grad_position">
-<span class="sig-name descname"><span class="pre">grad_position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.PyTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#PathfinderState.grad_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.PathfinderState.grad_position" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">grad_position</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">blackjax.types.ArrayTree</span></em><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#PathfinderState.grad_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.PathfinderState.grad_position" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -438,7 +444,7 @@ target density.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.vi.pathfinder.approximate">
-<span class="sig-name descname"><span class="pre">approximate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdensity_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PyTree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxcor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.vi.pathfinder.PathfinderState" title="blackjax.vi.pathfinder.PathfinderState"><span class="pre">PathfinderState</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PathfinderInfo</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#approximate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.approximate" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">approximate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logdensity_fn</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_position</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">blackjax.types.ArrayLikeTree</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxiter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">30</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxcor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">maxls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-08</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ftol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.11)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#blackjax.vi.pathfinder.PathfinderState" title="blackjax.vi.pathfinder.PathfinderState"><span class="pre">PathfinderState</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PathfinderInfo</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#approximate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.approximate" title="Permalink to this definition">#</a></dt>
 <dd><p>Pathfinder variational inference algorithm.</p>
 <p>Pathfinder locates normal approximations to the target density along a
 quasi-Newton optimization path, with local covariance estimated using
@@ -475,7 +481,7 @@ algorithm</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="blackjax.vi.pathfinder.sample">
-<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key:</span> <span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state:</span> <span class="pre">PathfinderState</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples:</span> <span class="pre">Union[int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tuple[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Tuple[int]]</span> <span class="pre">=</span> <span class="pre">()</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">blackjax.types.PyTree</span></span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.sample" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rng_key:</span> <span class="pre">blackjax.types.PRNGKey</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state:</span> <span class="pre">PathfinderState</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_samples:</span> <span class="pre">Union[int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tuple[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tuple[int]]</span> <span class="pre">=</span> <span class="pre">()</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">blackjax.types.ArrayTree</span></span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.sample" title="Permalink to this definition">#</a></dt>
 <dd><p>Draw from the Pathfinder approximation of the target distribution.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -489,6 +495,38 @@ algorithm</p></li>
 <dd class="field-even"><p>Samples drawn from the approximate Pathfinder distribution</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="blackjax.vi.pathfinder.pathfinder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pathfinder</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#pathfinder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.pathfinder" title="Permalink to this definition">#</a></dt>
+<dd><p>Implements the (basic) user interface for the pathfinder kernel.</p>
+<p>Pathfinder locates normal approximations to the target density along a
+quasi-Newton optimization path, with local covariance estimated using
+the inverse Hessian estimates produced by the L-BFGS optimizer.
+Pathfinder returns draws from the approximation with the lowest estimated
+Kullback-Leibler (KL) divergence to the true posterior.</p>
+<p>Note: all the heavy processing in performed in the init function, step
+function is just a drawing a sample from a normal distribution</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>logdensity_fn</strong> – A function that represents the log-density of the model we want
+to sample from.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">VISamplingAlgorithm</span></code>.</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blackjax.vi.pathfinder.pathfinder.approximate">
+<span class="sig-name descname"><span class="pre">approximate</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#pathfinder.approximate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.pathfinder.approximate" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="blackjax.vi.pathfinder.pathfinder.sample">
+<span class="sig-name descname"><span class="pre">sample</span></span><a class="reference internal" href="../../../../_modules/blackjax/vi/pathfinder.html#pathfinder.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#blackjax.vi.pathfinder.pathfinder.sample" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </section>
@@ -517,11 +555,11 @@ algorithm</p></li>
       </div>
     </a>
     <a class="right-next"
-       href="../../../../bib.html"
+       href="../svgd/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Bibliography</p>
+        <p class="prev-next-title"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.vi.svgd</span></code></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -557,6 +595,11 @@ algorithm</p></li>
 </li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.approximate"><code class="docutils literal notranslate"><span class="pre">approximate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.sample"><code class="docutils literal notranslate"><span class="pre">sample()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.pathfinder"><code class="docutils literal notranslate"><span class="pre">pathfinder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.pathfinder.approximate"><code class="docutils literal notranslate"><span class="pre">pathfinder.approximate</span></code></a></li>
+<li class="toc-h5 nav-item toc-entry"><a class="reference internal nav-link" href="#blackjax.vi.pathfinder.pathfinder.sample"><code class="docutils literal notranslate"><span class="pre">pathfinder.sample</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
