@@ -665,6 +665,9 @@ that the proposal distribution does not depend on the particle being mutated <sp
 <li><p><strong>logdensity_fn</strong> – The log density probability density function from which we wish to sample.</p></li>
 <li><p><strong>proposal_distribution</strong> – A Callable that takes a random number generator and produces a new proposal. The
 proposal is independent of the sampler’s current state.</p></li>
+<li><p><strong>proposal_logdensity_fn</strong> – For non-symmetric proposals, a function that returns the log-density
+to obtain a given proposal knowing the current state. If it is not
+provided we assume the proposal is symmetric.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
