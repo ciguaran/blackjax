@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,9 +36,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/doctools.js"></script>
@@ -120,6 +120,7 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -167,6 +168,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/blackjax/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/chees_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.chees_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -292,6 +294,7 @@
 </button>
 
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -301,6 +304,7 @@ document.write(`
   </button>
 `);
 </script>
+
 
 <script>
 document.write(`
@@ -360,7 +364,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">blackjax.mcmc.proposal</span> <span class="k">as</span> <span class="nn">proposal</span>
 <span class="kn">from</span> <span class="nn">blackjax.base</span> <span class="kn">import</span> <span class="n">SamplingAlgorithm</span>
 <span class="kn">from</span> <span class="nn">blackjax.types</span> <span class="kn">import</span> <span class="n">ArrayLikeTree</span><span class="p">,</span> <span class="n">ArrayTree</span><span class="p">,</span> <span class="n">PRNGKey</span>
-<span class="kn">from</span> <span class="nn">blackjax.util</span> <span class="kn">import</span> <span class="n">generate_gaussian_noise</span><span class="p">,</span> <span class="n">pytree_size</span>
+<span class="kn">from</span> <span class="nn">blackjax.util</span> <span class="kn">import</span> <span class="n">generate_gaussian_noise</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;GHMCState&quot;</span><span class="p">,</span> <span class="s2">&quot;init&quot;</span><span class="p">,</span> <span class="s2">&quot;build_kernel&quot;</span><span class="p">,</span> <span class="s2">&quot;ghmc&quot;</span><span class="p">]</span>
 
@@ -468,7 +472,9 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">flat_inverse_scale</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">flatten_util</span><span class="o">.</span><span class="n">ravel_pytree</span><span class="p">(</span><span class="n">momentum_inverse_scale</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">kinetic_energy_fn</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">gaussian_euclidean</span><span class="p">(</span><span class="n">flat_inverse_scale</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">momentum_generator</span><span class="p">,</span> <span class="n">kinetic_energy_fn</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">gaussian_euclidean</span><span class="p">(</span>
+            <span class="n">flat_inverse_scale</span><span class="o">**</span><span class="mi">2</span>
+        <span class="p">)</span>
 
         <span class="n">symplectic_integrator</span> <span class="o">=</span> <span class="n">integrators</span><span class="o">.</span><span class="n">velocity_verlet</span><span class="p">(</span>
             <span class="n">logdensity_fn</span><span class="p">,</span> <span class="n">kinetic_energy_fn</span>
@@ -484,22 +490,23 @@ document.write(`
         <span class="n">key_momentum</span><span class="p">,</span> <span class="n">key_noise</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">rng_key</span><span class="p">)</span>
         <span class="n">position</span><span class="p">,</span> <span class="n">momentum</span><span class="p">,</span> <span class="n">logdensity</span><span class="p">,</span> <span class="n">logdensity_grad</span><span class="p">,</span> <span class="nb">slice</span> <span class="o">=</span> <span class="n">state</span>
         <span class="c1"># New momentum is persistent</span>
-        <span class="n">momentum</span> <span class="o">=</span> <span class="n">update_momentum</span><span class="p">(</span><span class="n">key_momentum</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
-        <span class="n">momentum</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">m</span> <span class="o">/</span> <span class="n">s</span><span class="p">,</span> <span class="n">momentum</span><span class="p">,</span> <span class="n">momentum_inverse_scale</span><span class="p">)</span>
+        <span class="n">momentum</span> <span class="o">=</span> <span class="n">update_momentum</span><span class="p">(</span><span class="n">key_momentum</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">momentum_generator</span><span class="p">)</span>
         <span class="c1"># Slice is non-reversible</span>
         <span class="nb">slice</span> <span class="o">=</span> <span class="p">((</span><span class="nb">slice</span> <span class="o">+</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="n">delta</span> <span class="o">+</span> <span class="n">noise_fn</span><span class="p">(</span><span class="n">key_noise</span><span class="p">))</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span>
 
         <span class="n">integrator_state</span> <span class="o">=</span> <span class="n">integrators</span><span class="o">.</span><span class="n">IntegratorState</span><span class="p">(</span>
             <span class="n">position</span><span class="p">,</span> <span class="n">momentum</span><span class="p">,</span> <span class="n">logdensity</span><span class="p">,</span> <span class="n">logdensity_grad</span>
         <span class="p">)</span>
+        <span class="c1"># Note that ghmc use nonreversible_slice_sampling, which overloads the pattern</span>
+        <span class="c1"># of SampleProposal and do not actually return the acceptance rate.</span>
         <span class="n">proposal</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">proposal_generator</span><span class="p">(</span><span class="nb">slice</span><span class="p">,</span> <span class="n">integrator_state</span><span class="p">)</span>
         <span class="n">proposal</span> <span class="o">=</span> <span class="n">hmc</span><span class="o">.</span><span class="n">flip_momentum</span><span class="p">(</span><span class="n">proposal</span><span class="p">)</span>
         <span class="n">state</span> <span class="o">=</span> <span class="n">GHMCState</span><span class="p">(</span>
-            <span class="n">proposal</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
-            <span class="n">jax</span><span class="o">.</span><span class="n">tree_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">m</span><span class="p">,</span> <span class="n">s</span><span class="p">:</span> <span class="n">m</span> <span class="o">*</span> <span class="n">s</span><span class="p">,</span> <span class="n">proposal</span><span class="o">.</span><span class="n">momentum</span><span class="p">,</span> <span class="n">momentum_inverse_scale</span><span class="p">),</span>
-            <span class="n">proposal</span><span class="o">.</span><span class="n">logdensity</span><span class="p">,</span>
-            <span class="n">proposal</span><span class="o">.</span><span class="n">logdensity_grad</span><span class="p">,</span>
-            <span class="n">info</span><span class="o">.</span><span class="n">acceptance_rate</span><span class="p">,</span>
+            <span class="n">position</span><span class="o">=</span><span class="n">proposal</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+            <span class="n">momentum</span><span class="o">=</span><span class="n">proposal</span><span class="o">.</span><span class="n">momentum</span><span class="p">,</span>
+            <span class="n">logdensity</span><span class="o">=</span><span class="n">proposal</span><span class="o">.</span><span class="n">logdensity</span><span class="p">,</span>
+            <span class="n">logdensity_grad</span><span class="o">=</span><span class="n">proposal</span><span class="o">.</span><span class="n">logdensity_grad</span><span class="p">,</span>
+            <span class="nb">slice</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">acceptance_rate</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">state</span><span class="p">,</span> <span class="n">info</span>
@@ -507,11 +514,12 @@ document.write(`
     <span class="k">return</span> <span class="n">kernel</span></div>
 
 
-<span class="k">def</span> <span class="nf">update_momentum</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">alpha</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">update_momentum</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">momentum_generator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Persistent update of the momentum variable.</span>
 
 <span class="sd">    Performs a persistent update of the momentum, taking as input the previous</span>
-<span class="sd">    momentum, a random number generating key and the parameter alpha. Outputs</span>
+<span class="sd">    momentum, a random number generating key, the parameter alpha and the</span>
+<span class="sd">    momentum generator function. Outputs</span>
 <span class="sd">    an updated momentum that is a mixture of the previous momentum a new sample</span>
 <span class="sd">    from a Gaussian density (dependent on alpha). The weights of the mixture of</span>
 <span class="sd">    these two components are a function of alpha.</span>
@@ -519,11 +527,9 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">position</span><span class="p">,</span> <span class="n">momentum</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">state</span>
 
-    <span class="n">m_size</span> <span class="o">=</span> <span class="n">pytree_size</span><span class="p">(</span><span class="n">momentum</span><span class="p">)</span>
-    <span class="n">momentum_generator</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">gaussian_euclidean</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">alpha</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">m_size</span><span class="p">,)))</span>
     <span class="n">momentum</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">tree_map</span><span class="p">(</span>
         <span class="k">lambda</span> <span class="n">prev_momentum</span><span class="p">,</span> <span class="n">shifted_momentum</span><span class="p">:</span> <span class="n">prev_momentum</span> <span class="o">*</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">)</span>
-        <span class="o">+</span> <span class="n">shifted_momentum</span><span class="p">,</span>
+        <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="o">*</span> <span class="n">shifted_momentum</span><span class="p">,</span>
         <span class="n">momentum</span><span class="p">,</span>
         <span class="n">momentum_generator</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">position</span><span class="p">),</span>
     <span class="p">)</span>
@@ -634,7 +640,7 @@ document.write(`
               
               
                 <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                  
 <div class="prev-next-area">
 </div>
                 </footer>
@@ -659,6 +665,7 @@ By The Blackjax developers
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023, The Blackjax developers.
@@ -685,8 +692,8 @@ By The Blackjax developers
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>

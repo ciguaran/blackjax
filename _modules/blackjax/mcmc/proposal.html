@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
@@ -18,12 +18,12 @@
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
 
   
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=365ca57ee442770a23c6" rel="stylesheet" />
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
   <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
@@ -36,9 +36,9 @@
     <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=365ca57ee442770a23c6"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
 
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/doctools.js"></script>
@@ -120,6 +120,7 @@
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
+
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -167,6 +168,7 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../autoapi/blackjax/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation</span></code></a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/base/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.base</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/chees_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.chees_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/mass_matrix/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.mass_matrix</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/meads_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.meads_adaptation</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../../autoapi/blackjax/adaptation/pathfinder_adaptation/index.html"><code class="xref py py-mod docutils literal notranslate"><span class="pre">blackjax.adaptation.pathfinder_adaptation</span></code></a></li>
@@ -292,6 +294,7 @@
 </button>
 
 
+
 <script>
 document.write(`
   <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
@@ -301,6 +304,7 @@ document.write(`
   </button>
 `);
 </script>
+
 
 <script>
 document.write(`
@@ -348,10 +352,12 @@ document.write(`
 <span class="c1"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
 <span class="c1"># See the License for the specific language governing permissions and</span>
 <span class="c1"># limitations under the License.</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">NamedTuple</span><span class="p">,</span> <span class="n">Protocol</span>
 
 <span class="kn">import</span> <span class="nn">jax</span>
 <span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="nn">jnp</span>
+
+<span class="kn">from</span> <span class="nn">blackjax.types</span> <span class="kn">import</span> <span class="n">Array</span><span class="p">,</span> <span class="n">PRNGKey</span>
 
 <div class="viewcode-block" id="TrajectoryState"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.TrajectoryState">[docs]</a><span class="n">TrajectoryState</span> <span class="o">=</span> <span class="n">NamedTuple</span></div>
 
@@ -497,12 +503,21 @@ document.write(`
     <span class="k">return</span> <span class="n">new</span><span class="p">,</span> <span class="n">update</span></div>
 
 
+<div class="viewcode-block" id="SampleProposal"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.SampleProposal">[docs]</a><span class="k">class</span> <span class="nc">SampleProposal</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">rng_key</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">proposal</span><span class="p">:</span> <span class="n">Proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">:</span> <span class="n">Proposal</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Proposal</span><span class="p">:</span>
+        <span class="o">...</span></div>
+
+
 <span class="c1"># --------------------------------------------------------------------</span>
 <span class="c1">#                        STATIC SAMPLING</span>
 <span class="c1"># --------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="static_binomial_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.static_binomial_sampling">[docs]</a><span class="k">def</span> <span class="nf">static_binomial_sampling</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">):</span>
+<div class="viewcode-block" id="static_binomial_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.static_binomial_sampling">[docs]</a><span class="k">def</span> <span class="nf">static_binomial_sampling</span><span class="p">(</span>
+    <span class="n">rng_key</span><span class="p">:</span> <span class="n">PRNGKey</span><span class="p">,</span> <span class="n">proposal</span><span class="p">:</span> <span class="n">Proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">:</span> <span class="n">Proposal</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Proposal</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Accept or reject a proposal.</span>
 
 <span class="sd">    In the static setting, the probability with which the new proposal is</span>
@@ -532,7 +547,9 @@ document.write(`
 <span class="c1"># --------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="progressive_uniform_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.progressive_uniform_sampling">[docs]</a><span class="k">def</span> <span class="nf">progressive_uniform_sampling</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">):</span>
+<div class="viewcode-block" id="progressive_uniform_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.progressive_uniform_sampling">[docs]</a><span class="k">def</span> <span class="nf">progressive_uniform_sampling</span><span class="p">(</span>
+    <span class="n">rng_key</span><span class="p">:</span> <span class="n">PRNGKey</span><span class="p">,</span> <span class="n">proposal</span><span class="p">:</span> <span class="n">Proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">:</span> <span class="n">Proposal</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Proposal</span><span class="p">:</span>
     <span class="c1"># Using expit to compute exp(w1) / (exp(w0) + exp(w1))</span>
     <span class="n">p_accept</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">scipy</span><span class="o">.</span><span class="n">special</span><span class="o">.</span><span class="n">expit</span><span class="p">(</span><span class="n">new_proposal</span><span class="o">.</span><span class="n">weight</span> <span class="o">-</span> <span class="n">proposal</span><span class="o">.</span><span class="n">weight</span><span class="p">)</span>
     <span class="n">do_accept</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">bernoulli</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">p_accept</span><span class="p">)</span>
@@ -559,7 +576,9 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="progressive_biased_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.progressive_biased_sampling">[docs]</a><span class="k">def</span> <span class="nf">progressive_biased_sampling</span><span class="p">(</span><span class="n">rng_key</span><span class="p">,</span> <span class="n">proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">):</span>
+<div class="viewcode-block" id="progressive_biased_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.progressive_biased_sampling">[docs]</a><span class="k">def</span> <span class="nf">progressive_biased_sampling</span><span class="p">(</span>
+    <span class="n">rng_key</span><span class="p">:</span> <span class="n">PRNGKey</span><span class="p">,</span> <span class="n">proposal</span><span class="p">:</span> <span class="n">Proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">:</span> <span class="n">Proposal</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Proposal</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Baised proposal sampling :cite:p:`betancourt2017conceptual`.</span>
 
 <span class="sd">    Unlike uniform sampling, biased sampling favors new proposals. It thus</span>
@@ -596,7 +615,9 @@ document.write(`
 <span class="c1"># --------------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="nonreversible_slice_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.nonreversible_slice_sampling">[docs]</a><span class="k">def</span> <span class="nf">nonreversible_slice_sampling</span><span class="p">(</span><span class="nb">slice</span><span class="p">,</span> <span class="n">proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">):</span>
+<div class="viewcode-block" id="nonreversible_slice_sampling"><a class="viewcode-back" href="../../../autoapi/blackjax/mcmc/proposal/index.html#blackjax.mcmc.proposal.nonreversible_slice_sampling">[docs]</a><span class="k">def</span> <span class="nf">nonreversible_slice_sampling</span><span class="p">(</span>
+    <span class="nb">slice</span><span class="p">:</span> <span class="n">Array</span><span class="p">,</span> <span class="n">proposal</span><span class="p">:</span> <span class="n">Proposal</span><span class="p">,</span> <span class="n">new_proposal</span><span class="p">:</span> <span class="n">Proposal</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Proposal</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Slice sampling for non-reversible Metropolis-Hasting update.</span>
 
 <span class="sd">    Performs a non-reversible update of a uniform [0, 1] value</span>
@@ -622,7 +643,7 @@ document.write(`
               
               
                 <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                  
 <div class="prev-next-area">
 </div>
                 </footer>
@@ -647,6 +668,7 @@ By The Blackjax developers
   
   <div class="footer-item">
     
+
   <p class="copyright">
     
       © Copyright 2023, The Blackjax developers.
@@ -673,8 +695,8 @@ By The Blackjax developers
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=365ca57ee442770a23c6"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=365ca57ee442770a23c6"></script>
+  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
 
   <footer class="bd-footer">
   </footer>
