@@ -10,6 +10,7 @@ Submodules
    :titlesonly:
    :maxdepth: 1
 
+   barker/index.rst
    diffusions/index.rst
    elliptical_slice/index.rst
    ghmc/index.rst
@@ -17,6 +18,7 @@ Submodules
    integrators/index.rst
    mala/index.rst
    marginal_latent_gaussian/index.rst
+   mclmc/index.rst
    metrics/index.rst
    nuts/index.rst
    periodic_orbital/index.rst

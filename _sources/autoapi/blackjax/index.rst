@@ -34,12 +34,14 @@ Classes
 
 .. autoapisummary::
 
+   blackjax.barker_proposal
    blackjax.elliptical_slice
    blackjax.ghmc
    blackjax.dynamic_hmc
    blackjax.hmc
    blackjax.mala
    blackjax.mgrad_gaussian
+   blackjax.mclmc
    blackjax.nuts
    blackjax.orbital_hmc
    blackjax.additive_step_random_walk
@@ -50,9 +52,11 @@ Classes
    blackjax.sgld
    blackjax.sgnht
    blackjax.adaptive_tempered_smc
+   blackjax.inner_kernel_tuning
    blackjax.tempered_smc
    blackjax.meanfield_vi
    blackjax.pathfinder
+   blackjax.schrodinger_follmer
    blackjax.svgd
 
 
@@ -63,6 +67,7 @@ Functions
 .. autoapisummary::
 
    blackjax.chees_adaptation
+   blackjax.mclmc_find_L_and_step_size
    blackjax.meads_adaptation
    blackjax.pathfinder_adaptation
    blackjax.window_adaptation
@@ -77,6 +82,11 @@ Attributes
 .. autoapisummary::
 
    blackjax.__version__
+
+
+
+
+
 
 
 
