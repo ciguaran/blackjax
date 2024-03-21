@@ -4,7 +4,10 @@ import numpy as np
 import jax.numpy as jnp
 import scipy.stats
 import jax.scipy.stats as stats
-from blackjax.smc.tuning.farenheit_and_taylor import (
+
+from blackjax import irmh, adaptive_tempered_smc
+from blackjax.smc import resampling
+from blackjax.smc.tuning.fearnhead_and_taylor import (
     measure_of_chain_mixing,
     update_parameter_distribution,
 )

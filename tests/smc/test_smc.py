@@ -11,7 +11,7 @@ from absl.testing import absltest
 import blackjax
 import blackjax.smc.resampling as resampling
 from blackjax.smc.base import init, step
-from blackjax.smc.tuning import extend_params_inner_kernel
+from blackjax.smc import extend_params_inner_kernel
 
 
 def logdensity_fn(position):
