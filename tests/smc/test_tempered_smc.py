@@ -12,7 +12,7 @@ import blackjax
 import blackjax.smc.resampling as resampling
 import blackjax.smc.solver as solver
 from blackjax import adaptive_tempered_smc, tempered_smc
-from blackjax.smc import extend_params_inner_kernel
+from blackjax.smc import extend_params
 from tests.smc import SMCLinearRegressionTestCase
 
 
@@ -65,11 +65,14 @@ class TemperedSMCTest(SMCLinearRegressionTestCase):
 
         hmc_kernel = blackjax.hmc.build_kernel()
         hmc_init = blackjax.hmc.init
-        hmc_parameters = extend_params_inner_kernel(num_particles, {
-            "step_size": 10e-2,
-            "inverse_mass_matrix": jnp.eye(2),
-            "num_integration_steps": 50,
-        })
+        hmc_parameters = extend_params(
+            num_particles,
+            {
+                "step_size": 10e-2,
+                "inverse_mass_matrix": jnp.eye(2),
+                "num_integration_steps": 50,
+            },
+        )
 
         for target_ess in [0.5, 0.75]:
             tempering = adaptive_tempered_smc(
@@ -111,11 +114,14 @@ class TemperedSMCTest(SMCLinearRegressionTestCase):
         lambda_schedule = np.logspace(-5, 0, num_tempering_steps)
         hmc_init = blackjax.hmc.init
         hmc_kernel = blackjax.hmc.build_kernel()
-        hmc_parameters = extend_params_inner_kernel(100, {
-            "step_size": 10e-2,
-            "inverse_mass_matrix": jnp.eye(2),
-            "num_integration_steps": 50,
-        })
+        hmc_parameters = extend_params(
+            100,
+            {
+                "step_size": 10e-2,
+                "inverse_mass_matrix": jnp.eye(2),
+                "num_integration_steps": 50,
+            },
+        )
 
         tempering = tempered_smc(
             logprior_fn,
@@ -175,11 +181,14 @@ class NormalizingConstantTest(chex.TestCase):
 
         hmc_init = blackjax.hmc.init
         hmc_kernel = blackjax.hmc.build_kernel()
-        hmc_parameters = extend_params_inner_kernel(num_particles, {
-            "step_size": 10e-2,
-            "inverse_mass_matrix": jnp.eye(num_dim),
-            "num_integration_steps": 50,
-        })
+        hmc_parameters = extend_params(
+            num_particles,
+            {
+                "step_size": 10e-2,
+                "inverse_mass_matrix": jnp.eye(num_dim),
+                "num_integration_steps": 50,
+            },
+        )
 
         tempering = adaptive_tempered_smc(
             logprior_fn,
