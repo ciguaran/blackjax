@@ -93,7 +93,7 @@ class SMCParameterTuningTest(chex.TestCase):
         proposal_factory = MagicMock()
         proposal_factory.return_value = 100
 
-        def mcmc_parameter_update_fn(state, info):
+        def mcmc_parameter_update_fn(key, state, info):
             return extend_params(1000, {"mean": 100})
 
         prior = lambda x: stats.norm.logpdf(x)
@@ -279,7 +279,7 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
             loglikelihood_fn,
         ) = self.particles_prior_loglikelihood()
 
-        def parameter_update(state, info):
+        def parameter_update(key, state, info):
             return extend_params(
                 100,
                 {
@@ -338,7 +338,7 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
             loglikelihood_fn,
         ) = self.particles_prior_loglikelihood()
 
-        def parameter_update(state, info):
+        def parameter_update(key, state, info):
             return extend_params(
                 100,
                 {

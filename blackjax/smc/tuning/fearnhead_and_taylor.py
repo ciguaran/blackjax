@@ -57,3 +57,17 @@ def update_parameter_distribution(
         replace=True,
         p=weights / jnp.sum(weights),
     )
+
+
+
+def build_mcmc_parameter_update_fn(measure_of_chain_mixing, alpha, sigma):
+    def mcmc_parameter_update_fn(key, state, info):
+        """adapter to be used within smc's inner_kernel_tuning
+        """
+        return update_parameter_distribution(key,
+                                  state.previous_param_samples,
+                                  state.previous_particles,
+                                  state.latest_particles,
+                                  measure_of_chain_mixing,
+                                  alpha,
+                                  sigma)

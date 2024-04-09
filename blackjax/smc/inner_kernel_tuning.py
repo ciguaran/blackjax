@@ -5,6 +5,10 @@ from blackjax.smc.adaptive_tempered import adaptive_tempered_smc
 from blackjax.smc.base import SMCInfo, SMCState
 from blackjax.smc.tempered import tempered_smc
 from blackjax.types import ArrayTree, PRNGKey
+import jax
+
+
+InnerKernelTuningStrategy=Callable[[PRNGKey, SMCState, SMCInfo], Dict[str, ArrayTree]]
 
 
 class StateWithParameterOverride(NamedTuple):
@@ -23,6 +27,8 @@ def init(alg_init_fn, position, initial_parameter_value):
     return StateWithParameterOverride(alg_init_fn(position), initial_parameter_value)
 
 
+
+
 def build_kernel(
     smc_algorithm,
     logprior_fn: Callable,
@@ -30,7 +36,7 @@ def build_kernel(
     mcmc_step_fn: Callable,
     mcmc_init_fn: Callable,
     resampling_fn: Callable,
-    mcmc_parameter_update_fn: Callable[[SMCState, SMCInfo], Dict[str, ArrayTree]],
+    mcmc_parameter_update_fn: InnerKernelTuningStrategy,
     num_mcmc_steps: int = 10,
     **extra_parameters,
 ) -> Callable:
@@ -71,8 +77,9 @@ def build_kernel(
             num_mcmc_steps=num_mcmc_steps,
             **extra_parameters,
         ).step
-        new_state, info = step_fn(rng_key, state.sampler_state, **extra_step_parameters)
-        new_parameter_override = mcmc_parameter_update_fn(new_state, info)
+        parameter_update_key, step_key = jax.random.split(rng_key, 2)
+        new_state, info = step_fn(step_key, state.sampler_state, **extra_step_parameters)
+        new_parameter_override = mcmc_parameter_update_fn(parameter_update_key, new_state, info)
         return StateWithParameterOverride(new_state, new_parameter_override), info
 
     return kernel

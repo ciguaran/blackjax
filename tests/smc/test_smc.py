@@ -87,7 +87,7 @@ class SMCTest(chex.TestCase):
                 _, (states, info) = jax.lax.scan(body_fn, state, keys)
                 return states.position, info
 
-            particles, info = jax.vmap(one_particle_fn)(keys, particles)
+            particles, info = jax.vmap(one_particle_fn)(keys, particles, update_params)
             particles = particles.reshape((num_particles,))
             return particles, info
 
