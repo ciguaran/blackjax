@@ -123,7 +123,10 @@ def update_median_heuristic(state: SVGDState) -> SVGDState:
     return SVGDState(position, median_heuristic(kernel_parameters, position), opt_state)
 
 
-class svgd:
+def as_sampling_algorithm(grad_logdensity_fn: Callable,
+        optimizer,
+        kernel: Callable = rbf_kernel,
+        update_kernel_parameters: Callable = update_median_heuristic) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the svgd algorithm.
 
     Parameters
@@ -142,26 +145,17 @@ class svgd:
     A ``SamplingAlgorithm``.
     """
 
-    init = staticmethod(init)
-    build_kernel = staticmethod(build_kernel)
 
-    def __new__(
-        cls,
-        grad_logdensity_fn: Callable,
-        optimizer,
-        kernel: Callable = rbf_kernel,
-        update_kernel_parameters: Callable = update_median_heuristic,
+    kernel_ = build_kernel(optimizer)
+
+    def init_fn(
+        initial_position: ArrayLikeTree,
+        kernel_parameters: dict[str, Any] = {"length_scale": 1.0},
     ):
-        kernel_ = cls.build_kernel(optimizer)
+        return init(initial_position, kernel_parameters, optimizer)
 
-        def init_fn(
-            initial_position: ArrayLikeTree,
-            kernel_parameters: dict[str, Any] = {"length_scale": 1.0},
-        ):
-            return cls.init(initial_position, kernel_parameters, optimizer)
+    def step_fn(state, **grad_params):
+        state = kernel_(state, grad_logdensity_fn, kernel, **grad_params)
+        return update_kernel_parameters(state)
 
-        def step_fn(state, **grad_params):
-            state = kernel_(state, grad_logdensity_fn, kernel, **grad_params)
-            return update_kernel_parameters(state)
-
-        return SamplingAlgorithm(init_fn, step_fn)  # type: ignore[arg-type]
+    return SamplingAlgorithm(init_fn, step_fn)

@@ -217,7 +217,13 @@ def build_kernel(
     return kernel
 
 
-class orbital_hmc:
+def as_sampling_algorithm(logdensity_fn: Callable,
+        step_size: float,
+        inverse_mass_matrix: Array,  # assume momentum is always Gaussian
+        period: int,
+        *,
+        bijection: Callable = integrators.velocity_verlet,
+    ) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the Periodic orbital MCMC kernel.
 
     Each iteration of the periodic orbital MCMC outputs ``period`` weighted samples from
@@ -262,26 +268,14 @@ class orbital_hmc:
     A ``SamplingAlgorithm``.
     """
 
-    init = staticmethod(init)
-    build_kernel = staticmethod(build_kernel)
+    kernel=build_kernel(bijection)
 
-    def __new__(  # type: ignore[misc]
-        cls,
-        logdensity_fn: Callable,
-        step_size: float,
-        inverse_mass_matrix: Array,  # assume momentum is always Gaussian
-        period: int,
-        *,
-        bijection: Callable = integrators.velocity_verlet,
-    ) -> SamplingAlgorithm:
-        kernel = cls.build_kernel(bijection)
+    def init_fn(position: ArrayLikeTree, rng_key=None):
+        del rng_key
+        return init(position, logdensity_fn, period)
 
-        def init_fn(position: ArrayLikeTree, rng_key=None):
-            del rng_key
-            return cls.init(position, logdensity_fn, period)
-
-        def step_fn(rng_key: PRNGKey, state):
-            return kernel(
+    def step_fn(rng_key: PRNGKey, state):
+        return kernel(
                 rng_key,
                 state,
                 logdensity_fn,
@@ -289,8 +283,7 @@ class orbital_hmc:
                 inverse_mass_matrix,
                 period,
             )
-
-        return SamplingAlgorithm(init_fn, step_fn)
+    return SamplingAlgorithm(init_fn, step_fn)
 
 
 def periodic_orbital_proposal(

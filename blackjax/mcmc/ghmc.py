@@ -25,7 +25,7 @@ from blackjax.mcmc.proposal import nonreversible_slice_sampling
 from blackjax.types import ArrayLikeTree, ArrayTree, PRNGKey
 from blackjax.util import generate_gaussian_noise
 
-__all__ = ["GHMCState", "init", "build_kernel", "ghmc"]
+__all__ = ["GHMCState", "init", "build_kernel", "as_sampling_algorithm"]
 
 
 class GHMCState(NamedTuple):
@@ -195,7 +195,15 @@ def update_momentum(rng_key, state, alpha, momentum_generator):
     return momentum
 
 
-class ghmc:
+def as_sampling_algorithm(logdensity_fn: Callable,
+        step_size: float,
+        momentum_inverse_scale: ArrayLikeTree,
+        alpha: float,
+        delta: float,
+        *,
+        divergence_threshold: int = 1000,
+        noise_gn: Callable = lambda _: 0.0,
+    ) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the Generalized HMC kernel.
 
     The Generalized HMC kernel performs a similar procedure to the standard HMC
@@ -257,27 +265,15 @@ class ghmc:
     A ``SamplingAlgorithm``.
     """
 
-    init = staticmethod(init)
-    build_kernel = staticmethod(build_kernel)
 
-    def __new__(  # type: ignore[misc]
-        cls,
-        logdensity_fn: Callable,
-        step_size: float,
-        momentum_inverse_scale: ArrayLikeTree,
-        alpha: float,
-        delta: float,
-        *,
-        divergence_threshold: int = 1000,
-        noise_gn: Callable = lambda _: 0.0,
-    ) -> SamplingAlgorithm:
-        kernel = cls.build_kernel(noise_gn, divergence_threshold)
 
-        def init_fn(position: ArrayLikeTree, rng_key: PRNGKey):
-            return cls.init(position, rng_key, logdensity_fn)
+    kernel = build_kernel(noise_gn, divergence_threshold)
 
-        def step_fn(rng_key: PRNGKey, state):
-            return kernel(
+    def init_fn(position: ArrayLikeTree, rng_key: PRNGKey):
+        return init(position, rng_key, logdensity_fn)
+
+    def step_fn(rng_key: PRNGKey, state):
+        return kernel(
                 rng_key,
                 state,
                 logdensity_fn,
@@ -285,6 +281,6 @@ class ghmc:
                 momentum_inverse_scale,
                 alpha,
                 delta,
-            )
+        )
 
-        return SamplingAlgorithm(init_fn, step_fn)
+    return SamplingAlgorithm(init_fn, step_fn)

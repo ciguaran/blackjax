@@ -5,13 +5,9 @@ import jax.numpy as jnp
 import numpy as np
 from absl.testing import absltest
 
-from blackjax.mcmc.random_walk import (
-    RWState,
-    build_additive_step,
-    build_irmh,
-    build_rmh_transition_energy,
-    rmh_proposal,
-)
+from blackjax.mcmc.random_walk.additive_step_random_walk import build_kernel as build_additive_step
+from blackjax.mcmc.random_walk.rmh import RWState, rmh_proposal, build_rmh_transition_energy
+from blackjax.mcmc.random_walk.irmh import build_kernel as build_irmh
 
 
 class AdditiveStepTest(unittest.TestCase):

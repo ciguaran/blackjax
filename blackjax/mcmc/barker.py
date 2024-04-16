@@ -128,7 +128,8 @@ def build_kernel():
     return kernel
 
 
-class barker_proposal:
+def as_sampling_algorithm(logdensity_fn: Callable, step_size: float,
+    ) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the Barker's proposal :cite:p:`Livingstone2022Barker` kernel with a
     Gaussian base kernel.
 
@@ -178,25 +179,16 @@ class barker_proposal:
     A ``SamplingAlgorithm``.
 
     """
+    kernel = build_kernel()
 
-    init = staticmethod(init)
-    build_kernel = staticmethod(build_kernel)
+    def init_fn(position: ArrayLikeTree, rng_key=None):
+        del rng_key
+        return init(position, logdensity_fn)
 
-    def __new__(  # type: ignore[misc]
-        cls,
-        logdensity_fn: Callable,
-        step_size: float,
-    ) -> SamplingAlgorithm:
-        kernel = cls.build_kernel()
+    def step_fn(rng_key: PRNGKey, state):
+        return kernel(rng_key, state, logdensity_fn, step_size)
 
-        def init_fn(position: ArrayLikeTree, rng_key=None):
-            del rng_key
-            return cls.init(position, logdensity_fn)
-
-        def step_fn(rng_key: PRNGKey, state):
-            return kernel(rng_key, state, logdensity_fn, step_size)
-
-        return SamplingAlgorithm(init_fn, step_fn)
+    return SamplingAlgorithm(init_fn, step_fn)
 
 
 def _barker_sample_nd(key, mean, a, scale):

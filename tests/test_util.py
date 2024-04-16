@@ -3,15 +3,14 @@ import jax
 import jax.numpy as jnp
 from absl.testing import absltest, parameterized
 
-from blackjax.mcmc.hmc import hmc
 from blackjax.util import run_inference_algorithm
-
+from blackjax import hmc
 
 class RunInferenceAlgorithmTest(chex.TestCase):
     def setUp(self):
         super().setUp()
         self.key = jax.random.key(42)
-        self.algorithm = hmc(
+        self.algorithm = hmc.as_sampling_algorithm(
             logdensity_fn=self.logdensity_fn,
             inverse_mass_matrix=jnp.eye(2),
             step_size=1.0,

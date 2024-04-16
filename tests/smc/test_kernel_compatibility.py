@@ -6,7 +6,7 @@ from jax.scipy.stats import multivariate_normal
 
 import blackjax
 from blackjax import adaptive_tempered_smc
-from blackjax.mcmc.random_walk import normal
+from blackjax.mcmc.random_walk.additive_step_random_walk import normal
 from blackjax.smc import extend_params
 
 
@@ -28,7 +28,7 @@ class SMCAndMCMCIntegrationTest(unittest.TestCase):
         """
         Runs one SMC step
         """
-        init, kernel = adaptive_tempered_smc(
+        init, kernel = adaptive_tempered_smc.as_sampling_algorithm(
             self.prior_log_prob,
             self.loglikelihood,
             mcmc_step_fn,
@@ -63,7 +63,7 @@ class SMCAndMCMCIntegrationTest(unittest.TestCase):
                 rng_key,
                 state,
                 logdensity_fn,
-                lambda a, b: blackjax.mcmc.random_walk.normal(proposal_mean)(a, b),
+                lambda a, b: blackjax.mcmc.random_walk.additive_step_random_walk.normal(proposal_mean)(a, b),
                 proposal_logdensity_fn,
             )
 

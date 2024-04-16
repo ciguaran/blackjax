@@ -1,6 +1,7 @@
 """Test the accuracy of the MCMC kernels."""
 import functools
 import itertools
+from types import ModuleType
 
 import chex
 import jax
@@ -96,7 +97,7 @@ class LinearRegressionTest(chex.TestCase):
             rng_key=tune_key,
         )
 
-        sampling_alg = blackjax.mclmc(
+        sampling_alg = blackjax.mclmc.as_sampling_algorithm(
             logdensity_fn,
             L=blackjax_mclmc_sampler_params.L,
             step_size=blackjax_mclmc_sampler_params.step_size,
@@ -138,7 +139,10 @@ class LinearRegressionTest(chex.TestCase):
             case["initial_position"],
             case["num_warmup_steps"],
         )
-        inference_algorithm = case["algorithm"](logposterior_fn, **parameters)
+        if isinstance(case["algorithm"], ModuleType):
+            inference_algorithm = case["algorithm"].as_sampling_algorithm(logposterior_fn, **parameters)
+        else:
+            inference_algorithm = case["algorithm"](logposterior_fn, **parameters)
 
         _, states, _ = run_inference_algorithm(
             inference_key, state, inference_algorithm, case["num_sampling_steps"]
@@ -161,7 +165,7 @@ class LinearRegressionTest(chex.TestCase):
         )
         logposterior_fn = lambda x: logposterior_fn_(**x)
 
-        mala = blackjax.mala(logposterior_fn, 1e-5)
+        mala = blackjax.mala.as_sampling_algorithm(logposterior_fn, 1e-5)
         state = mala.init({"coefs": 1.0, "log_scale": 1.0})
         _, states, _ = run_inference_algorithm(inference_key, state, mala, 10_000)
 
@@ -226,8 +230,11 @@ class LinearRegressionTest(chex.TestCase):
             initial_position,
             num_warmup_steps,
         )
-        inference_algorithm = algorithm(logposterior_fn, **parameters)
-
+        from types import ModuleType
+        if isinstance(algorithm, ModuleType):
+            inference_algorithm = algorithm.as_sampling_algorithm(logposterior_fn, **parameters)
+        else:
+            inference_algorithm = algorithm(logposterior_fn, **parameters)
         _, states, _ = run_inference_algorithm(
             inference_key, state, inference_algorithm, num_sampling_steps
         )
@@ -265,7 +272,7 @@ class LinearRegressionTest(chex.TestCase):
             initial_positions,
             num_steps=1000,
         )
-        inference_algorithm = blackjax.ghmc(logposterior_fn, **parameters)
+        inference_algorithm = blackjax.ghmc.as_sampling_algorithm(logposterior_fn, **parameters)
 
         chain_keys = jax.random.split(inference_key, num_chains)
         _, states, _ = jax.vmap(
@@ -309,7 +316,7 @@ class LinearRegressionTest(chex.TestCase):
             optim=optax.adam(learning_rate=0.1),
             num_steps=1000,
         )
-        inference_algorithm = blackjax.dynamic_hmc(logposterior_fn, **parameters)
+        inference_algorithm = blackjax.dynamic_hmc.as_sampling_algorithm(logposterior_fn, **parameters)
 
         chain_keys = jax.random.split(inference_key, num_chains)
         _, states, _ = jax.vmap(
@@ -335,7 +342,7 @@ class LinearRegressionTest(chex.TestCase):
         )
         logposterior_fn = lambda x: logposterior_fn_(**x)
 
-        barker = blackjax.barker_proposal(logposterior_fn, 1e-1)
+        barker = blackjax.barker.as_sampling_algorithm(logposterior_fn, 1e-1)
         state = barker.init({"coefs": 1.0, "log_scale": 1.0})
 
         _, states, _ = run_inference_algorithm(inference_key, state, barker, 10_000)
@@ -373,7 +380,7 @@ class SGMCMCTest(chex.TestCase):
         grad_fn = blackjax.sgmcmc.grad_estimator(
             self.logprior_fn, self.loglikelihood_fn, data_size
         )
-        csgld = blackjax.csgld(logdensity_fn, grad_fn)
+        csgld = blackjax.csgld.as_sampling_algorithm(logdensity_fn, grad_fn)
 
         data_batch = X_data[:100, :]
         init_position = 1.0
@@ -389,7 +396,7 @@ class SGMCMCTest(chex.TestCase):
         grad_fn = blackjax.sgmcmc.grad_estimator(
             self.logprior_fn, self.loglikelihood_fn, data_size
         )
-        sgld = blackjax.sgld(grad_fn)
+        sgld = blackjax.sgld.as_sampling_algorithm(grad_fn)
 
         data_batch = X_data[:100, :]
         init_position = 1.0
@@ -411,7 +418,7 @@ class SGMCMCTest(chex.TestCase):
             grad_fn, centering_position, X_data
         )
 
-        sgld = blackjax.sgld(cv_grad_fn)
+        sgld = blackjax.sgld.as_sampling_algorithm(cv_grad_fn)
 
         init_position = 1.0
         init_position = sgld.init(init_position)
@@ -427,7 +434,7 @@ class SGMCMCTest(chex.TestCase):
         grad_fn = blackjax.sgmcmc.grad_estimator(
             self.logprior_fn, self.loglikelihood_fn, data_size
         )
-        sghmc = blackjax.sghmc(grad_fn, 10)
+        sghmc = blackjax.sghmc.as_sampling_algorithm(grad_fn, 10)
 
         data_batch = X_data[100:200, :]
         init_position = 1.0
@@ -449,7 +456,7 @@ class SGMCMCTest(chex.TestCase):
             grad_fn, centering_position, X_data
         )
 
-        sghmc = blackjax.sghmc(cv_grad_fn, 10)
+        sghmc = blackjax.sghmc.as_sampling_algorithm(cv_grad_fn, 10)
 
         init_position = 1.0
         init_position = sghmc.init(init_position)
@@ -465,7 +472,7 @@ class SGMCMCTest(chex.TestCase):
         grad_fn = blackjax.sgmcmc.grad_estimator(
             self.logprior_fn, self.loglikelihood_fn, data_size
         )
-        sgnht = blackjax.sgnht(grad_fn)
+        sgnht = blackjax.sgnht.as_sampling_algorithm(grad_fn)
 
         _, rng_key = jax.random.split(rng_key)
         data_batch = X_data[100:200, :]
@@ -488,7 +495,7 @@ class SGMCMCTest(chex.TestCase):
             grad_fn, centering_position, X_data
         )
 
-        sgnht = blackjax.sgnht(cv_grad_fn)
+        sgnht = blackjax.sgnht.as_sampling_algorithm(cv_grad_fn)
 
         _, rng_key = jax.random.split(rng_key)
         init_position = 1.0
@@ -510,9 +517,9 @@ class LatentGaussianTest(chex.TestCase):
 
     @chex.all_variants(with_pmap=False)
     def test_latent_gaussian(self):
-        from blackjax import mgrad_gaussian
+        from blackjax import marginal_latent_gaussian
 
-        inference_algorithm = mgrad_gaussian(
+        inference_algorithm = marginal_latent_gaussian.as_sampling_algorithm(
             lambda x: -0.5 * jnp.sum((x - 1.0) ** 2),
             covariance=self.C,
             step_size=self.delta,
@@ -543,7 +550,7 @@ def rmhmc_static_mass_matrix_fn(position):
 
 normal_test_cases = [
     {
-        "algorithm": blackjax.hmc,
+        "algorithm": blackjax.hmc.as_sampling_algorithm,
         "initial_position": jnp.array(3.0),
         "parameters": {
             "step_size": 3.9,
@@ -561,7 +568,7 @@ normal_test_cases = [
         "burnin": 1_000,
     },
     {
-        "algorithm": blackjax.orbital_hmc,
+        "algorithm": blackjax.periodic_orbital,
         "initial_position": jnp.array(100.0),
         "parameters": {
             "step_size": 0.1,
@@ -619,7 +626,7 @@ normal_test_cases = [
         "burnin": 1_000,
     },
     {
-        "algorithm": blackjax.barker_proposal,
+        "algorithm": blackjax.barker,
         "initial_position": 1.0,
         "parameters": {"step_size": 1.5},
         "num_sampling_steps": 20_000,
@@ -667,10 +674,14 @@ class UnivariateNormalTest(chex.TestCase):
         if algorithm == blackjax.rmhmc:
             parameters["mass_matrix"] = rmhmc_static_mass_matrix_fn
 
-        inference_algorithm = algorithm(self.normal_logprob, **parameters)
+        if isinstance(algorithm, ModuleType):
+            inference_algorithm = algorithm.as_sampling_algorithm(self.normal_logprob, **parameters)
+        else:
+            inference_algorithm = algorithm(self.normal_logprob, **parameters)
+
         rng_key = self.key
         if algorithm == blackjax.elliptical_slice:
-            inference_algorithm = algorithm(lambda x: jnp.ones_like(x), **parameters)
+            inference_algorithm = algorithm.as_sampling_algorithm(lambda x: jnp.ones_like(x), **parameters)
         if algorithm == blackjax.ghmc:
             rng_key, initial_state_key = jax.random.split(rng_key)
             initial_state = inference_algorithm.init(
@@ -688,7 +699,7 @@ class UnivariateNormalTest(chex.TestCase):
             )
         )(inference_key, initial_state)
 
-        if algorithm == blackjax.orbital_hmc:
+        if algorithm == blackjax.periodic_orbital:
             samples = orbit_samples(
                 states.positions[burnin:], states.weights[burnin:], orbit_key
             )
@@ -700,7 +711,7 @@ class UnivariateNormalTest(chex.TestCase):
 
 mcse_test_cases = [
     {
-        "algorithm": blackjax.hmc,
+        "algorithm": blackjax.hmc.as_sampling_algorithm,
         "parameters": {
             "step_size": 0.5,
             "num_integration_steps": 20,
@@ -713,7 +724,7 @@ mcse_test_cases = [
         "is_mass_matrix_diagonal": True,
     },
     {
-        "algorithm": blackjax.hmc,
+        "algorithm": blackjax.hmc.as_sampling_algorithm,
         "parameters": {
             "step_size": 0.85,
             "num_integration_steps": 27,
@@ -726,7 +737,7 @@ mcse_test_cases = [
         "is_mass_matrix_diagonal": False,
     },
     {
-        "algorithm": blackjax.barker_proposal,
+        "algorithm": blackjax.barker,
         "parameters": {"step_size": 0.5},
         "is_mass_matrix_diagonal": None,
     },
@@ -783,11 +794,15 @@ class MonteCarloStandardErrorTest(chex.TestCase):
             true_rho,
             true_cov,
         ) = self.generate_multivariate_target(None)
+        if isinstance(algorithm, ModuleType):
+            algorithm = algorithm.as_sampling_algorithm
+
         if is_mass_matrix_diagonal is not None:
             if is_mass_matrix_diagonal:
                 inverse_mass_matrix = true_scale**2
             else:
                 inverse_mass_matrix = true_cov
+
             inference_algorithm = algorithm(
                 logdensity_fn,
                 inverse_mass_matrix=inverse_mass_matrix,

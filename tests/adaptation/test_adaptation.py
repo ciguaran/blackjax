@@ -58,7 +58,7 @@ def test_chees_adaptation():
         optim=optax.adamw(learning_rate=0.5),
         num_steps=num_burnin_steps,
     )
-    algorithm = blackjax.dynamic_hmc(logprob_fn, **parameters)
+    algorithm = blackjax.dynamic_hmc.as_sampling_algorithm(logprob_fn, **parameters)
 
     chain_keys = jax.random.split(inference_key, num_chains)
     _, _, infos = jax.vmap(

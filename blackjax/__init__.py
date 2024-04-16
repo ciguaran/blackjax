@@ -7,49 +7,32 @@ from .adaptation.pathfinder_adaptation import pathfinder_adaptation
 from .adaptation.window_adaptation import window_adaptation
 from .diagnostics import effective_sample_size as ess
 from .diagnostics import potential_scale_reduction as rhat
-from .mcmc.barker import barker_proposal
-from .mcmc.dynamic_hmc import dynamic_hmc
-from .mcmc.elliptical_slice import elliptical_slice
-from .mcmc.ghmc import ghmc
-from .mcmc.hmc import hmc
-from .mcmc.mala import mala
-from .mcmc.marginal_latent_gaussian import mgrad_gaussian
-from .mcmc.mclmc import mclmc
-from .mcmc.nuts import nuts
-from .mcmc.periodic_orbital import orbital_hmc
-from .mcmc.random_walk import additive_step_random_walk, irmh, rmh
-from .mcmc.rmhmc import rmhmc
+from .mcmc.random_walk import irmh, rmh, additive_step_random_walk
 from .optimizers import dual_averaging, lbfgs
-from .sgmcmc.csgld import csgld
-from .sgmcmc.sghmc import sghmc
-from .sgmcmc.sgld import sgld
-from .sgmcmc.sgnht import sgnht
-from .smc.adaptive_tempered import adaptive_tempered_smc
-from .smc.inner_kernel_tuning import inner_kernel_tuning
-from .smc.tempered import tempered_smc
-from .vi.meanfield_vi import meanfield_vi
-from .vi.pathfinder import pathfinder
-from .vi.schrodinger_follmer import schrodinger_follmer
-from .vi.svgd import svgd
+from .sgmcmc import csgld, sghmc, sgld, sgnht
+from .smc import adaptive_tempered_smc, inner_kernel_tuning, tempered_smc
+from .vi import meanfield_vi, pathfinder, schrodinger_follmer,svgd
+from .mcmc import hmc, barker, dynamic_hmc, elliptical_slice, periodic_orbital,\
+    rmhmc, ghmc, nuts,mala,marginal_latent_gaussian, mclmc
 
 __all__ = [
     "__version__",
     "dual_averaging",  # optimizers
     "lbfgs",
-    "hmc",  # mcmc
+    "hmc", # mcmc
     "dynamic_hmc",
     "rmhmc",
     "mala",
-    "mgrad_gaussian",
+    "marginal_latent_gaussian",
     "nuts",
-    "orbital_hmc",
+    "periodic_orbital",
     "additive_step_random_walk",
     "rmh",
     "irmh",
     "mclmc",
     "elliptical_slice",
     "ghmc",
-    "barker_proposal",
+    "barker",
     "sgld",  # stochastic gradient mcmc
     "sghmc",
     "sgnht",

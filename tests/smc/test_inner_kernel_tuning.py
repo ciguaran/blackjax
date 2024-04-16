@@ -12,9 +12,8 @@ from absl.testing import absltest
 import blackjax
 import blackjax.smc.resampling as resampling
 from blackjax import adaptive_tempered_smc, tempered_smc
-from blackjax.mcmc.random_walk import build_irmh
+from blackjax.mcmc.random_walk.irmh import build_kernel as build_irmh
 from blackjax.smc import extend_params
-from blackjax.smc.inner_kernel_tuning import inner_kernel_tuning
 from blackjax.smc.tuning.from_kernel_info import update_scale_from_acceptance_rate
 from blackjax.smc.tuning.from_particles import (
     mass_matrix_from_particles,
@@ -106,7 +105,7 @@ class SMCParameterTuningTest(chex.TestCase):
                 functools.partial(irmh_proposal_distribution, mean=mean),
             )
 
-        kernel = inner_kernel_tuning(
+        kernel = blackjax.inner_kernel_tuning.as_sampling_algorithm(
             logprior_fn=prior,
             loglikelihood_fn=specialized_log_weights_fn,
             mcmc_step_fn=wrapped_kernel,
@@ -289,7 +288,7 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
                 },
             )
 
-        init, step = blackjax.inner_kernel_tuning(
+        init, step = blackjax.inner_kernel_tuning.as_sampling_algorithm(
             adaptive_tempered_smc,
             logprior_fn,
             loglikelihood_fn,
@@ -348,7 +347,7 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
                 },
             )
 
-        init, step = blackjax.inner_kernel_tuning(
+        init, step = blackjax.inner_kernel_tuning.as_sampling_algorithm(
             tempered_smc,
             logprior_fn,
             loglikelihood_fn,

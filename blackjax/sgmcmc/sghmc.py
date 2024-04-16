@@ -58,7 +58,10 @@ def build_kernel(alpha: float = 0.01, beta: float = 0) -> Callable:
     return kernel
 
 
-class sghmc:
+def as_sampling_algorithm( grad_estimator: Callable,
+        num_integration_steps: int = 10,
+        alpha: float = 0.01,
+        beta: float = 0) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the SGHMC kernel.
 
     The general sghmc kernel builder (:meth:`blackjax.sgmcmc.sghmc.build_kernel`, alias
@@ -110,38 +113,27 @@ class sghmc:
     A ``SamplingAlgorithm``.
 
     """
+    kernel = build_kernel(alpha, beta)
 
-    init = staticmethod(init)
-    build_kernel = staticmethod(build_kernel)
+    def init_fn(position: ArrayLikeTree, rng_key=None):
+        del rng_key
+        return init(position)
 
-    def __new__(  # type: ignore[misc]
-        cls,
-        grad_estimator: Callable,
-        num_integration_steps: int = 10,
-        alpha: float = 0.01,
-        beta: float = 0,
-    ) -> SamplingAlgorithm:
-        kernel = cls.build_kernel(alpha, beta)
+    def step_fn(
+        rng_key: PRNGKey,
+        state: ArrayLikeTree,
+        minibatch: ArrayLikeTree,
+        step_size: float,
+        temperature: float = 1,
+    ) -> ArrayTree:
+        return kernel(
+            rng_key,
+            state,
+            grad_estimator,
+            minibatch,
+            step_size,
+            num_integration_steps,
+            temperature,
+        )
 
-        def init_fn(position: ArrayLikeTree, rng_key=None):
-            del rng_key
-            return cls.init(position)
-
-        def step_fn(
-            rng_key: PRNGKey,
-            state: ArrayLikeTree,
-            minibatch: ArrayLikeTree,
-            step_size: float,
-            temperature: float = 1,
-        ) -> ArrayTree:
-            return kernel(
-                rng_key,
-                state,
-                grad_estimator,
-                minibatch,
-                step_size,
-                num_integration_steps,
-                temperature,
-            )
-
-        return SamplingAlgorithm(init_fn, step_fn)  # type: ignore[arg-type]
+    return SamplingAlgorithm(init_fn, step_fn)  # type: ignore[arg-type]

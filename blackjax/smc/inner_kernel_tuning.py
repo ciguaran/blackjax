@@ -1,11 +1,10 @@
 from typing import Callable, Dict, NamedTuple, Tuple, Union
 
 from blackjax.base import SamplingAlgorithm
-from blackjax.smc.adaptive_tempered import adaptive_tempered_smc
+from blackjax.smc import adaptive_tempered_smc, tempered_smc
 from blackjax.smc.base import SMCInfo, SMCState
-from blackjax.smc.tempered import tempered_smc
-from blackjax.types import ArrayTree, PRNGKey
 
+from blackjax.types import ArrayTree, PRNGKey
 
 class StateWithParameterOverride(NamedTuple):
     """
@@ -61,7 +60,7 @@ def build_kernel(
     def kernel(
         rng_key: PRNGKey, state: StateWithParameterOverride, **extra_step_parameters
     ) -> Tuple[StateWithParameterOverride, SMCInfo]:
-        step_fn = smc_algorithm(
+        step_fn = smc_algorithm.as_sampling_algorithm(
             logprior_fn=logprior_fn,
             loglikelihood_fn=loglikelihood_fn,
             mcmc_step_fn=mcmc_step_fn,
@@ -78,7 +77,17 @@ def build_kernel(
     return kernel
 
 
-class inner_kernel_tuning:
+def as_sampling_algorithm(smc_algorithm: Union[adaptive_tempered_smc, tempered_smc],
+        logprior_fn: Callable,
+        loglikelihood_fn: Callable,
+        mcmc_step_fn: Callable,
+        mcmc_init_fn: Callable,
+        resampling_fn: Callable,
+        mcmc_parameter_update_fn: Callable[[SMCState, SMCInfo], ArrayTree],
+        initial_parameter_value,
+        num_mcmc_steps: int = 10,
+        **extra_parameters,
+    ) -> SamplingAlgorithm:
     """In the context of an SMC sampler (whose step_fn returning state
     has a .particles attribute), there's an inner MCMC that is used
     to perturbate/update each of the particles. This adaptation tunes some
@@ -111,42 +120,25 @@ class inner_kernel_tuning:
     A ``SamplingAlgorithm``.
 
     """
-
-    init = staticmethod(init)
-    build_kernel = staticmethod(build_kernel)
-
-    def __new__(  # type: ignore[misc]
-        cls,
-        smc_algorithm: Union[adaptive_tempered_smc, tempered_smc],
-        logprior_fn: Callable,
-        loglikelihood_fn: Callable,
-        mcmc_step_fn: Callable,
-        mcmc_init_fn: Callable,
-        resampling_fn: Callable,
-        mcmc_parameter_update_fn: Callable[[SMCState, SMCInfo], ArrayTree],
-        initial_parameter_value,
-        num_mcmc_steps: int = 10,
+    kernel = build_kernel(
+        smc_algorithm,
+        logprior_fn,
+        loglikelihood_fn,
+        mcmc_step_fn,
+        mcmc_init_fn,
+        resampling_fn,
+        mcmc_parameter_update_fn,
+        num_mcmc_steps,
         **extra_parameters,
-    ) -> SamplingAlgorithm:
-        kernel = cls.build_kernel(
-            smc_algorithm,
-            logprior_fn,
-            loglikelihood_fn,
-            mcmc_step_fn,
-            mcmc_init_fn,
-            resampling_fn,
-            mcmc_parameter_update_fn,
-            num_mcmc_steps,
-            **extra_parameters,
-        )
+    )
 
-        def init_fn(position, rng_key=None):
-            del rng_key
-            return cls.init(smc_algorithm.init, position, initial_parameter_value)
+    def init_fn(position, rng_key=None):
+        del rng_key
+        return init(smc_algorithm.init, position, initial_parameter_value)
 
-        def step_fn(
-            rng_key: PRNGKey, state, **extra_step_parameters
-        ) -> Tuple[StateWithParameterOverride, SMCInfo]:
-            return kernel(rng_key, state, **extra_step_parameters)
+    def step_fn(
+        rng_key: PRNGKey, state, **extra_step_parameters
+    ) -> Tuple[StateWithParameterOverride, SMCInfo]:
+        return kernel(rng_key, state, **extra_step_parameters)
 
-        return SamplingAlgorithm(init_fn, step_fn)
+    return SamplingAlgorithm(init_fn, step_fn)

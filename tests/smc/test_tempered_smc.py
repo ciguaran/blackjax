@@ -75,7 +75,7 @@ class TemperedSMCTest(SMCLinearRegressionTestCase):
         )
 
         for target_ess in [0.5, 0.75]:
-            tempering = adaptive_tempered_smc(
+            tempering = adaptive_tempered_smc.as_sampling_algorithm(
                 logprior_fn,
                 loglikelihood_fn,
                 hmc_kernel,
@@ -123,7 +123,7 @@ class TemperedSMCTest(SMCLinearRegressionTestCase):
             },
         )
 
-        tempering = tempered_smc(
+        tempering = tempered_smc.as_sampling_algorithm(
             logprior_fn,
             loglikelihood_fn,
             hmc_kernel,
@@ -190,7 +190,7 @@ class NormalizingConstantTest(chex.TestCase):
             },
         )
 
-        tempering = adaptive_tempered_smc(
+        tempering = adaptive_tempered_smc.as_sampling_algorithm(
             logprior_fn,
             loglikelihood_fn,
             hmc_kernel,

@@ -46,7 +46,7 @@ def run_regression(algorithm, **parameters):
     (state, parameters), _ = warmup.run(
         warmup_key, {"log_scale": 0.0, "coefs": 2.0}, 1000
     )
-    inference_algorithm = algorithm(logdensity_fn, **parameters)
+    inference_algorithm = algorithm.as_sampling_algorithm(logdensity_fn, **parameters)
 
     _, states, _ = run_inference_algorithm(
         inference_key, state, inference_algorithm, 10_000

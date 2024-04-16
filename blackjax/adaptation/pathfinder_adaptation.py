@@ -17,6 +17,7 @@ from typing import Callable, NamedTuple, Union
 import jax
 import jax.numpy as jnp
 
+import blackjax
 import blackjax.mcmc as mcmc
 import blackjax.vi as vi
 from blackjax.adaptation.base import AdaptationInfo, AdaptationResults
@@ -25,6 +26,7 @@ from blackjax.adaptation.step_size import (
     dual_averaging_adaptation,
 )
 from blackjax.base import AdaptationAlgorithm
+from blackjax.mcmc import hmc
 from blackjax.optimizers.lbfgs import lbfgs_inverse_hessian_formula_1
 from blackjax.types import Array, ArrayLikeTree, PRNGKey
 
@@ -138,7 +140,7 @@ def base(
 
 
 def pathfinder_adaptation(
-    algorithm: Union[mcmc.hmc.hmc, mcmc.nuts.nuts],
+    algorithm: Union[blackjax.mcmc.hmc, blackjax.mcmc.nuts],
     logdensity_fn: Callable,
     initial_step_size: float = 1.0,
     target_acceptance_rate: float = 0.80,

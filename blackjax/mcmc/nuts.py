@@ -147,7 +147,15 @@ def build_kernel(
     return kernel
 
 
-class nuts:
+def as_sampling_algorithm(
+        logdensity_fn: Callable,
+        step_size: float,
+        inverse_mass_matrix: metrics.MetricTypes,
+        *,
+        max_num_doublings: int = 10,
+        divergence_threshold: int = 1000,
+        integrator: Callable = integrators.velocity_verlet,
+    ) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the nuts kernel.
 
     Examples
@@ -203,36 +211,24 @@ class nuts:
 
     """
 
-    init = staticmethod(hmc.init)
-    build_kernel = staticmethod(build_kernel)
+    kernel = build_kernel(integrator, divergence_threshold)
 
-    def __new__(  # type: ignore[misc]
-        cls,
-        logdensity_fn: Callable,
-        step_size: float,
-        inverse_mass_matrix: metrics.MetricTypes,
-        *,
-        max_num_doublings: int = 10,
-        divergence_threshold: int = 1000,
-        integrator: Callable = integrators.velocity_verlet,
-    ) -> SamplingAlgorithm:
-        kernel = cls.build_kernel(integrator, divergence_threshold)
+    def init_fn(position: ArrayLikeTree, rng_key=None):
 
-        def init_fn(position: ArrayLikeTree, rng_key=None):
-            del rng_key
-            return cls.init(position, logdensity_fn)
+        del rng_key
+        return init(position, logdensity_fn)
 
-        def step_fn(rng_key: PRNGKey, state):
-            return kernel(
-                rng_key,
-                state,
-                logdensity_fn,
-                step_size,
-                inverse_mass_matrix,
-                max_num_doublings,
-            )
+    def step_fn(rng_key: PRNGKey, state):
+        return kernel(
+            rng_key,
+            state,
+            logdensity_fn,
+            step_size,
+            inverse_mass_matrix,
+            max_num_doublings,
+        )
 
-        return SamplingAlgorithm(init_fn, step_fn)
+    return SamplingAlgorithm(init_fn, step_fn)
 
 
 def iterative_nuts_proposal(
