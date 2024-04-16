@@ -1,5 +1,7 @@
 import functools
 import unittest
+
+import chex
 import numpy as np
 import jax.numpy as jnp
 import scipy.stats
@@ -9,7 +11,7 @@ from blackjax import irmh, adaptive_tempered_smc
 from blackjax.smc import resampling
 from blackjax.smc.tuning.fearnhead_and_taylor import (
     measure_of_chain_mixing,
-    update_parameter_distribution,
+    update_parameter_distribution, build_init_with_two_states_memory,
 )
 import jax
 
@@ -60,3 +62,38 @@ class TestUpdateParameterDistribution(unittest.TestCase):
             np.array([1.00006, 1.00006, 1.00006], dtype="float32"),
             rtol=1e-6,
         )
+
+class TestUpdateParameterDistribution(unittest.TestCase):
+    def test_update_param_distribution(self):
+        """
+        Given an extremelly good mixing on one chain,
+        and that the alpha parameter is 0, then the parameters
+        of that chain with a slight mutation due to noise are reused.
+        """
+
+        previous_position = np.array(
+            [jnp.array([10.0, 15.0]), jnp.array([10.0, 15.0]), jnp.array([3.0, 4.0])]
+        )
+        next_position = np.array(
+            [jnp.array([20.0, 30.0]), jnp.array([10.0, 15.0]), jnp.array([9.0, 12.0])]
+        )
+
+        key = jax.random.PRNGKey(50)
+        new_parameter_distribution = update_parameter_distribution(
+            key,
+            jnp.array([1.0, 2.0, 3.0]),
+            previous_position,
+            next_position,
+            lambda x, y: jnp.array([1.0, 0.0, 0.0]),
+            0,
+            0.0001,
+        )
+
+        np.testing.assert_allclose(
+            new_parameter_distribution,
+            np.array([1.00006, 1.00006, 1.00006], dtype="float32"),
+            rtol=1e-6,
+        )
+
+
+

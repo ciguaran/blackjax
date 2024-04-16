@@ -23,10 +23,10 @@ class StateWithParameterOverride(NamedTuple):
     parameter_override: Dict[str, ArrayTree]
 
 
+
+
 def init(alg_init_fn, position, initial_parameter_value):
     return StateWithParameterOverride(alg_init_fn(position), initial_parameter_value)
-
-
 
 
 def build_kernel(
@@ -79,7 +79,9 @@ def build_kernel(
         ).step
         parameter_update_key, step_key = jax.random.split(rng_key, 2)
         new_state, info = step_fn(step_key, state.sampler_state, **extra_step_parameters)
-        new_parameter_override = mcmc_parameter_update_fn(parameter_update_key, new_state, info)
+        new_parameter_override = mcmc_parameter_update_fn(parameter_update_key,
+                                                          new_state,
+                                                          state, info)
         return StateWithParameterOverride(new_state, new_parameter_override), info
 
     return kernel
@@ -157,3 +159,7 @@ class inner_kernel_tuning:
             return kernel(rng_key, state, **extra_step_parameters)
 
         return SamplingAlgorithm(init_fn, step_fn)
+
+
+
+

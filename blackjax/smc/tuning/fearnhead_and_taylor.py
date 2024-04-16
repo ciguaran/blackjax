@@ -4,14 +4,19 @@ for each chain with SMC to have different parameters, sampled from a probability
 An strong assumption of this procedure is that performant parameter for mutating particles
 between steps t-1 to t should roughly be performant (up to added noise) at time t+1.
 """
+from typing import Tuple, NamedTuple
+
 import jax.random
 import jax.scipy as jsci
 import jax.numpy as jnp
 
+from blackjax.smc.base import SMCInfo
+from blackjax.smc.inner_kernel_tuning import StateWithParameterOverride
+from blackjax.types import PRNGKey
 from blackjax.util import generate_gaussian_noise
 
 
-def measure_of_chain_mixing(m):
+def esjd(m):
     """Implements ESJD (expected squared jumping distance). Inner Mahalanobis distance
     is computed using the Cholesky decomposition of M=LLt, and then inverting L.
     Whenever M is symmetrical definite positive then it must exist a Cholesky Decomposition. For example,
@@ -37,7 +42,8 @@ def update_parameter_distribution(
     latest_particles,
     measure_of_chain_mixing,
     alpha,
-    sigma,
+    sigma_parameters,
+    acceptance_probability
 ):
     """Given an existing parameter distribution that were used to mutate previous_particles
     into latest_particles, updates that parameter distribution by resampling from previous_param_samples after adding
@@ -47,9 +53,9 @@ def update_parameter_distribution(
     """
     noise_key, resampling_key = jax.random.split(key, 2)
     new_samples = generate_gaussian_noise(
-        noise_key, previous_param_samples, mu=previous_param_samples, sigma=sigma
+        noise_key, previous_param_samples, mu=previous_param_samples, sigma=sigma_parameters
     )
-    weights = alpha + measure_of_chain_mixing(previous_particles, latest_particles)
+    weights = alpha + jax.vmap(measure_of_chain_mixing)(previous_particles, latest_particles, acceptance_probability)
     return jax.random.choice(
         resampling_key,
         new_samples,
@@ -59,15 +65,38 @@ def update_parameter_distribution(
     )
 
 
+class StateWithPreviousState(NamedTuple):
+    """
+    Stores two consecutive states since so that they can be used
+    by some tuning strategies.
+    """
+    previous_state: StateWithParameterOverride
+    current_state: StateWithParameterOverride
 
-def build_mcmc_parameter_update_fn(measure_of_chain_mixing, alpha, sigma):
-    def mcmc_parameter_update_fn(key, state, info):
-        """adapter to be used within smc's inner_kernel_tuning
-        """
-        return update_parameter_distribution(key,
-                                  state.previous_param_samples,
-                                  state.previous_particles,
-                                  state.latest_particles,
-                                  measure_of_chain_mixing,
-                                  alpha,
-                                  sigma)
+    @property
+    def parameter_override(self):
+        return self.current_state.parameter_override
+
+    @property
+    def sampler_state(self):
+        return self.current_state.sampler_state
+def build_step_with_two_states_memory(kernel):
+    """Wraps the step of any kernel that outputs StateWithParameterOverride, storing
+     the last two states, o that they can be used by tuning strategies, such as Fearnhead And Taylor.
+    """
+
+    def wrapped_kernel(
+            rng_key: PRNGKey, state: StateWithPreviousState, **extra_step_parameters
+    ) -> Tuple[StateWithPreviousState, SMCInfo]:
+        new_state, new_info = kernel(rng_key, state.current_state, **extra_step_parameters)
+        return StateWithPreviousState(state.current_state, new_state), new_info
+
+    return wrapped_kernel
+
+
+def build_init_with_two_states_memory(init_fn):
+     def init(position):
+        return StateWithPreviousState(init_fn(position), init_fn(position))
+     return init
+
+
