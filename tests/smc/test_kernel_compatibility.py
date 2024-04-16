@@ -63,7 +63,9 @@ class SMCAndMCMCIntegrationTest(unittest.TestCase):
                 rng_key,
                 state,
                 logdensity_fn,
-                lambda a, b: blackjax.mcmc.random_walk.additive_step_random_walk.normal(proposal_mean)(a, b),
+                lambda a, b: blackjax.mcmc.random_walk.additive_step_random_walk.normal(
+                    proposal_mean
+                )(a, b),
                 proposal_logdensity_fn,
             )
 

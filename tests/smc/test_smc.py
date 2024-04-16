@@ -76,7 +76,9 @@ class SMCTest(chex.TestCase):
 
         def waste_free_update_fn(keys, particles, update_params):
             def one_particle_fn(rng_key, position, particle_update_params):
-                hmc = blackjax.hmc.as_sampling_algorithm(logdensity_fn, **particle_update_params)
+                hmc = blackjax.hmc.as_sampling_algorithm(
+                    logdensity_fn, **particle_update_params
+                )
                 state = hmc.init(position)
 
                 def body_fn(state, rng_key):

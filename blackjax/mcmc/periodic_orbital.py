@@ -22,7 +22,7 @@ import blackjax.mcmc.metrics as metrics
 from blackjax.base import SamplingAlgorithm
 from blackjax.types import Array, ArrayLikeTree, ArrayTree, PRNGKey
 
-__all__ = ["PeriodicOrbitalState", "init", "build_kernel", "orbital_hmc"]
+__all__ = ["PeriodicOrbitalState", "init", "build_kernel", "as_sampling_algorithm"]
 
 
 class PeriodicOrbitalState(NamedTuple):
@@ -217,13 +217,14 @@ def build_kernel(
     return kernel
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        step_size: float,
-        inverse_mass_matrix: Array,  # assume momentum is always Gaussian
-        period: int,
-        *,
-        bijection: Callable = integrators.velocity_verlet,
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    step_size: float,
+    inverse_mass_matrix: Array,  # assume momentum is always Gaussian
+    period: int,
+    *,
+    bijection: Callable = integrators.velocity_verlet,
+) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the Periodic orbital MCMC kernel.
 
     Each iteration of the periodic orbital MCMC outputs ``period`` weighted samples from
@@ -268,7 +269,7 @@ def as_sampling_algorithm(logdensity_fn: Callable,
     A ``SamplingAlgorithm``.
     """
 
-    kernel=build_kernel(bijection)
+    kernel = build_kernel(bijection)
 
     def init_fn(position: ArrayLikeTree, rng_key=None):
         del rng_key
@@ -276,13 +277,14 @@ def as_sampling_algorithm(logdensity_fn: Callable,
 
     def step_fn(rng_key: PRNGKey, state):
         return kernel(
-                rng_key,
-                state,
-                logdensity_fn,
-                step_size,
-                inverse_mass_matrix,
-                period,
-            )
+            rng_key,
+            state,
+            logdensity_fn,
+            step_size,
+            inverse_mass_matrix,
+            period,
+        )
+
     return SamplingAlgorithm(init_fn, step_fn)
 
 

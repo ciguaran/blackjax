@@ -1,16 +1,17 @@
-from typing import Callable, Optional, NamedTuple
+from typing import Callable, NamedTuple, Optional
 
 import jax
 
 from blackjax.base import SamplingAlgorithm
 from blackjax.mcmc import proposal
-from blackjax.types import PRNGKey, ArrayLikeTree, ArrayTree
+from blackjax.types import ArrayLikeTree, ArrayTree, PRNGKey
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        proposal_generator: Callable[[PRNGKey, ArrayLikeTree], ArrayTree],
-        proposal_logdensity_fn: Optional[Callable[[ArrayLikeTree], ArrayTree]] = None,
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    proposal_generator: Callable[[PRNGKey, ArrayLikeTree], ArrayTree],
+    proposal_logdensity_fn: Optional[Callable[[ArrayLikeTree], ArrayTree]] = None,
+) -> SamplingAlgorithm:
     """Implements the user interface for the RMH.
 
     Examples

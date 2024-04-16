@@ -27,7 +27,7 @@ __all__ = [
     "DynamicHMCState",
     "init",
     "build_kernel",
-    "dynamic_hmc",
+    "as_sampling_algorithm",
     "halton_sequence",
 ]
 
@@ -115,15 +115,16 @@ def build_kernel(
     return kernel
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        step_size: float,
-        inverse_mass_matrix: Array,
-        *,
-        divergence_threshold: int = 1000,
-        integrator: Callable = integrators.velocity_verlet,
-        next_random_arg_fn: Callable = lambda key: jax.random.split(key)[1],
-        integration_steps_fn: Callable = lambda key: jax.random.randint(key, (), 1, 10),
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    step_size: float,
+    inverse_mass_matrix: Array,
+    *,
+    divergence_threshold: int = 1000,
+    integrator: Callable = integrators.velocity_verlet,
+    next_random_arg_fn: Callable = lambda key: jax.random.split(key)[1],
+    integration_steps_fn: Callable = lambda key: jax.random.randint(key, (), 1, 10),
+) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the dynamic HMC kernel.
 
     Parameters
@@ -154,7 +155,7 @@ def as_sampling_algorithm(logdensity_fn: Callable,
     """
 
     kernel = build_kernel(
-            integrator, divergence_threshold, next_random_arg_fn, integration_steps_fn
+        integrator, divergence_threshold, next_random_arg_fn, integration_steps_fn
     )
 
     def init_fn(position: ArrayLikeTree, rng_key: Array):

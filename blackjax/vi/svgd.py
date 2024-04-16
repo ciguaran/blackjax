@@ -9,7 +9,7 @@ from jax.flatten_util import ravel_pytree
 from blackjax.base import SamplingAlgorithm
 from blackjax.types import ArrayLikeTree, ArrayTree
 
-__all__ = ["svgd", "rbf_kernel", "update_median_heuristic"]
+__all__ = ["as_sampling_algorithm", "rbf_kernel", "update_median_heuristic"]
 
 
 class SVGDState(NamedTuple):
@@ -123,10 +123,12 @@ def update_median_heuristic(state: SVGDState) -> SVGDState:
     return SVGDState(position, median_heuristic(kernel_parameters, position), opt_state)
 
 
-def as_sampling_algorithm(grad_logdensity_fn: Callable,
-        optimizer,
-        kernel: Callable = rbf_kernel,
-        update_kernel_parameters: Callable = update_median_heuristic) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    grad_logdensity_fn: Callable,
+    optimizer,
+    kernel: Callable = rbf_kernel,
+    update_kernel_parameters: Callable = update_median_heuristic,
+) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the svgd algorithm.
 
     Parameters
@@ -145,7 +147,6 @@ def as_sampling_algorithm(grad_logdensity_fn: Callable,
     A ``SamplingAlgorithm``.
     """
 
-
     kernel_ = build_kernel(optimizer)
 
     def init_fn(
@@ -154,8 +155,8 @@ def as_sampling_algorithm(grad_logdensity_fn: Callable,
     ):
         return init(initial_position, kernel_parameters, optimizer)
 
-    def step_fn(state, **grad_params):
+    def step_fn(state, **grad_params) -> SVGDState:
         state = kernel_(state, grad_logdensity_fn, kernel, **grad_params)
         return update_kernel_parameters(state)
 
-    return SamplingAlgorithm(init_fn, step_fn)
+    return SamplingAlgorithm(init_fn, step_fn)  # type: ignore[arg-type]

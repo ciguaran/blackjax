@@ -66,14 +66,16 @@ import jax
 from jax import numpy as jnp
 
 from blackjax.base import SamplingAlgorithm
-from blackjax.mcmc.random_walk.rmh import build_kernel as build_rmh, build_kernel, RWState, RWInfo, init
+from blackjax.mcmc.random_walk.rmh import RWInfo, RWState
+from blackjax.mcmc.random_walk.rmh import build_kernel as build_rmh
+from blackjax.mcmc.random_walk.rmh import init
 from blackjax.types import Array, ArrayLikeTree, ArrayTree, PRNGKey
 from blackjax.util import generate_gaussian_noise
 
 __all__ = [
     "build_kernel",
     "normal",
-    "additive_step_random_walk",
+    "as_sampling_algorithm",
 ]
 
 
@@ -123,8 +125,9 @@ def build_kernel():
     return kernel
 
 
-def as_sampling_algorithm(logdensity_fn: Callable, random_step: Callable
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable, random_step: Callable
+) -> SamplingAlgorithm:
     """Implements the user interface for the Additive Step RMH
 
     Examples

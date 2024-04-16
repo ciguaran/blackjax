@@ -3,8 +3,9 @@ import jax
 import jax.numpy as jnp
 from absl.testing import absltest, parameterized
 
-from blackjax.util import run_inference_algorithm
 from blackjax import hmc
+from blackjax.util import run_inference_algorithm
+
 
 class RunInferenceAlgorithmTest(chex.TestCase):
     def setUp(self):

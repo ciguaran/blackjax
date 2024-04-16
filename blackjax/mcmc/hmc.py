@@ -24,13 +24,7 @@ from blackjax.mcmc.proposal import safe_energy_diff, static_binomial_sampling
 from blackjax.mcmc.trajectory import hmc_energy
 from blackjax.types import ArrayLikeTree, ArrayTree, PRNGKey
 
-__all__ = [
-    "HMCState",
-    "HMCInfo",
-    "init",
-    "build_kernel",
-    "as_sampling_algorithm"
-]
+__all__ = ["HMCState", "HMCInfo", "init", "build_kernel", "as_sampling_algorithm"]
 
 
 class HMCState(NamedTuple):
@@ -150,13 +144,15 @@ def build_kernel(
     return kernel
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        step_size: float,
-        inverse_mass_matrix: metrics.MetricTypes,
-        num_integration_steps: int,
-        *,
-        divergence_threshold: int = 1000,
-        integrator: Callable = integrators.velocity_verlet):
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    step_size: float,
+    inverse_mass_matrix: metrics.MetricTypes,
+    num_integration_steps: int,
+    *,
+    divergence_threshold: int = 1000,
+    integrator: Callable = integrators.velocity_verlet,
+):
     """Implements the (basic) user interface for the HMC kernel.
 
     The general hmc kernel builder (:meth:`blackjax.mcmc.hmc.build_kernel`, alias

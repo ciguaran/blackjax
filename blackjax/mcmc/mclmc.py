@@ -24,7 +24,7 @@ from blackjax.mcmc.integrators import IntegratorState, isokinetic_mclachlan
 from blackjax.types import ArrayLike, PRNGKey
 from blackjax.util import generate_unit_vector, pytree_size
 
-__all__ = ["MCLMCInfo", "init", "build_kernel", "mclmc"]
+__all__ = ["MCLMCInfo", "init", "build_kernel", "as_sampling_algorithm"]
 
 
 class MCLMCInfo(NamedTuple):
@@ -103,11 +103,12 @@ def build_kernel(logdensity_fn, integrator):
     return kernel
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        L,
-        step_size,
-        integrator=isokinetic_mclachlan,
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    L,
+    step_size,
+    integrator=isokinetic_mclachlan,
+) -> SamplingAlgorithm:
     """The general mclmc kernel builder (:meth:`blackjax.mcmc.mclmc.build_kernel`, alias `blackjax.mclmc.build_kernel`) can be
     cumbersome to manipulate. Since most users only need to specify the kernel
     parameters at initialization time, we provide a helper function that

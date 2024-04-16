@@ -27,7 +27,7 @@ __all__ = [
     "sample",
     "generate_meanfield_logdensity",
     "step",
-    "meanfield_vi",
+    "as_vi_algorithm",
 ]
 
 
@@ -109,9 +109,9 @@ def sample(rng_key: PRNGKey, state: MFVIState, num_samples: int = 1):
     return _sample(rng_key, state.mu, state.rho, num_samples)
 
 
-def as_vi_algorithm(logdensity_fn: Callable,
-        optimizer: GradientTransformation,
-        num_samples: int = 100) -> VIAlgorithm:
+def as_vi_algorithm(
+    logdensity_fn: Callable, optimizer: GradientTransformation, num_samples: int = 100
+) -> VIAlgorithm:
     """High-level implementation of Mean-Field Variational Inference.
 
     Parameters
@@ -129,6 +129,7 @@ def as_vi_algorithm(logdensity_fn: Callable,
     A ``VIAlgorithm``.
 
     """
+
     def init_fn(position: ArrayLikeTree):
         return init(position, optimizer)
 

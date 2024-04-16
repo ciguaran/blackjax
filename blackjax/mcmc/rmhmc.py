@@ -27,14 +27,15 @@ init = hmc.init
 build_kernel = hmc.build_kernel
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        step_size: float,
-        mass_matrix: Union[metrics.Metric, Callable],
-        num_integration_steps: int,
-        *,
-        divergence_threshold: int = 1000,
-        integrator: Callable = integrators.implicit_midpoint,
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    step_size: float,
+    mass_matrix: Union[metrics.Metric, Callable],
+    num_integration_steps: int,
+    *,
+    divergence_threshold: int = 1000,
+    integrator: Callable = integrators.implicit_midpoint,
+) -> SamplingAlgorithm:
     """A Riemannian Manifold Hamiltonian Monte Carlo kernel
 
     Of note, this kernel is simply an alias of the ``hmc`` kernel with a
@@ -78,12 +79,12 @@ def as_sampling_algorithm(logdensity_fn: Callable,
 
     def step_fn(rng_key: PRNGKey, state):
         return kernel(
-                rng_key,
-                state,
-                logdensity_fn,
-                step_size,
-                mass_matrix,
-                num_integration_steps,
+            rng_key,
+            state,
+            logdensity_fn,
+            step_size,
+            mass_matrix,
+            num_integration_steps,
         )
 
     return SamplingAlgorithm(init_fn, step_fn)

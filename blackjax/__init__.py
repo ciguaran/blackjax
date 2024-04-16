@@ -7,19 +7,30 @@ from .adaptation.pathfinder_adaptation import pathfinder_adaptation
 from .adaptation.window_adaptation import window_adaptation
 from .diagnostics import effective_sample_size as ess
 from .diagnostics import potential_scale_reduction as rhat
-from .mcmc.random_walk import irmh, rmh, additive_step_random_walk
+from .mcmc import (
+    barker,
+    dynamic_hmc,
+    elliptical_slice,
+    ghmc,
+    hmc,
+    mala,
+    marginal_latent_gaussian,
+    mclmc,
+    nuts,
+    periodic_orbital,
+    rmhmc,
+)
+from .mcmc.random_walk import additive_step_random_walk, irmh, rmh
 from .optimizers import dual_averaging, lbfgs
 from .sgmcmc import csgld, sghmc, sgld, sgnht
 from .smc import adaptive_tempered_smc, inner_kernel_tuning, tempered_smc
-from .vi import meanfield_vi, pathfinder, schrodinger_follmer,svgd
-from .mcmc import hmc, barker, dynamic_hmc, elliptical_slice, periodic_orbital,\
-    rmhmc, ghmc, nuts,mala,marginal_latent_gaussian, mclmc
+from .vi import meanfield_vi, pathfinder, schrodinger_follmer, svgd
 
 __all__ = [
     "__version__",
     "dual_averaging",  # optimizers
     "lbfgs",
-    "hmc", # mcmc
+    "hmc",  # mcmc
     "dynamic_hmc",
     "rmhmc",
     "mala",

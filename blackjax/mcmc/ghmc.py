@@ -195,15 +195,16 @@ def update_momentum(rng_key, state, alpha, momentum_generator):
     return momentum
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        step_size: float,
-        momentum_inverse_scale: ArrayLikeTree,
-        alpha: float,
-        delta: float,
-        *,
-        divergence_threshold: int = 1000,
-        noise_gn: Callable = lambda _: 0.0,
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    step_size: float,
+    momentum_inverse_scale: ArrayLikeTree,
+    alpha: float,
+    delta: float,
+    *,
+    divergence_threshold: int = 1000,
+    noise_gn: Callable = lambda _: 0.0,
+) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the Generalized HMC kernel.
 
     The Generalized HMC kernel performs a similar procedure to the standard HMC
@@ -265,8 +266,6 @@ def as_sampling_algorithm(logdensity_fn: Callable,
     A ``SamplingAlgorithm``.
     """
 
-
-
     kernel = build_kernel(noise_gn, divergence_threshold)
 
     def init_fn(position: ArrayLikeTree, rng_key: PRNGKey):
@@ -274,13 +273,13 @@ def as_sampling_algorithm(logdensity_fn: Callable,
 
     def step_fn(rng_key: PRNGKey, state):
         return kernel(
-                rng_key,
-                state,
-                logdensity_fn,
-                step_size,
-                momentum_inverse_scale,
-                alpha,
-                delta,
+            rng_key,
+            state,
+            logdensity_fn,
+            step_size,
+            momentum_inverse_scale,
+            alpha,
+            delta,
         )
 
     return SamplingAlgorithm(init_fn, step_fn)

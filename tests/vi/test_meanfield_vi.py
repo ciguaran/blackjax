@@ -32,7 +32,9 @@ class MFVITest(chex.TestCase):
         num_samples = 500
 
         optimizer = optax.sgd(1e-2)
-        mfvi = blackjax.meanfield_vi.as_vi_algorithm(logdensity_fn, optimizer, num_samples)
+        mfvi = blackjax.meanfield_vi.as_vi_algorithm(
+            logdensity_fn, optimizer, num_samples
+        )
         state = mfvi.init(initial_position)
 
         rng_key = self.key

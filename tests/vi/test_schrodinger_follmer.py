@@ -67,7 +67,9 @@ class SchrodingerFollmerTest(chex.TestCase):
             observed, prior_mu, prior_prec, true_prec
         )
 
-        schrodinger_follmer_algo = schrodinger_follmer.as_vi_algorithm(logp_model, 50, 25)
+        schrodinger_follmer_algo = schrodinger_follmer.as_vi_algorithm(
+            logp_model, 50, 25
+        )
 
         initial_state = schrodinger_follmer_algo.init(initial_position)
         schrodinger_follmer_algo_sample = self.variant(

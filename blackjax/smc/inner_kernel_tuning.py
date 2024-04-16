@@ -1,10 +1,9 @@
-from typing import Callable, Dict, NamedTuple, Tuple, Union
+from typing import Callable, Dict, NamedTuple, Tuple
 
 from blackjax.base import SamplingAlgorithm
-from blackjax.smc import adaptive_tempered_smc, tempered_smc
 from blackjax.smc.base import SMCInfo, SMCState
-
 from blackjax.types import ArrayTree, PRNGKey
+
 
 class StateWithParameterOverride(NamedTuple):
     """
@@ -60,7 +59,7 @@ def build_kernel(
     def kernel(
         rng_key: PRNGKey, state: StateWithParameterOverride, **extra_step_parameters
     ) -> Tuple[StateWithParameterOverride, SMCInfo]:
-        step_fn = smc_algorithm.as_sampling_algorithm(
+        step_fn = smc_algorithm(
             logprior_fn=logprior_fn,
             loglikelihood_fn=loglikelihood_fn,
             mcmc_step_fn=mcmc_step_fn,
@@ -77,17 +76,18 @@ def build_kernel(
     return kernel
 
 
-def as_sampling_algorithm(smc_algorithm: Union[adaptive_tempered_smc, tempered_smc],
-        logprior_fn: Callable,
-        loglikelihood_fn: Callable,
-        mcmc_step_fn: Callable,
-        mcmc_init_fn: Callable,
-        resampling_fn: Callable,
-        mcmc_parameter_update_fn: Callable[[SMCState, SMCInfo], ArrayTree],
-        initial_parameter_value,
-        num_mcmc_steps: int = 10,
-        **extra_parameters,
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    smc_algorithm,
+    logprior_fn: Callable,
+    loglikelihood_fn: Callable,
+    mcmc_step_fn: Callable,
+    mcmc_init_fn: Callable,
+    resampling_fn: Callable,
+    mcmc_parameter_update_fn: Callable[[SMCState, SMCInfo], Dict[str, ArrayTree]],
+    initial_parameter_value,
+    num_mcmc_steps: int = 10,
+    **extra_parameters,
+) -> SamplingAlgorithm:
     """In the context of an SMC sampler (whose step_fn returning state
     has a .particles attribute), there's an inner MCMC that is used
     to perturbate/update each of the particles. This adaptation tunes some

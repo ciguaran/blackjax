@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """Implementation of the Stan warmup for the HMC family of sampling algorithms."""
-from typing import Callable, NamedTuple, Union
+from typing import Callable, NamedTuple
 
 import jax
 import jax.numpy as jnp
 
-import blackjax.mcmc as mcmc
 from blackjax.adaptation.base import AdaptationInfo, AdaptationResults
 from blackjax.adaptation.mass_matrix import (
     MassMatrixAdaptationState,
@@ -27,7 +26,7 @@ from blackjax.adaptation.step_size import (
     DualAveragingAdaptationState,
     dual_averaging_adaptation,
 )
-from blackjax.base import AdaptationAlgorithm
+from blackjax.base import AdaptationAlgorithm, SamplingAlgorithm
 from blackjax.progress_bar import progress_bar_scan
 from blackjax.types import Array, ArrayLikeTree, PRNGKey
 from blackjax.util import pytree_size
@@ -243,7 +242,7 @@ def base(
 
 
 def window_adaptation(
-    algorithm: Union[mcmc.hmc, mcmc.nuts],
+    algorithm: SamplingAlgorithm,
     logdensity_fn: Callable,
     is_mass_matrix_diagonal: bool = True,
     initial_step_size: float = 1.0,
@@ -289,7 +288,7 @@ def window_adaptation(
 
     """
 
-    mcmc_kernel = algorithm.build_kernel()
+    mcmc_kernel = algorithm.step
 
     adapt_init, adapt_step, adapt_final = base(
         is_mass_matrix_diagonal,

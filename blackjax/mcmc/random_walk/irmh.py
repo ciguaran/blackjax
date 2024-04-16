@@ -3,14 +3,15 @@ from typing import Callable, Optional
 from blackjax.base import SamplingAlgorithm
 from blackjax.mcmc.random_walk import rmh
 from blackjax.mcmc.random_walk.additive_step_random_walk import init
-from blackjax.mcmc.random_walk.rmh import build_kernel, RWState, RWInfo
-from blackjax.types import ArrayLikeTree, PRNGKey, ArrayTree
+from blackjax.mcmc.random_walk.rmh import RWInfo, RWState
+from blackjax.types import ArrayLikeTree, ArrayTree, PRNGKey
 
 
-def as_sampling_algorithm(logdensity_fn: Callable,
-        proposal_distribution: Callable,
-        proposal_logdensity_fn: Optional[Callable] = None,
-    ) -> SamplingAlgorithm:
+def as_sampling_algorithm(
+    logdensity_fn: Callable,
+    proposal_distribution: Callable,
+    proposal_logdensity_fn: Optional[Callable] = None,
+) -> SamplingAlgorithm:
     """Implements the (basic) user interface for the independent RMH.
 
     Examples

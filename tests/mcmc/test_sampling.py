@@ -140,7 +140,9 @@ class LinearRegressionTest(chex.TestCase):
             case["num_warmup_steps"],
         )
         if isinstance(case["algorithm"], ModuleType):
-            inference_algorithm = case["algorithm"].as_sampling_algorithm(logposterior_fn, **parameters)
+            inference_algorithm = case["algorithm"].as_sampling_algorithm(
+                logposterior_fn, **parameters
+            )
         else:
             inference_algorithm = case["algorithm"](logposterior_fn, **parameters)
 
@@ -231,8 +233,11 @@ class LinearRegressionTest(chex.TestCase):
             num_warmup_steps,
         )
         from types import ModuleType
+
         if isinstance(algorithm, ModuleType):
-            inference_algorithm = algorithm.as_sampling_algorithm(logposterior_fn, **parameters)
+            inference_algorithm = algorithm.as_sampling_algorithm(
+                logposterior_fn, **parameters
+            )
         else:
             inference_algorithm = algorithm(logposterior_fn, **parameters)
         _, states, _ = run_inference_algorithm(
@@ -272,7 +277,9 @@ class LinearRegressionTest(chex.TestCase):
             initial_positions,
             num_steps=1000,
         )
-        inference_algorithm = blackjax.ghmc.as_sampling_algorithm(logposterior_fn, **parameters)
+        inference_algorithm = blackjax.ghmc.as_sampling_algorithm(
+            logposterior_fn, **parameters
+        )
 
         chain_keys = jax.random.split(inference_key, num_chains)
         _, states, _ = jax.vmap(
@@ -316,7 +323,9 @@ class LinearRegressionTest(chex.TestCase):
             optim=optax.adam(learning_rate=0.1),
             num_steps=1000,
         )
-        inference_algorithm = blackjax.dynamic_hmc.as_sampling_algorithm(logposterior_fn, **parameters)
+        inference_algorithm = blackjax.dynamic_hmc.as_sampling_algorithm(
+            logposterior_fn, **parameters
+        )
 
         chain_keys = jax.random.split(inference_key, num_chains)
         _, states, _ = jax.vmap(
@@ -675,13 +684,17 @@ class UnivariateNormalTest(chex.TestCase):
             parameters["mass_matrix"] = rmhmc_static_mass_matrix_fn
 
         if isinstance(algorithm, ModuleType):
-            inference_algorithm = algorithm.as_sampling_algorithm(self.normal_logprob, **parameters)
+            inference_algorithm = algorithm.as_sampling_algorithm(
+                self.normal_logprob, **parameters
+            )
         else:
             inference_algorithm = algorithm(self.normal_logprob, **parameters)
 
         rng_key = self.key
         if algorithm == blackjax.elliptical_slice:
-            inference_algorithm = algorithm.as_sampling_algorithm(lambda x: jnp.ones_like(x), **parameters)
+            inference_algorithm = algorithm.as_sampling_algorithm(
+                lambda x: jnp.ones_like(x), **parameters
+            )
         if algorithm == blackjax.ghmc:
             rng_key, initial_state_key = jax.random.split(rng_key)
             initial_state = inference_algorithm.init(
