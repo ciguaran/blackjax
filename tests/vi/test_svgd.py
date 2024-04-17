@@ -8,7 +8,7 @@ from absl.testing import absltest
 from optax import adam
 
 import blackjax
-from blackjax.vi.svgd import SVGDState, rbf_kernel, update_median_heuristic
+from blackjax.vi.svgd import rbf_kernel, update_median_heuristic
 
 
 def svgd_training_loop(
@@ -19,7 +19,7 @@ def svgd_training_loop(
     optimizer,
     *,
     num_iterations=500,
-) -> SVGDState:
+):
     svgd = blackjax.svgd.as_sampling_algorithm(
         jax.grad(log_p), optimizer, kernel, update_median_heuristic
     )
