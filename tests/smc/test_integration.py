@@ -34,11 +34,7 @@ def test_update_param_distribution():
     from datetime import date
 
     rng_key = jax.random.key(int(date.today().strftime("%Y%m%d")))
-    import arviz as az
     import numpy as np
-    import matplotlib.pyplot as plt
-    import pandas as pd
-    import functools
     n_particles = 4000
 
     from jax.scipy.stats import multivariate_normal

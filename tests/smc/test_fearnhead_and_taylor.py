@@ -9,10 +9,8 @@ import jax.scipy.stats as stats
 
 from blackjax import irmh, adaptive_tempered_smc
 from blackjax.smc import resampling
-from blackjax.smc.tuning.fearnhead_and_taylor import (
-    measure_of_chain_mixing,
-    update_parameter_distribution, build_init_with_two_states_memory,
-)
+from blackjax.smc.tuning.fearnhead_and_taylor import update_parameter_distribution, build_init_with_two_states_memory, \
+    esjd
 import jax
 
 
@@ -24,7 +22,7 @@ class TestMeasureOfChainMixing(unittest.TestCase):
         next_position = np.array([jnp.array([20.0, 30.0]), jnp.array([9.0, 12.0])])
         acceptance_probabilities = np.array([0.3, 0.2])
 
-        chain_mixing = jax.vmap(measure_of_chain_mixing(m))(
+        chain_mixing = jax.vmap(esjd(m))(
             previous_position, next_position, acceptance_probabilities
         )
 
@@ -63,6 +61,7 @@ class TestUpdateParameterDistribution(unittest.TestCase):
             rtol=1e-6,
         )
 
+
 class TestUpdateParameterDistribution(unittest.TestCase):
     def test_update_param_distribution(self):
         """
@@ -86,6 +85,7 @@ class TestUpdateParameterDistribution(unittest.TestCase):
             next_position,
             lambda x, y: jnp.array([1.0, 0.0, 0.0]),
             0,
+            1,
             0.0001,
         )
 

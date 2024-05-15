@@ -80,6 +80,7 @@ class StateWithPreviousState(NamedTuple):
     @property
     def sampler_state(self):
         return self.current_state.sampler_state
+
 def build_step_with_two_states_memory(kernel):
     """Wraps the step of any kernel that outputs StateWithParameterOverride, storing
      the last two states, o that they can be used by tuning strategies, such as Fearnhead And Taylor.
