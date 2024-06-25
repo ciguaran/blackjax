@@ -457,7 +457,7 @@ class SGMCMCTest(chex.TestCase):
         _ = sghmc.step(rng_key, init_position, data_batch, 1e-3)
 
     def test_linear_regression_sgnht(self):
-        rng_key, data_key = jax.random.split(self.key, 2)
+        step_key, data_key = jax.random.split(self.key, 2)
 
         data_size = 1000
         X_data = jax.random.normal(data_key, shape=(data_size, 5))
@@ -467,15 +467,14 @@ class SGMCMCTest(chex.TestCase):
         )
         sgnht = blackjax.sgnht(grad_fn)
 
-        _, rng_key = jax.random.split(rng_key)
         data_batch = X_data[100:200, :]
         init_position = 1.0
         data_batch = X_data[:100, :]
         init_state = sgnht.init(init_position, self.key)
-        _ = sgnht.step(rng_key, init_state, data_batch, 1e-3)
+        _ = sgnht.step(step_key, init_state, data_batch, 1e-3)
 
     def test_linear_regression_sgnhtc_cv(self):
-        rng_key, data_key = jax.random.split(self.key, 2)
+        step_key, data_key = jax.random.split(self.key, 2)
 
         data_size = 1000
         X_data = jax.random.normal(data_key, shape=(data_size, 5))
@@ -490,11 +489,10 @@ class SGMCMCTest(chex.TestCase):
 
         sgnht = blackjax.sgnht(cv_grad_fn)
 
-        _, rng_key = jax.random.split(rng_key)
         init_position = 1.0
         data_batch = X_data[:100, :]
         init_state = sgnht.init(init_position, self.key)
-        _ = sgnht.step(rng_key, init_state, data_batch, 1e-3)
+        _ = sgnht.step(step_key, init_state, data_batch, 1e-3)
 
 
 class LatentGaussianTest(chex.TestCase):
@@ -541,103 +539,6 @@ def rmhmc_static_mass_matrix_fn(position):
     return jnp.array([1.0])
 
 
-normal_test_cases = [
-    {
-        "algorithm": blackjax.hmc,
-        "initial_position": jnp.array(3.0),
-        "parameters": {
-            "step_size": 3.9,
-            "inverse_mass_matrix": jnp.array([1.0]),
-            "num_integration_steps": 30,
-        },
-        "num_sampling_steps": 6000,
-        "burnin": 1_000,
-    },
-    {
-        "algorithm": blackjax.nuts,
-        "initial_position": jnp.array(3.0),
-        "parameters": {"step_size": 4.0, "inverse_mass_matrix": jnp.array([1.0])},
-        "num_sampling_steps": 6000,
-        "burnin": 1_000,
-    },
-    {
-        "algorithm": blackjax.orbital_hmc,
-        "initial_position": jnp.array(100.0),
-        "parameters": {
-            "step_size": 0.1,
-            "inverse_mass_matrix": jnp.array([0.1]),
-            "period": 100,
-        },
-        "num_sampling_steps": 20_000,
-        "burnin": 15_000,
-    },
-    {
-        "algorithm": blackjax.additive_step_random_walk.normal_random_walk,
-        "initial_position": 1.0,
-        "parameters": {"sigma": jnp.array([1.0])},
-        "num_sampling_steps": 20_000,
-        "burnin": 5_000,
-    },
-    {
-        "algorithm": blackjax.rmh,
-        "parameters": {},
-        "initial_position": 1.0,
-        "num_sampling_steps": 20_000,
-        "burnin": 5_000,
-    },
-    {
-        "algorithm": blackjax.mala,
-        "initial_position": 1.0,
-        "parameters": {"step_size": 1e-1},
-        "num_sampling_steps": 45_000,
-        "burnin": 5_000,
-    },
-    {
-        "algorithm": blackjax.elliptical_slice,
-        "initial_position": 1.0,
-        "parameters": {"cov": jnp.array([2.0**2]), "mean": 1.0},
-        "num_sampling_steps": 20_000,
-        "burnin": 5_000,
-    },
-    {
-        "algorithm": blackjax.irmh,
-        "initial_position": jnp.array(1.0),
-        "parameters": {},
-        "num_sampling_steps": 50_000,
-        "burnin": 5_000,
-    },
-    {
-        "algorithm": blackjax.ghmc,
-        "initial_position": jnp.array(1.0),
-        "parameters": {
-            "step_size": 1.0,
-            "momentum_inverse_scale": jnp.array(1.0),
-            "alpha": 0.8,
-            "delta": 2.0,
-        },
-        "num_sampling_steps": 6000,
-        "burnin": 1_000,
-    },
-    {
-        "algorithm": blackjax.barker_proposal,
-        "initial_position": 1.0,
-        "parameters": {"step_size": 1.5},
-        "num_sampling_steps": 20_000,
-        "burnin": 2_000,
-    },
-    {
-        "algorithm": blackjax.rmhmc,
-        "initial_position": jnp.array(3.0),
-        "parameters": {
-            "step_size": 1.0,
-            "num_integration_steps": 30,
-        },
-        "num_sampling_steps": 6000,
-        "burnin": 1_000,
-    },
-]
-
-
 class UnivariateNormalTest(chex.TestCase):
     """Test sampling of a univariate Normal distribution.
 
@@ -651,34 +552,15 @@ class UnivariateNormalTest(chex.TestCase):
     def normal_logprob(self, x):
         return stats.norm.logpdf(x, loc=1.0, scale=2.0)
 
-    @chex.all_variants(with_pmap=False)
-    @parameterized.parameters(normal_test_cases)
-    def test_univariate_normal(
-        self, algorithm, initial_position, parameters, num_sampling_steps, burnin
+    def univariate_normal_test_case(
+        self,
+        inference_algorithm,
+        rng_key,
+        initial_state,
+        num_sampling_steps,
+        burnin,
+        postprocess_samples=None,
     ):
-        if algorithm == blackjax.irmh:
-            parameters["proposal_distribution"] = functools.partial(
-                irmh_proposal_distribution, mean=1.0
-            )
-
-        if algorithm == blackjax.rmh:
-            parameters["proposal_generator"] = rmh_proposal_distribution
-
-        if algorithm == blackjax.rmhmc:
-            parameters["mass_matrix"] = rmhmc_static_mass_matrix_fn
-
-        inference_algorithm = algorithm(self.normal_logprob, **parameters)
-        rng_key = self.key
-        if algorithm == blackjax.elliptical_slice:
-            inference_algorithm = algorithm(lambda x: jnp.ones_like(x), **parameters)
-        if algorithm == blackjax.ghmc:
-            rng_key, initial_state_key = jax.random.split(rng_key)
-            initial_state = inference_algorithm.init(
-                initial_position, initial_state_key
-            )
-        else:
-            initial_state = inference_algorithm.init(initial_position)
-
         inference_key, orbit_key = jax.random.split(rng_key)
         _, states, _ = self.variant(
             functools.partial(
@@ -688,14 +570,160 @@ class UnivariateNormalTest(chex.TestCase):
             )
         )(inference_key, initial_state)
 
-        if algorithm == blackjax.orbital_hmc:
-            samples = orbit_samples(
-                states.positions[burnin:], states.weights[burnin:], orbit_key
-            )
+        # else:
+        if postprocess_samples:
+            samples = postprocess_samples(states, orbit_key)
         else:
             samples = states.position[burnin:]
         np.testing.assert_allclose(np.mean(samples), 1.0, rtol=1e-1)
         np.testing.assert_allclose(np.var(samples), 4.0, rtol=1e-1)
+
+    @chex.all_variants(with_pmap=False)
+    def test_irmh(self):
+        inference_algorithm = blackjax.irmh(
+            self.normal_logprob,
+            proposal_distribution=functools.partial(
+                irmh_proposal_distribution, mean=1.0
+            ),
+        )
+        initial_state = inference_algorithm.init(jnp.array(1.0))
+
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 50000, 5000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_nuts(self):
+        inference_algorithm = blackjax.nuts(
+            self.normal_logprob, step_size=4.0, inverse_mass_matrix=jnp.array([1.0])
+        )
+
+        initial_state = inference_algorithm.init(jnp.array(3.0))
+
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 5000, 1000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_rmh(self):
+        inference_algorithm = blackjax.rmh(
+            self.normal_logprob, proposal_generator=rmh_proposal_distribution
+        )
+        initial_state = inference_algorithm.init(1.0)
+
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 20_000, 5_000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_rmhmc(self):
+        inference_algorithm = blackjax.rmhmc(
+            self.normal_logprob,
+            mass_matrix=rmhmc_static_mass_matrix_fn,
+            step_size=1.0,
+            num_integration_steps=30,
+        )
+
+        initial_state = inference_algorithm.init(jnp.array(3.0))
+
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 6_000, 1_000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_elliptical_slice(self):
+        inference_algorithm = blackjax.elliptical_slice(
+            lambda x: jnp.ones_like(x), cov=jnp.array([2.0**2]), mean=1.0
+        )
+
+        initial_state = inference_algorithm.init(1.0)
+
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 20_000, 5_000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_ghmc(self):
+        rng_key, initial_state_key = jax.random.split(self.key)
+        inference_algorithm = blackjax.ghmc(
+            self.normal_logprob,
+            step_size=1.0,
+            momentum_inverse_scale=jnp.array(1.0),
+            alpha=0.8,
+            delta=2.0,
+        )
+        initial_state = inference_algorithm.init(jnp.array(1.0), initial_state_key)
+        self.univariate_normal_test_case(
+            inference_algorithm, rng_key, initial_state, 6000, 1000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_hmc(self):
+        rng_key, initial_state_key = jax.random.split(self.key)
+        inference_algorithm = blackjax.hmc(
+            self.normal_logprob,
+            step_size=3.9,
+            inverse_mass_matrix=jnp.array([1.0]),
+            num_integration_steps=30,
+        )
+        initial_state = inference_algorithm.init(jnp.array(3.0))
+        self.univariate_normal_test_case(
+            inference_algorithm, rng_key, initial_state, 6000, 1000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_orbital_hmc(self):
+        inference_algorithm = blackjax.orbital_hmc(
+            self.normal_logprob,
+            step_size=0.1,
+            inverse_mass_matrix=jnp.array([0.1]),
+            period=100,
+        )
+        initial_state = inference_algorithm.init(jnp.array(100.0))
+        burnin = 15_000
+
+        def postprocess_samples(states, key):
+            return orbit_samples(
+                states.positions[burnin:], states.weights[burnin:], key
+            )
+
+        self.univariate_normal_test_case(
+            inference_algorithm,
+            self.key,
+            initial_state,
+            20_000,
+            burnin,
+            postprocess_samples,
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_random_walk(self):
+        inference_algorithm = blackjax.additive_step_random_walk.normal_random_walk(
+            self.normal_logprob, sigma=jnp.array([1.0])
+        )
+        initial_state = inference_algorithm.init(jnp.array(1.0))
+
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 20_000, 5_000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_mala(self):
+        inference_algorithm = blackjax.mala(self.normal_logprob, step_size=1e-1)
+        initial_state = inference_algorithm.init(jnp.array(1.0))
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 45000, 5_000
+        )
+
+    @chex.all_variants(with_pmap=False)
+    def test_barker(self):
+        inference_algorithm = blackjax.barker_proposal(
+            self.normal_logprob, step_size=1.5
+        )
+        initial_state = inference_algorithm.init(jnp.array(1.0))
+        self.univariate_normal_test_case(
+            inference_algorithm, self.key, initial_state, 20000, 2_000
+        )
 
 
 mcse_test_cases = [
@@ -738,7 +766,7 @@ class MonteCarloStandardErrorTest(chex.TestCase):
 
     def setUp(self):
         super().setUp()
-        self.key = jax.random.key(20220203)
+        self.key = jax.random.key(8456)
 
     def generate_multivariate_target(self, rng=None):
         """Genrate a Multivariate Normal distribution as target."""
@@ -821,7 +849,7 @@ class MonteCarloStandardErrorTest(chex.TestCase):
             true_scale[0] * true_scale[1]
         )
 
-        _ = jax.tree_map(
+        _ = jax.tree.map(
             self.mcse_test,
             [posterior_samples, posterior_variance, posterior_correlation],
             [true_loc, true_scale**2, true_rho],

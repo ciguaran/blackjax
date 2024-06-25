@@ -14,7 +14,7 @@ import blackjax.smc.resampling as resampling
 from blackjax import adaptive_tempered_smc, tempered_smc
 from blackjax.mcmc.random_walk import build_irmh
 from blackjax.smc import extend_params
-from blackjax.smc.inner_kernel_tuning import inner_kernel_tuning
+from blackjax.smc.inner_kernel_tuning import as_top_level_api as inner_kernel_tuning
 from blackjax.smc.tuning.from_kernel_info import update_scale_from_acceptance_rate
 from blackjax.smc.tuning.from_particles import (
     mass_matrix_from_particles,
@@ -313,18 +313,18 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
 
         def inference_loop(kernel, rng_key, initial_state):
             def cond(carry):
-                state, key = carry
+                _, state = carry
                 return state.sampler_state.lmbda < 1
 
             def body(carry):
-                state, op_key = carry
-                op_key, subkey = jax.random.split(op_key, 2)
+                i, state = carry
+                subkey = jax.random.fold_in(rng_key, i)
                 state, _ = kernel(subkey, state)
-                return state, op_key
+                return i + 1, state
 
-            return jax.lax.while_loop(cond, body, (initial_state, rng_key))
+            return jax.lax.while_loop(cond, body, (0, initial_state))
 
-        state, _ = inference_loop(smc_kernel, self.key, init_state)
+        _, state = inference_loop(smc_kernel, self.key, init_state)
 
         assert state.parameter_override["inverse_mass_matrix"].shape == (100, 2, 2)
         self.assert_linear_regression_test_case(state.sampler_state)
@@ -373,12 +373,12 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
         lambda_schedule = np.logspace(-5, 0, num_tempering_steps)
 
         def body_fn(carry, lmbda):
-            rng_key, state = carry
-            rng_key, subkey = jax.random.split(rng_key)
+            i, state = carry
+            subkey = jax.random.fold_in(self.key, i)
             new_state, info = smc_kernel(subkey, state, lmbda=lmbda)
-            return (rng_key, new_state), (new_state, info)
+            return (i + 1, new_state), (new_state, info)
 
-        (_, result), _ = jax.lax.scan(body_fn, (self.key, init_state), lambda_schedule)
+        (_, result), _ = jax.lax.scan(body_fn, (0, init_state), lambda_schedule)
         self.assert_linear_regression_test_case(result.sampler_state)
 
 
