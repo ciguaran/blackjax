@@ -1,9 +1,7 @@
 from typing import Callable, Dict, NamedTuple, Tuple, Union
 
 from blackjax.base import SamplingAlgorithm
-from blackjax.smc.adaptive_tempered import adaptive_tempered_smc
 from blackjax.smc.base import SMCInfo, SMCState
-from blackjax.smc.tempered import tempered_smc
 from blackjax.types import ArrayTree, PRNGKey
 import jax
 

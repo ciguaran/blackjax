@@ -57,7 +57,7 @@ def test_update_param_distribution():
     from blackjax.smc.tuning.fearnhead_and_taylor import update_parameter_distribution, esjd, build_step_with_two_states_memory, StateWithPreviousState
     from blackjax import additive_step_random_walk
     from blackjax.mcmc.random_walk import normal
-    from blackjax.smc.inner_kernel_tuning import inner_kernel_tuning
+    from blackjax.smc.inner_kernel_tuning import as_top_level_api as inner_kernel_tuning
     from blackjax.smc.tuning.from_particles import (
         particles_covariance_matrix
     )
