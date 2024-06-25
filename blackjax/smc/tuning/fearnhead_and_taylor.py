@@ -52,9 +52,7 @@ def update_parameter_distribution(
     See Equation 4 in https://arxiv.org/pdf/1005.1193.pdf
     """
     noise_key, resampling_key = jax.random.split(key, 2)
-    new_samples = generate_gaussian_noise(
-        noise_key, previous_param_samples, mu=previous_param_samples, sigma=sigma_parameters
-    )
+    new_samples = generate_gaussian_noise(noise_key, previous_param_samples, mu=previous_param_samples, sigma=sigma_parameters)
     weights = alpha + jax.vmap(measure_of_chain_mixing)(previous_particles, latest_particles, acceptance_probability)
     return jax.random.choice(
         resampling_key,
@@ -90,7 +88,8 @@ def build_step_with_two_states_memory(kernel):
             rng_key: PRNGKey, state: StateWithPreviousState, **extra_step_parameters
     ) -> Tuple[StateWithPreviousState, SMCInfo]:
         new_state, new_info = kernel(rng_key, state.current_state, **extra_step_parameters)
-        return StateWithPreviousState(state.current_state, new_state), new_info
+        return StateWithPreviousState(previous_state=state.current_state,
+                                      current_state=new_state), new_info
 
     return wrapped_kernel
 

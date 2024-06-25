@@ -152,7 +152,3 @@ def as_top_level_api(
         return kernel(rng_key, state, **extra_step_parameters)
 
     return SamplingAlgorithm(init_fn, step_fn)
-
-
-
-
