@@ -26,11 +26,11 @@ def esjd(m):
     L = jnp.linalg.cholesky(m)
 
     def measure(previous_position, next_position, acceptance_probability):
-        return acceptance_probability * jnp.linalg.norm(
+        return acceptance_probability * jnp.power(jnp.linalg.norm(
             jsci.linalg.solve_triangular(
                 L, (previous_position - next_position), lower=True
             )
-        )
+        ),2)
 
     return measure
 
@@ -53,14 +53,15 @@ def update_parameter_distribution(
     """
     noise_key, resampling_key = jax.random.split(key, 2)
     new_samples = generate_gaussian_noise(noise_key, previous_param_samples, mu=previous_param_samples, sigma=sigma_parameters)
-    weights = alpha + jax.vmap(measure_of_chain_mixing)(previous_particles, latest_particles, acceptance_probability)
+    chain_mixing_measurement = jax.vmap(measure_of_chain_mixing)(previous_particles, latest_particles, acceptance_probability)
+    weights = alpha + chain_mixing_measurement
     return jax.random.choice(
         resampling_key,
         new_samples,
         shape=(len(previous_param_samples),),
         replace=True,
         p=weights / jnp.sum(weights),
-    )
+    ), chain_mixing_measurement
 
 
 class StateWithPreviousState(NamedTuple):
