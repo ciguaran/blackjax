@@ -22,13 +22,14 @@ class TestMeasureOfChainMixing(unittest.TestCase):
         next_position = np.array([jnp.array([20.0, 30.0]), jnp.array([9.0, 12.0])])
         acceptance_probabilities = np.array([0.3, 0.2])
 
-        chain_mixing = jax.vmap(esjd(m))(
-            previous_position, next_position, acceptance_probabilities
-        )
+        chain_mixing = esjd(m)(previous_position, next_position, acceptance_probabilities)
 
         assert chain_mixing.shape == (2,)
 
-
+        def direct_calculation(previous, next, m, acceptance_probability):
+            return np.matmul(np.matmul(previous-next, m), previous-next) * acceptance_probability
+        np.testing.assert_allclose(chain_mixing[0], direct_calculation(previous_position[0], next_position[0], m, 0.3))
+        np.testing.assert_allclose(chain_mixing[1], direct_calculation(previous_position[1], next_position[1], m, 0.2))
 class TestUpdateParameterDistribution(unittest.TestCase):
     def test_update_param_distribution(self):
         """

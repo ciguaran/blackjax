@@ -16,7 +16,7 @@ import functools
 from jax.scipy.stats import multivariate_normal
 from blackjax import additive_step_random_walk
 
-
+jax.config.update("jax_disable_jit", True)
 kernel = additive_step_random_walk.build_kernel()
 
 
@@ -69,6 +69,7 @@ def loop_with_h_evolution(kernel, rng_key, initial_state):
         measured_esjd = measured_esjd.at[i,:].set(state.current_state.parameter_override["esjd"])
 
         acceptance_rate = acceptance_rate.at[i,:].set(jnp.mean(info.update_info.acceptance_rate, axis=1))
+        #TODO MAYBE CHANGE THIS CALCULATION TO OSVALDOS FORMULA
         return i + 1, state, op_key, h_evolution, acceptance_rate, measured_esjd
 
     def f(initial_state, key):
@@ -103,8 +104,8 @@ def mcmc_parameter_update_fn(key, state: TemperedSMCState,
                                       state.particles,
                                       prev_override_state.sampler_state.particles,
                                       esjd(sigma_particles),
-                                      alpha=10,
-                                      sigma_parameters=5,
+                                      alpha=0,
+                                      sigma_parameters=jnp.array([0.05]),
                                       acceptance_probability=acceptance_rate(info))
     params = extend_params({"cov": sigma_particles})
     params.update({"h": h, "esjd": mixing})
