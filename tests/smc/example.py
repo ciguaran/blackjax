@@ -95,8 +95,9 @@ def mcmc_parameter_update_fn(key, state: TemperedSMCState,
     sigma_particles = particles_covariance_matrix(state.particles)
 
     def acceptance_rate(info):
-        acceptances = info.update_info.is_accepted
-        return jax.vmap(lambda x: x/acceptances.shape[1])(jnp.sum(acceptances, axis=1))
+        # We take the first acceptance rate as a proxy.
+        return info.update_info.acceptance_rate[:,0]
+        #return jax.vmap(lambda x: x/acceptances.shape[1])(jnp.sum(acceptances, axis=1))
 
 
     h, mixing = update_parameter_distribution(key,
