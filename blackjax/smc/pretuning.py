@@ -287,7 +287,6 @@ def as_top_level_api(smc_algorithm,
                      mcmc_step_fn,
                      mcmc_init_fn,
                      resampling_fn,
-                     mcmc_parameter_update_fn,
                      num_mcmc_steps,
                      pretune_fn,
                      **extra_parameters):
@@ -298,11 +297,10 @@ def as_top_level_api(smc_algorithm,
         mcmc_step_fn,
         mcmc_init_fn,
         resampling_fn,
-        mcmc_parameter_update_fn,
         num_mcmc_steps,
-        pretune_fn
+        pretune_fn,
         **extra_parameters,
-    )
+    )[1] #TODO REPLACE
 
     def init_fn(position, rng_key=None):
         del rng_key

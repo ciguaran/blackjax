@@ -30,6 +30,7 @@ def build_kernel(
     resampling_fn: Callable,
     mcmc_parameter_update_fn: Callable[[SMCState, SMCInfo], Dict[str, ArrayTree]],
     num_mcmc_steps: int = 10,
+    smc_returns_state_with_parameter_override = False,
     **extra_parameters,
 ) -> Callable:
     """In the context of an SMC sampler (whose step_fn returning state has a .particles attribute), there's an inner
@@ -55,6 +56,22 @@ def build_kernel(
     extra_parameters:
         parameters to be used for the creation of the smc_algorithm.
     """
+    if smc_returns_state_with_parameter_override:
+
+        def extract_state_for_delegate(state):
+            return state
+
+        def compose_new_state(new_state, new_parameter_override):
+            composed_parameter_override = new_state.parameter_override | new_parameter_override
+            return StateWithParameterOverride(new_state.sampler_state, composed_parameter_override)
+
+    else:
+
+        def extract_state_for_delegate(state):
+            return state.sampler_state
+
+        def compose_new_state(new_state, new_parameter_override):
+            return StateWithParameterOverride(new_state, new_parameter_override)
 
     def kernel(
         rng_key: PRNGKey, state: StateWithParameterOverride, **extra_step_parameters
@@ -70,9 +87,9 @@ def build_kernel(
             **extra_parameters,
         ).step
         parameter_update_key, step_key = jax.random.split(rng_key, 2)
-        new_state, info = step_fn(step_key, state.sampler_state, **extra_step_parameters)
+        new_state, info = step_fn(step_key, extract_state_for_delegate(state), **extra_step_parameters)
         new_parameter_override = mcmc_parameter_update_fn(parameter_update_key, new_state, info)
-        return StateWithParameterOverride(new_state, new_parameter_override), info
+        return compose_new_state(new_state, new_parameter_override), info
 
     return kernel
 
@@ -87,6 +104,7 @@ def as_top_level_api(
     mcmc_parameter_update_fn: Callable[[SMCState, SMCInfo], Dict[str, ArrayTree]],
     initial_parameter_value,
     num_mcmc_steps: int = 10,
+    smc_returns_state_with_parameter_override=False,
     **extra_parameters,
 ) -> SamplingAlgorithm:
     """In the context of an SMC sampler (whose step_fn returning state
@@ -131,6 +149,7 @@ def as_top_level_api(
         resampling_fn,
         mcmc_parameter_update_fn,
         num_mcmc_steps,
+        smc_returns_state_with_parameter_override
         **extra_parameters,
     )
 
