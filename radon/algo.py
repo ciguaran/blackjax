@@ -36,7 +36,7 @@ from pymc.initial_point import make_initial_point_expression
 from pymc.sampling.jax import get_jaxified_graph
 from pymc.util import RandomState, _get_seeds_per_chain
 
-from blackjax.smc.tuning.from_particles import mass_matrix_from_particles
+from blackjax.smc.tuning.from_particles import inverse_mass_matrix_from_particles
 
 log = logging.getLogger(__name__)
 
@@ -216,6 +216,7 @@ class SMCDiagnostics(NamedTuple):
     log_likelihood_increment_evolution: jax.Array
     ancestors_evolution: jax.Array
     weights_evolution: jax.Array
+    #parameters_evolution: jax.Array
 
     @staticmethod
     def update_diagnosis(i, history, info, state):
@@ -225,6 +226,7 @@ class SMCDiagnostics(NamedTuple):
             lli.at[i].set(info.log_likelihood_increment),
             ancestors.at[i].set(info.ancestors),
             weights_evolution.at[i].set(state.sampler_state.weights),
+          #  parameters_evolution.at[i].set(state.parameter_override[""])
         )
 
     @staticmethod
@@ -233,7 +235,8 @@ class SMCDiagnostics(NamedTuple):
             jnp.zeros(iterations_to_diagnose),
             jnp.zeros(iterations_to_diagnose),
             jnp.zeros((iterations_to_diagnose, n_particles)),
-            jnp.zeros((iterations_to_diagnose, n_particles)),
+            jnp.zeros((iterations_to_diagnose, n_particles))
+         #   jnp.zeros((iterations_to_diagnose, n_particles)),
         )
 
 
@@ -269,7 +272,7 @@ def inference_loop(rng_key, initial_state, kernel, iterations_to_diagnose, n_par
         ),
     )
 
-    return n_iter, final_state.sampler_state.particles, diagnosis
+    return n_iter, final_state.sampler_state.particles, diagnosis, final_state.parameter_override
 
 
 def blackjax_particles_from_pymc_population(model, pymc_population):
@@ -310,6 +313,7 @@ def add_to_inference_data(
         iterations_to_diagnose: int,
         kernel_parameters: dict,
         running_time_seconds: float,
+        last_parameters: dict
 ):
     """
     Adds several SMC parameters into the az.InferenceData result
@@ -359,7 +363,9 @@ def add_to_inference_data(
         inference_data.posterior.attrs[k] = kernel_parameters[k]
 
     inference_data.posterior.attrs["running_time_seconds"] = running_time_seconds
-
+    inference_data.posterior.attrs["final_step_size"] = last_parameters["step_size"].tolist()
+    inference_data.posterior.attrs["final_integration_steps"] = last_parameters["num_integration_steps"].tolist()
+    inference_data.posterior.attrs["final_inverse_mass_matrix"] = last_parameters["inverse_mass_matrix"].tolist()
     return inference_data
 
 
@@ -472,7 +478,7 @@ def build_smc_with_kernel2(
         blackjax.hmc.build_kernel(),
         alpha=5,
         n_particles=n_particles,
-        sigma_parameters={"step_size": 0.1, "num_integration_steps": 2},
+        sigma_parameters={"step_size": 0.1, "num_integration_steps": 2.0},
         parameters_to_pretune=["step_size", "num_integration_steps"],
         round_to_integer=["num_integration_steps"],
     )
@@ -494,7 +500,7 @@ def build_smc_with_kernel2(
     return SamplingAlgorithm(init2, kernel)
 
 
-def build_smc_with_kernel3(
+def build_smc_with_kernel4(
         prior_log_prob,
         loglikelihood,
         target_ess,
@@ -562,8 +568,89 @@ def build_smc_with_kernel3(
                                                            blackjax.hmc.build_kernel(),
                                                            blackjax.hmc.init,
                                                            resampling.systematic,
-                                                           lambda key, state, info: {"inverse_mass_matrix" : extend_params(mass_matrix_from_particles(state.sampler_state.particles))},
+                                                           lambda key, state, info: {"inverse_mass_matrix" : extend_params(inverse_mass_matrix_from_particles(state.sampler_state.particles))},
                                                            initial_parameter_value=initial_parameters,
+                                                           target_ess = target_ess,
+                                                           smc_returns_state_with_parameter_override=True)
+
+    def init2(position):
+        return blackjax.smc.inner_kernel_tuning.init(blackjax.adaptive_tempered_smc.init, position, initial_parameters)
+
+    return SamplingAlgorithm(init2, kernel)
+
+
+def build_smc_with_kernel3(
+        prior_log_prob,
+        loglikelihood,
+        target_ess,
+        num_mcmc_steps,
+        n_particles,
+        dimentions
+):
+    key = jax.random.PRNGKey(10)  # TODO REPLACE
+    step_size_key, integration_steps_key = jax.random.split(
+        key, 2
+    )
+
+    # Set initial samples for integration steps and step sizes.
+    integration_steps_distribution = jnp.round(
+        jax.random.uniform(
+            integration_steps_key, (n_particles,), minval=1, maxval=50
+        )
+    ).astype(int)
+
+    step_sizes_distribution = jax.random.uniform(
+        step_size_key, (n_particles,), minval=1e-1 / 2, maxval=1e-1 * 2
+    )
+
+    # Fixes inverse_mass_matrix and distribution for the other two parameters.
+    initial_parameters = dict(
+        inverse_mass_matrix=extend_params(jnp.eye(dimentions)),
+        step_size=step_sizes_distribution,
+        num_integration_steps=integration_steps_distribution,
+    )
+
+    # Pretuning step.
+    pretune = build_pretune(
+        blackjax.hmc.init,
+        blackjax.hmc.build_kernel(),
+        alpha=2,
+        n_particles=n_particles,
+        sigma_parameters={"step_size": jnp.array(0.1), "num_integration_steps": jnp.array(2.0)},
+        parameters_to_pretune=["step_size", "num_integration_steps"],
+        round_to_integer=["num_integration_steps"],
+    )
+
+    def pt(logprior_fn,
+           loglikelihood_fn,
+           mcmc_step_fn,
+           mcmc_init_fn,
+           mcmc_parameters,
+           resampling_fn,
+           num_mcmc_steps,
+           initial_parameter_value,
+           target_ess,
+           ):
+        return blackjax.pretuning(blackjax.adaptive_tempered_smc,
+                                  logprior_fn,
+                                  loglikelihood_fn,
+                                  mcmc_step_fn,
+                                  mcmc_init_fn,
+                                  resampling_fn,
+                                  num_mcmc_steps,
+                                  target_ess=target_ess,
+                                  pretune_fn=pretune)
+
+    kernel = blackjax.smc.inner_kernel_tuning.build_kernel(pt,
+                                                           prior_log_prob,
+                                                           loglikelihood,
+                                                           blackjax.hmc.build_kernel(),
+                                                           blackjax.hmc.init,
+                                                           resampling.systematic,
+                                                           lambda key, state, info: {"inverse_mass_matrix" :
+                                                                                         extend_params(inverse_mass_matrix_from_particles(state.sampler_state.particles))},
+                                                           initial_parameter_value=initial_parameters,
+                                                           num_mcmc_steps=num_mcmc_steps,
                                                            target_ess = target_ess,
                                                            smc_returns_state_with_parameter_override=True)
 
@@ -670,7 +757,7 @@ def more_than_pretuning(
                                      )
 
     start = time.time()
-    total_iterations, particles, diagnosis = inference_loop(
+    total_iterations, particles, diagnosis, last_parameters = inference_loop(
         iterations_key,
         sampler.init(initial_particles),
         sampler,
@@ -693,6 +780,7 @@ def more_than_pretuning(
         iterations_to_diagnose,
         inner_kernel_params,
         running_time,
+        last_parameters
     )
 
     if total_iterations > iterations_to_diagnose:

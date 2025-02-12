@@ -17,7 +17,7 @@ from blackjax.smc import extend_params
 from blackjax.smc.inner_kernel_tuning import as_top_level_api as inner_kernel_tuning
 from blackjax.smc.tuning.from_kernel_info import update_scale_from_acceptance_rate
 from blackjax.smc.tuning.from_particles import (
-    mass_matrix_from_particles,
+    inverse_mass_matrix_from_particles,
     particles_as_rows,
     particles_covariance_matrix,
     particles_means,
@@ -186,7 +186,7 @@ class InverseMassMatrixFromParticles(chex.TestCase):
         self.key = jax.random.key(42)
 
     def test_inverse_mass_matrix_from_particles(self):
-        inverse_mass_matrix = mass_matrix_from_particles(
+        inverse_mass_matrix = inverse_mass_matrix_from_particles(
             np.array([np.array(10.0), np.array(3.0)])
         )
         np.testing.assert_allclose(
@@ -194,18 +194,20 @@ class InverseMassMatrixFromParticles(chex.TestCase):
         )
 
     def test_inverse_mass_matrix_from_multivariate_particles(self):
-        inverse_mass_matrix = mass_matrix_from_particles(
-            np.array([jnp.array([10.0, 15.0]), jnp.array([3.0, 4.0])])
+        inverse_mass_matrix = inverse_mass_matrix_from_particles(
+            np.array([jnp.array([10.0, 15.0]),
+                      jnp.array([3.0, 4.0])])
         )
         np.testing.assert_allclose(
             inverse_mass_matrix, np.diag(np.array([0.081633, 0.033058])), rtol=1e-4
         )
 
     def test_inverse_mass_matrix_from_multivariable_particles(self):
-        var1 = np.array([jnp.array([10.0, 15.0]), jnp.array([3.0, 4.0])])
+        var1 = np.array([jnp.array([10.0, 15.0]),
+                         jnp.array([3.0, 4.0])])
         var2 = np.array([jnp.array([10.0]), jnp.array([3.0])])
         init_particles = {"var1": var1, "var2": var2}
-        mass_matrix = mass_matrix_from_particles(init_particles)
+        mass_matrix = inverse_mass_matrix_from_particles(init_particles)
         assert mass_matrix.shape == (3, 3)
         np.testing.assert_allclose(
             np.diag(mass_matrix),
@@ -217,7 +219,7 @@ class InverseMassMatrixFromParticles(chex.TestCase):
         var1 = np.array([3.0, 2.0])
         var2 = np.array([10.0, 3.0])
         init_particles = {"var1": var1, "var2": var2}
-        mass_matrix = mass_matrix_from_particles(init_particles)
+        mass_matrix = inverse_mass_matrix_from_particles(init_particles)
         assert mass_matrix.shape == (2, 2)
         np.testing.assert_allclose(
             np.diag(mass_matrix), np.array([4, 0.081633], dtype="float32"), rtol=1e-4
@@ -282,7 +284,7 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
         def parameter_update(key, state, info):
             return extend_params(
                 {
-                    "inverse_mass_matrix": mass_matrix_from_particles(state.particles),
+                    "inverse_mass_matrix": inverse_mass_matrix_from_particles(state.particles),
                     "step_size": 10e-2,
                     "num_integration_steps": 50,
                 },
@@ -339,7 +341,7 @@ class InnerKernelTuningJitTest(SMCLinearRegressionTestCase):
         def parameter_update(key, state, info):
             return extend_params(
                 {
-                    "inverse_mass_matrix": mass_matrix_from_particles(state.particles),
+                    "inverse_mass_matrix": inverse_mass_matrix_from_particles(state.particles),
                     "step_size": 10e-2,
                     "num_integration_steps": 50,
                 },

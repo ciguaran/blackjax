@@ -90,6 +90,9 @@ from pymc_extras.inference.smc.sampling import (
     get_jaxified_logprior,
     sample_smc_blackjax,
 )
+import jax
+#4jax.config.update("jax_disable_jit", True)  # for easier debugging
+
 
 with varying_intercept_slope_noncentered:
     inference_data = more_than_pretuning(
@@ -99,4 +102,4 @@ with varying_intercept_slope_noncentered:
         iterations_to_diagnose=100,
     )
 
-inference_data.to_json("radon_smc_result_pretuning_plus_tuning")
+inference_data.to_json("radon_smc_result_pretuning_plus_tuning_fix")

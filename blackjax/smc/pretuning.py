@@ -110,6 +110,13 @@ def update_parameter_distribution(
         chain_mixing_measurement,
     )
 
+def default_measure_factory(state):
+    inverse_mass_matrix = state.parameter_override["inverse_mass_matrix"]
+    if not (len(inverse_mass_matrix.shape) == 3 and inverse_mass_matrix.shape[0] == 1):
+        raise ValueError("ESJD only works if chains share the inverse_mass_matrix.")
+
+    return esjd(inverse_mass_matrix[0])
+
 
 def build_pretune(
         mcmc_init_fn,
@@ -118,9 +125,7 @@ def build_pretune(
         sigma_parameters,
         parameters_to_pretune: List[str],
         n_particles: int,
-        performance_of_chain_measure_factory: Callable = lambda state: esjd(
-            state.parameter_override["inverse_mass_matrix"]
-        ),
+        performance_of_chain_measure_factory: Callable = default_measure_factory,
         round_to_integer: Optional[List[str]] = None,
 ):
     """
