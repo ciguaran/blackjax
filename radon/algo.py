@@ -138,7 +138,7 @@ def sample_smc_blackjaxpretuning(
                                      )
 
     start = time.time()
-    total_iterations, particles, diagnosis = inference_loop(
+    total_iterations, particles, diagnosis, last_parameters = inference_loop(
         iterations_key,
         sampler.init(initial_particles),
         sampler,
@@ -161,6 +161,7 @@ def sample_smc_blackjaxpretuning(
         iterations_to_diagnose,
         inner_kernel_params,
         running_time,
+        last_parameters
     )
 
     if total_iterations > iterations_to_diagnose:
@@ -479,12 +480,12 @@ def build_smc_with_kernel2(
         alpha=5,
         n_particles=n_particles,
         sigma_parameters={"step_size": 0.1, "num_integration_steps": 2.0},
-        parameters_to_pretune=["step_size", "num_integration_steps"],
-        round_to_integer=["num_integration_steps"],
+        natural_parameters=["num_integration_steps"],
+        positive_parameters=["step_size"]
     )
 
     # SMC definition
-    init, kernel = blackjax.smc.pretuning.build_kernel(blackjax.adaptive_tempered_smc,
+    kernel = blackjax.smc.pretuning.build_kernel(blackjax.adaptive_tempered_smc,
                                                        prior_log_prob,
                                                        loglikelihood,
                                                        blackjax.hmc.build_kernel(),
@@ -495,7 +496,7 @@ def build_smc_with_kernel2(
                                                        target_ess=target_ess)
 
     def init2(position):
-        return init(blackjax.adaptive_tempered_smc.init, position, initial_parameters)
+        return blackjax.smc.pretuning.init(blackjax.adaptive_tempered_smc.init, position, initial_parameters)
 
     return SamplingAlgorithm(init2, kernel)
 
@@ -538,8 +539,8 @@ def build_smc_with_kernel4(
         alpha=5,
         n_particles=n_particles,
         sigma_parameters={"step_size": 0.1, "num_integration_steps": 2},
-        parameters_to_pretune=["step_size", "num_integration_steps"],
-        round_to_integer=["num_integration_steps"],
+        natural_parameters=["num_integration_steps"],
+        positive_parameters=["step_size"]
     )
 
     def pt(logprior_fn,
@@ -617,8 +618,8 @@ def build_smc_with_kernel3(
         alpha=2,
         n_particles=n_particles,
         sigma_parameters={"step_size": jnp.array(0.1), "num_integration_steps": jnp.array(2.0)},
-        parameters_to_pretune=["step_size", "num_integration_steps"],
-        round_to_integer=["num_integration_steps"],
+        natural_parameters=["num_integration_steps"],
+        positive_parameters=["step_size"]
     )
 
     def pt(logprior_fn,
@@ -638,8 +639,10 @@ def build_smc_with_kernel3(
                                   mcmc_init_fn,
                                   resampling_fn,
                                   num_mcmc_steps,
+                                  initial_parameter_value,
+                                  pretune,
                                   target_ess=target_ess,
-                                  pretune_fn=pretune)
+                                  )
 
     kernel = blackjax.smc.inner_kernel_tuning.build_kernel(pt,
                                                            prior_log_prob,
@@ -647,8 +650,7 @@ def build_smc_with_kernel3(
                                                            blackjax.hmc.build_kernel(),
                                                            blackjax.hmc.init,
                                                            resampling.systematic,
-                                                           lambda key, state, info: {"inverse_mass_matrix" :
-                                                                                         extend_params(inverse_mass_matrix_from_particles(state.sampler_state.particles))},
+                                                           lambda key, state, info: {"inverse_mass_matrix" : extend_params(inverse_mass_matrix_from_particles(state.sampler_state.particles))},
                                                            initial_parameter_value=initial_parameters,
                                                            num_mcmc_steps=num_mcmc_steps,
                                                            target_ess = target_ess,
